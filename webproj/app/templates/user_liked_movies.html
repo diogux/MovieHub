@@ -1,0 +1,63 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container" style="position: relative;">
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert 
+            {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %}
+            alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+      
+<div class="d-flex justify-content-between align-items-center mb-4">
+<a href="{% url 'movies' %}">
+  <h1 style="color: #7d1324" class="mb-0">Liked Movies by {{user_.username}}</h1>
+</a>
+
+  <div class="d-flex align-items-center">
+    <h1 style="color: #7d1324" class="" >
+    </a>  
+    </h1>
+
+  </div>
+</div>
+    <div class="row">
+        {% for movie in liked_movies %}
+        <div class="col-md-4 mb-4">
+            <div class="card" style="border: 1px solid #7d1324; transition: transform 0.2s;">
+                <div class="card-body" style="padding: 20px;">
+                    <h5 class="card-title" style="color: #7d1324;">{{ movie.title }}</h5>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;"><strong>Duration:</strong> {{ movie.duration }}<strong> (min)</strong></p>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;"><strong>Release Date:</strong> {{ movie.release_date }}</p>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;"><strong>Genres:</strong>
+                        {% for genre in movie.genres.all %}
+                            {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">{{ movie.synopsis|truncatewords:10 }}</p>
+
+                    <a href="{% url 'movie_details' movie.id %}" title="Click to see movie details" class="btn btn-primary" style="background-color: #7d1324; border: none;">Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No movies found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+button:hover i {
+    transform: scale(1.2);
+    color: #ff4081; /* Change color on hover */
+}
+</style>
+{% endblock %}

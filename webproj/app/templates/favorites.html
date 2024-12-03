@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+
+    {% if not user.is_authenticated %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    WARNING: You are not logged in, therefore this page is only temporary.
+        </div>
+    {% endif %}
+
+    <h1 class="mb-4" style="color: #7d1324;">My Favorite Movies</h1>
+    <div class="row">
+        {% for movie in liked_movies %}
+        <div class="col-md-4 mb-4" id="movie-card-{{ movie.id }}">
+            <div class="card" style="border: 1px solid #7d1324; transition: transform 0.2s;">
+                <div class="card-body" style="padding: 20px;">
+                    <h5 class="card-title" style="color: #7d1324;">{{ movie.title }}</h5>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+                        <strong>Duration:</strong> {{ movie.duration }}
+                    </p>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+                        <strong>Release Date:</strong> {{ movie.release_date }}
+                    </p>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+                        <strong>Genres:</strong> 
+                        {% for genre in movie.genres.all %}
+                            {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+                        {{ movie.synopsis|truncatewords:10 }}
+                    </p>
+                    <a href="{% url 'movie_details' movie.id %}" class="btn btn-primary" style="background-color: #7d1324; border: none;">
+                        Details
+                    </a>
+
+                    <!-- Formulário para adicionar/remover dos favoritos -->
+                    <form method="post" action="{% url 'toggle_like' movie.id %}" style="position: absolute; bottom: 20px; right: 20px;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; cursor: pointer;">
+                            <i class="fas fa-heart" style="font-size: 40px; color: 	#7d1324;"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No favorite movies found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+button:hover i {
+    transform: scale(1.2);
+    color: #ccc; /* Change color on hover */
+}
+</style>
+{% endblock %}

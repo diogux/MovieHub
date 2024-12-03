@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+
+
+<div class="container" style="position: relative;">
+
+      
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 style="color: #7d1324" class="mb-0">Users</h1>
+
+  <div class="d-flex align-items-center">
+    </h1>
+  </div>
+</div>
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4 mb-4">
+            <div class="card" style="border: 1px solid #7d1324; transition: transform 0.2s;">
+                <div class="card-body" style="padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+                <!-- Genre Title (Left-aligned) -->
+                <h4 class="card-title" style="color: #7d1324; margin-bottom: 0;">
+                    {{ user.username }} 
+                </h4>
+
+                <!-- Delete Button (Right-aligned, inside a form) -->
+                 {% if user.is_authenticated and perms.app.delete_user and user.username != 'admin' %}
+                <form action="{% url 'delete_user' user.id %}" method="post" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm" style="font-size: 1.1em; padding: 5px 10px;">
+                        Delete
+                    </button>
+                </form>
+                 
+                 {% endif %}
+            </div>
+                    {% if user.groups.all %}
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;"><strong>Group:</strong> {{ user.groups.first }}</p>
+                    {% else %}
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;"><strong>This user is an Admin</strong></p>
+                    {% endif %}
+
+                    <a href="{% url 'liked_movies' user.id %}" title="Click to see liked movies" class="btn btn-primary" style="background-color: #7d1324; border: none;">Liked Movies</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No movies found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+button:hover i {
+    transform: scale(1.2);
+    color: #ff4081; /* Change color on hover */
+}
+</style>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "layout.html" %} {% block content %}
+
+<div class="container">
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert 
+            {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %}
+            alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+<a href="{% url 'actors' %}">
+
+  <h1 style="color: #7d1324" class="mb-0">Actors</h1>
+</a>
+
+  <div class="d-flex align-items-center">
+    <h1 style="color: #7d1324" class="" >
+      {% if user.is_authenticated and perms.app.add_actor %}
+    <a href="{% url 'actor_add' %}" >
+<i class="bi bi-plus-square-fill mt-1 mr-2" style="color: #7d1324" ></i>
+      {% endif %}
+    </a>  
+    </h1>
+
+    <!-- Search form -->
+    <form action="." method="post" class="d-flex mb-0">
+      {% csrf_token %}
+      <div class="input-group">
+        {{ form.query }}
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <div class="row">
+    {% for actor in actors %}
+    <div class="col-md-6 mb-3">
+      <div class="card mb-3" style="max-width: 540px">
+        <div class="row no-gutters align-items-center">
+          <div
+            class="col-md-4 d-flex justify-content-center align-items-center"
+          >
+            {% if actor.picture %}
+            <a href="{% url 'actor_details' actor.id %}" title="Click to see actor details">
+              <img
+                src="{{ actor.picture.url }}"
+                class="card-img"
+                alt="{{ actor.name }}"
+                style="
+                  object-fit: cover;
+                  width: 150px;
+                  height: 150px;
+                  border-radius: 50%;
+                "
+              />
+            </a>
+
+            {% else %}
+            <a href="{% url 'actor_details' actor.id %}"" title="Click to see actor details" >
+              <img
+                src="https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png"
+                class="card-img"
+                alt="{{ actor.name }}"
+                style="
+                  object-fit: cover;
+                  width: 150px;
+                  height: 150px;
+                  border-radius: 50%;
+                "
+              />
+            </a>
+            {% endif %}
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <a href="{% url 'actor_details' actor.id %}" title="Click to see actor details">
+                <h5 class="card-title producer-name-on-card">{{ actor.name }}</h5>
+              </a>
+         
+                <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;"><strong>Place of Birth:</strong> {{ actor.place_of_birth }}</p>
+                <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;"><strong>Date of Birth:</strong> {{ actor.date_of_birth }}</p>
+                {% if actor.date_of_death %}
+                <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;"><strong>Date of Death</strong> {{ actor.date_of_death }}</p>
+                {% endif %}
+
+
+              <p class="card-text">
+                <small class="text-muted">Number of Movies: {{actor.movies.count}}</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

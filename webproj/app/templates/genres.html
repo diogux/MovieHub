@@ -1,0 +1,86 @@
+{% extends "layout.html" %} {% block content %}
+
+
+<div class="container" style="position: relative;">
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert 
+            {% if message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %}
+            alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 style="color: #7d1324" class="mb-0">Genres</h1>
+  {% if user.is_authenticated and perms.app.add_genre %}
+        <a href="{% url 'add_genre' %}" class="btn btn-primary" style="background-color: #7d1324; border: none;">
+            Add New Genre
+        </a>
+  {% endif %}
+
+</div>
+
+    <div class="row">
+        {% for genre in genres %}
+        <div class="col-md-4 mb-4">
+            <div class="card" style="border: 1px solid #7d1324; transition: transform 0.2s;">
+                <div class="card-body" style="padding: 20px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+                <!-- Genre Title (Left-aligned) -->
+                <h4 class="card-title" style="color: #7d1324; margin-bottom: 0;">
+                    {{ genre }} 
+                </h4>
+
+                <!-- Delete Button (Right-aligned, inside a form) -->
+                 {% if user.is_authenticated and perms.app.delete_genre %}
+                <form action="{% url 'delete_genre' genre.id %}" method="post" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm" style="font-size: 1.1em; padding: 5px 10px;">
+                        Delete
+                    </button>
+                </form>
+                 
+                 {% endif %}
+            </div>
+                   
+                    <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+                    <strong>Movies: ({{genre.movies.count}})</strong>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+                        {% if genre.movies.all %}
+                            {% for movie in genre.movies.all %}
+                            <a href="{% url 'movie_details' movie.id %}">
+
+                                <span class="badge badge-pill" style="
+                                    padding: 8px 12px;
+                                    background-color: #7d1324;
+                                    color: white;
+                                    font-size: 0.9em;
+                                    font-weight: 600;
+                                    border-radius: 15px;
+                                    transition: background-color 0.3s;
+                                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                                " onmouseover="this.style.backgroundColor='#bb2d3b'"
+                                onmouseout="this.style.backgroundColor='#7d1324'">
+                                    {{ movie.title }}
+                                </span>
+
+                            </a>
+                            {% endfor %}
+                        {% else %}
+                            <span style="color: #6c757d; font-style: italic;">No movies available.</span>
+                        {% endif %}
+                    </div>
+                </p>
+
+                </div>
+            </div>
+        </div>
+{% endfor %}
+</div>
+
+
+{% endblock %}

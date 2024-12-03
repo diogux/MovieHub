@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+# Apply database migrations
+cd webproj
+echo "Applying migrations..."
+python3 manage.py makemigrations app
+python3 manage.py migrate
+
+# Start the Django development server
+echo "Starting server..."
+python3 manage.py runserver

@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<title>MovieHub</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+	<meta name="description" content="This is meta description">
+	<meta name="author" content="Themefisher">
+	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+	<link rel="icon" href="{% static 'images/logo.png' %}" type="image/x-icon">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
+  <!-- theme meta -->
+  <meta name="theme-name" content="wallet" />
+<!-- Option 1: Include in HTML -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+	<!-- # Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+
+	<!-- # CSS Plugins -->
+<link rel="stylesheet" href="{% static 'plugins/slick/slick.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/font-awesome/fontawesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/font-awesome/brands.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/font-awesome/solid.css' %}">
+
+	<!-- # Main Style Sheet -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<!-- navigation -->
+<header class="navigation bg-tertiary">
+	<nav class="navbar navbar-expand-xl navbar-light text-center py-3">
+		<div class="container">
+			<a class="navbar-brand" href="{% url 'home' %}">
+				<img loading="prelaod" decoding="async" class="img-fluid" width="90" src="{% static 'images/logo.png' %}" alt="Wallet">
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+					<li class="nav-item"> <a class="nav-link" href="{% url 'home' %}">Home</a>
+					</li>
+					<li class="nav-item "> <a class="nav-link" href="{% url 'movies' %}">Movies</a>
+					</li>
+					<li class="nav-item "> <a class="nav-link" href="{% url 'actors' %}">Actors</a>
+					</li>
+					<li class="nav-item "> <a class="nav-link" href="{% url 'producers' %}">Producers</a>
+					</li>
+					<li class="nav-item " > <a class="nav-link" style="color:#7d1324" href="{% url 'favorites' %}">My Favorites <i class="bi bi-heart"></i> </a>
+					</li>
+
+					<li class="nav-item "> <a class="nav-link" href="{% url 'users' %}">All Users</a>
+					</li>
+
+
+
+
+					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+							<li><a class="dropdown-item " href="{% url 'genres' %}">Movie Genres</a>
+							</li>
+
+							{% if perms.app.add_movie %}
+							<li><a class="dropdown-item " href="{% url 'add_movie' %}">Add Movie</a>
+							</li>
+							{% endif %}
+
+							{% if perms.app.add_actor %}
+							<li><a class="dropdown-item " href="{% url 'actor_add' %}">Add Actor</a>
+							</li>
+							{% endif %}
+
+							{% if perms.app.add_genre %}
+							<li><a class="dropdown-item " href="{% url 'add_genre' %}">Add Genre</a>
+							</li>
+							{% endif %} 
+
+
+						</ul>
+					</li>
+				</ul>
+					
+
+
+				{% comment %}  
+				<!-- account btn --> <a href="{% url 'login' %}" class="btn btn-outline-primary">Log In</a>
+				<!-- account btn --> <a href="#!" class="btn btn-primary ms-2 ms-lg-3">Sign Up</a>{% endcomment %}
+				{% comment %} {% url 'signup' %} {% endcomment %}
+				{% include "loginpartial.html" %}
+			</div>
+		</div>
+	</nav>
+</header>
+<!-- /navigation -->
+
+<main role="main">
+        <div class="container body-content">
+            <p></p>
+            {% block content %} {% endblock %} </div> <!-- /container -->
+    </main>
+
+	<footer class="section-sm bg-tertiary">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-lg-3 col-md-6 col-12 mb-4">
+					<div class="footer-widget">
+						<h5 class="mb-4 text-primary font-secondary">Explore MovieHub</h5>
+						<ul class="list-unstyled">
+							<li class="mb-2"><a href="{% url 'movies' %}">Browse Movies</a></li>
+							<li class="mb-2"><a href="{% url 'actors' %}">Popular Actors</a></li>
+							<li class="mb-2"><a href="{% url 'favorites' %}">Your Favorites</a></li>
+							<li class="mb-2"><a href="{% url 'home' %}">Home</a></li>
+						</ul>
+					</div>
+				</div>
+	
+				<div class="col-lg-3 col-md-6 col-12 mb-4">
+					<div class="footer-widget">
+						<h5 class="mb-4 text-primary font-secondary">Get Involved</h5>
+						<ul class="list-unstyled">
+							<li class="mb-2"><a href="#!">Write a Review</a></li>
+							<li class="mb-2"><a href="#!">Submit a Movie</a></li>
+							<li class="mb-2"><a href="#!">Join Our Community</a></li>
+						</ul>
+					</div>
+				</div>
+	
+				<div class="col-lg-3 col-md-6 col-12 mb-4">
+					<div class="footer-widget">
+						<h5 class="mb-4 text-primary font-secondary">Help & Support</h5>
+						<ul class="list-unstyled">
+							<li class="mb-2"><a href="#!">Contact Us</a></li>
+							<li class="mb-2"><a href="#!">FAQs</a></li>
+							<li class="mb-2"><a href="#!">Privacy Policy</a></li>
+							<li class="mb-2"><a href="#!">Terms & Conditions</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+	
+			<div class="row align-items-center mt-5 text-center text-md-start">
+				<div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
+					<p class="mb-0">© {{ current_year }} MovieHub. All rights reserved.</p>
+				</div>
+				<div class="col-lg-4 col-md-6 text-md-end mt-4 mt-md-0 ">
+					<ul class="list-unstyled list-inline mb-0 social-icons ">
+						<li class="list-inline-item me-3"><a title="Explore Facebook" class="text-black" href="https://facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+						<li class="list-inline-item me-3"><a title="Explore Twitter" class="text-black" href="https://twitter.com/"><i class="fab fa-twitter"></i></a></li>
+						<li class="list-inline-item me-3"><a title="Explore Instagram" class="text-black" href="https://instagram.com/"><i class="fab fa-instagram"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+
+<style>
+	.text-primary {
+		color: #E06F6C !important;
+	  }
+.footer-widget ul li a:hover {color: #bb2d3b !important;text-decoration: underline !important;}
+	  
+</style>
+
+<!-- # JS Plugins -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/slick/slick.min.js' %}"></script>
+<script src="{% static 'plugins/scrollmenu/scrollmenu.min.js' %}"></script>
+
+<!-- Main Script 
+<script src="js/script.js"></script>-->
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>

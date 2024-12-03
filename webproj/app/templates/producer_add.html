@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block content %}
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-success">{{ msg }}</div>
+    {% endfor %}
+{% endif %}
+<div class="container mt-5">
+    <h1 class="mb-4" style="color: #7d1324;">Add New Producer</h1>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate >
+        {% csrf_token %}
+        
+        <!-- Nome -->
+        <div class="form-group mb-4">
+            {{ form.name.label }}
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="alert alert-danger mt-2" role="alert">
+                    {% for error in form.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Data de nascimento -->
+        <div class="form-group mb-4">
+            {{ form.date_of_birth.label }}
+            {{ form.date_of_birth }}
+            {% if form.date_of_birth.errors %}
+                <div class="alert alert-danger mt-2" role="alert">
+                    {% for error in form.date_of_birth.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <!-- Data de falecimento (opcional) -->
+        <div class="form-group mb-4">
+            {{ form.date_of_death.label }}
+            {{ form.date_of_death }}
+            {% if form.date_of_death.errors %}
+                <div class="alert alert-danger mt-2" role="alert">
+                    {% for error in form.date_of_death.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <!-- Biografia -->
+        <div class="form-group mb-4">
+            {{ form.biography.label }}
+            {{ form.biography }}
+            {% if form.biography.errors %}
+                <div class="alert alert-danger mt-2" role="alert">
+                    {% for error in form.biography.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <!-- Foto (URL) -->
+        <div class="form-group mb-4">
+            {{ form.picture.label }}
+            {{ form.picture }}
+            {% if form.picture.errors %}
+                <div class="alert alert-danger mt-2" role="alert">
+                    {% for error in form.picture.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <!-- Botão de submissão -->
+        <div class="form-group">
+            <input class="btn btn-secondary" type="submit" value="Insert">
+        </div>
+    </form>
+</div>
+
+
+<style>
+    .form-control {
+        border: 1px solid #7d1324;
+        padding: 10px;
+        color: #343a40;
+    }
+
+    .form-control:focus {
+        border-color: #7d1324;
+        box-shadow: 0 0 5px rgba(125, 19, 36, 0.5);
+    }
+</style>
+{% endblock %}
