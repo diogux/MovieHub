@@ -12,6 +12,11 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from .decorators import permissions_required
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from app.serializers import *
+
 # Create your views here.
 
 def home(request):
@@ -234,25 +239,43 @@ def edit_actor(request, id):
 PRODUCER OBJECT
 """
 
-def producers(request):
-    producers = Producer.objects.all()
-    form = ProducerQueryForm()
-    tparams = {
-        'title' : 'Producers',
-        'producers': producers,
-        'form': form
-    }
-    if request.method == 'POST':
-        form = ProducerQueryForm(request.POST)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            producers = Producer.objects.filter(name__icontains=query)
-            form = ProducerQueryForm()
-            tparams['producers'] = producers
-            tparams['form'] = form
-            return render(request, 'producers.html', tparams)
+# def producers(request):
+#     producers = Producer.objects.all()
+#     form = ProducerQueryForm()
+#     tparams = {
+#         'title' : 'Producers',
+#         'producers': producers,
+#         'form': form
+#     }
+#     if request.method == 'POST':
+#         form = ProducerQueryForm(request.POST)
+#         if form.is_valid():
+#             query = form.cleaned_data['query']
+#             producers = Producer.objects.filter(name__icontains=query)
+#             form = ProducerQueryForm()
+#             tparams['producers'] = producers
+#             tparams['form'] = form
+#             return render(request, 'producers.html', tparams)
     
-    return render(request, 'producers.html', tparams)
+#     return render(request, 'producers.html', tparams)
+
+@api_view(['GET', 'POST'])
+def producers(request):
+    producers = []
+    if request.method == 'POST':
+        serializer = ProducerSerializer(data=request.data)
+        print(request.data)
+        if serializer.is_valid():
+            print("shiii valid")
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
+    else:
+        producers = Producer.objects.all()
+    
+    serializer = ProducerSerializer(producers, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
     
 @login_required(login_url='/login/')
 @permissions_required(['app.add_producer'], 'producers')

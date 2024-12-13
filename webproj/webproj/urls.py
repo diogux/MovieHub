@@ -47,7 +47,7 @@ urlpatterns = [
     path('actor/<int:id>/delete/', views.delete_actor, name='delete_actor'),
 
     # PRODUCERS
-    path('producers/', views.producers, name='producers'),
+    path('api/producers/', views.producers, name='producers'),
     path('producers/add/', views.producer_add, name='producer_add'),
     path('producers/<int:id>/', views.producer_details, name='producer_details'),
     path('producers/edit/<int:id>/', views.edit_producer, name='edit_producer'),
