@@ -53,13 +53,17 @@ def create_movie(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)    
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
 def movie_details(request, movie_id):
-    movie = Movie.objects.get(id=movie_id)
-    tparams = {
-        'title': 'Movie Details',
-        'movie': movie,
-    }
-    return render(request, 'movie_details.html', tparams)
+    """
+    Handles GET requests to retrieve details of a specific movie.
+    """
+    try:
+        movie = Movie.objects.get(id=movie_id)
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Movie.DoesNotExist:
+        return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
 
 @login_required(login_url='/login/')
 @permissions_required(['app.add_movie'], 'movies')

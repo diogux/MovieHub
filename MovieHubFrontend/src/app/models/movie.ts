@@ -13,4 +13,5 @@ export interface Movie {
     synopsis: string;
     score: number;
     likes: number;
+    poster: string;
 }

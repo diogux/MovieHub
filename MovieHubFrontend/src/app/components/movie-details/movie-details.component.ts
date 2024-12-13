@@ -22,6 +22,7 @@ export class MovieDetailsComponent{
   movie: Movie | undefined = undefined;
   movieService: MovieService = inject(MovieService);
   loading: boolean = true;
+  baseUrl = environment.pictureUrl;
   
   constructor(private route: ActivatedRoute, private location: Location) {
     this.getMovie();
