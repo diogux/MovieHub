@@ -152,6 +152,29 @@ def favorites(request):
 ACTOR OBJECT
 """
 
+
+
+@api_view(['GET'])
+def actors(request):
+    """
+    Handles GET requests to retrieve all actors.
+    """
+    actors = Actor.objects.all()  # Fetch all actors
+    serializer = ActorSerializer(actors, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def create_actor(request):
+    """
+    Handles POST requests to create a new actor.
+    """
+    serializer = ActorSerializer(data=request.data)  # Validate input data
+    if serializer.is_valid():
+        serializer.save()  # Save actor if valid
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @login_required(login_url='/login/')
 @permissions_required(['app.add_actor'], 'actors')
 def actor_update_insert(request):
@@ -178,27 +201,27 @@ def actor_update_insert(request):
     return render(request, 'actor_update_insert.html', tparams)
 
 
-def actors(request):
-    actors = Actor.objects.all()
-    form = ActorQueryForm()
-    tparams = {
-        'title': 'Actors',
-        'actors': actors,
-        'form': form
-    }
+# def actors(request):
+#     actors = Actor.objects.all()
+#     form = ActorQueryForm()
+#     tparams = {
+#         'title': 'Actors',
+#         'actors': actors,
+#         'form': form
+#     }
 
-    if request.method == 'POST':
-        form = ActorQueryForm(request.POST)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            actors = Actor.objects.filter(name__icontains=query)
-            form = ActorQueryForm() # Reset form
-            # Replace the actors and the form
-            tparams['actors'] = actors
-            tparams['form'] = form
-            return render(request, 'actors.html', tparams)
+#     if request.method == 'POST':
+#         form = ActorQueryForm(request.POST)
+#         if form.is_valid():
+#             query = form.cleaned_data['query']
+#             actors = Actor.objects.filter(name__icontains=query)
+#             form = ActorQueryForm() # Reset form
+#             # Replace the actors and the form
+#             tparams['actors'] = actors
+#             tparams['form'] = form
+#             return render(request, 'actors.html', tparams)
 
-    return render(request, 'actors.html', tparams)
+#     return render(request, 'actors.html', tparams)
 
 def actor_details(request, id):
     actor = Actor.objects.get(id=id)
@@ -259,23 +282,26 @@ PRODUCER OBJECT
     
 #     return render(request, 'producers.html', tparams)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def producers(request):
-    producers = []
-    if request.method == 'POST':
-        serializer = ProducerSerializer(data=request.data)
-        print(request.data)
-        if serializer.is_valid():
-            print("shiii valid")
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            print(serializer.errors)
-    else:
-        producers = Producer.objects.all()
-    
+    """
+    Handles GET requests to retrieve all producers.
+    """
+    producers = Producer.objects.all()
     serializer = ProducerSerializer(producers, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def create_producer(request):
+    """
+    Handles POST requests to create a new producer.
+    """
+    serializer = ProducerSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @login_required(login_url='/login/')
 @permissions_required(['app.add_producer'], 'producers')
