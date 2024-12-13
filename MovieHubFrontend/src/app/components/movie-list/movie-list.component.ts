@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { Movie } from '../../models/movie';
 import { MovieService } from '../../services/movie.service';
+import { env } from 'process';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-movie-list',
@@ -15,7 +17,7 @@ import { MovieService } from '../../services/movie.service';
 export class MovieListComponent implements OnInit {
   movies: Movie[] = [];
   loading: boolean = true;
-  baseUrl = 'http://localhost:8000/';
+  baseUrl = environment.pictureUrl;
 
   constructor(private movieService: MovieService) { }
 
