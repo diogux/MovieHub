@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Producer } from '../models/producer';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProducerService {
-  private baseUrl = 'http://localhost:8000/api/producers';
+  private baseUrl = environment.baseUrl + 'producers';
 
   constructor(private http: HttpClient) { }
 
