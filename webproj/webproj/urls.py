@@ -28,9 +28,10 @@ urlpatterns = [
     path('', views.home, name='home'),
 
     # MOVIES
-    path('movies/', views.movies, name='movies'),
+    path('api/movies/', views.movies, name='movies'),
+    path('api/movies/add/', views.create_movie, name='add_movie'),
+
     path('movie_details/<int:movie_id>/', views.movie_details, name='movie_details'),
-    path('movies/add/', views.add_movie, name='add_movie'),
     path('movies/delete/<int:movie_id>/', views.delete_movie, name='delete_movie'),
      path('movies/edit/<int:movie_id>/', views.edit_movie, name='edit_movie'),
 
@@ -54,8 +55,8 @@ urlpatterns = [
     path('producers/delete/<int:id>/', views.delete_producer, name='delete_producer'),
 
     #GENRES
-    path('genres/', views.genres, name='genres'),
-    path('genres/add/', views.add_genre, name='add_genre'),
+    path('api/genres/', views.genres, name='genres'),
+    path('api/genres/add/', views.create_genre, name='add_genre'),
     path('genres/delete/<int:id>/', views.delete_genre, name='delete_genre'),
 
     #USERS

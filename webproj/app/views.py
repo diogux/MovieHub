@@ -33,37 +33,25 @@ MOVIE OBJECT
 """
 
 
+@api_view(['GET'])
 def movies(request):
-    movies = Movie.objects.all()
-    liked_movies = None
-    can_add_movies = request.user.has_perm('app.add_movie')  or request.user.is_superuser
-    if request.user.is_authenticated:
-        profile, _ = UserProfile.objects.get_or_create(user=request.user)
-        liked_movies = profile.liked_movies.all()  
-    else:
-        liked_movies = Movie.objects.filter(id__in=request.session.get('liked_movies', []))
+    """ 
+    Handles GET requests to retrieve all movies.
+    """
+    movies = Movie.objects.all()  # Fetch all movies
+    serializer = MovieSerializer(movies, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK) 
 
-    tparams = {
-        'title': 'Movies',
-        'movies': movies,
-        'liked_movies': liked_movies,
-        'can_add_movies': can_add_movies,
-        'form': MovieQueryForm()
-    }
-
-    if request.method == 'POST':
-        form = MovieQueryForm(request.POST)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            movies = Movie.objects.filter(title__icontains=query)
-            form = MovieQueryForm()
-            tparams['movies'] = movies
-            tparams['form'] = form
-            return render(request, 'movies.html', tparams)
-
-
-    return render(request, 'movies.html', tparams)
-
+@api_view(['POST'])
+def create_movie(request):
+    """
+    Handles POST requests to create a new movie.
+    """
+    serializer = MovieSerializer(data=request.data)  # Validate input data
+    if serializer.is_valid():
+        serializer.save()  # Save movie if valid
+        return Response(serializer.data, status=status.HTTP_201_CREATED)    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def movie_details(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
@@ -200,29 +188,6 @@ def actor_update_insert(request):
     }
     return render(request, 'actor_update_insert.html', tparams)
 
-
-# def actors(request):
-#     actors = Actor.objects.all()
-#     form = ActorQueryForm()
-#     tparams = {
-#         'title': 'Actors',
-#         'actors': actors,
-#         'form': form
-#     }
-
-#     if request.method == 'POST':
-#         form = ActorQueryForm(request.POST)
-#         if form.is_valid():
-#             query = form.cleaned_data['query']
-#             actors = Actor.objects.filter(name__icontains=query)
-#             form = ActorQueryForm() # Reset form
-#             # Replace the actors and the form
-#             tparams['actors'] = actors
-#             tparams['form'] = form
-#             return render(request, 'actors.html', tparams)
-
-#     return render(request, 'actors.html', tparams)
-
 def actor_details(request, id):
     actor = Actor.objects.get(id=id)
     tparams = {
@@ -261,26 +226,6 @@ def edit_actor(request, id):
 """
 PRODUCER OBJECT
 """
-
-# def producers(request):
-#     producers = Producer.objects.all()
-#     form = ProducerQueryForm()
-#     tparams = {
-#         'title' : 'Producers',
-#         'producers': producers,
-#         'form': form
-#     }
-#     if request.method == 'POST':
-#         form = ProducerQueryForm(request.POST)
-#         if form.is_valid():
-#             query = form.cleaned_data['query']
-#             producers = Producer.objects.filter(name__icontains=query)
-#             form = ProducerQueryForm()
-#             tparams['producers'] = producers
-#             tparams['form'] = form
-#             return render(request, 'producers.html', tparams)
-    
-#     return render(request, 'producers.html', tparams)
 
 @api_view(['GET'])
 def producers(request):
@@ -365,13 +310,27 @@ def edit_producer(request, id):
 """
 GENRE OBJECT
 """
+
+@api_view(['GET'])
 def genres(request):
-    genres = Genre.objects.all()
-    tparams = {
-        'title': 'Genres',
-        'genres': genres,
-    }
-    return render(request, 'genres.html', tparams)
+    """
+    Handles GET requests to retrieve all genres.
+    """
+    genres = Genre.objects.all()  # Fetch all genres
+    serializer = GenreSerializer(genres, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def create_genre(request):
+    """
+    Handles POST requests to create a new genre.
+    """
+    serializer = GenreSerializer(data=request.data)  # Validate input data
+    if serializer.is_valid():
+        serializer.save()  # Save genre if valid
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @login_required(login_url='/login/')
