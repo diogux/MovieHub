@@ -31,23 +31,30 @@
             *ngIf="genre.movies && genre.movies.length > 0"
             style="display: flex; flex-wrap: wrap; gap: 8px;"
           >
-            <span
+            <a
               *ngFor="let movie of genre.movies"
-              class="badge badge-pill"
-              style="
-                background-color: #7d1324;
-                color: white;
-                padding: 8px 12px;
-                border-radius: 15px;
-                font-size: 0.9em;
-                font-weight: 600;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: background-color 0.3s;
- "
+              [routerLink]="['/movies', movie.id]"
+              style="text-decoration: none;"
             >
-              {{ movie.title }}
-            </span>
+              <span
+                class="badge badge-pill"
+                style="
+                  background-color: #7d1324;
+                  color: white;
+                  padding: 8px 12px;
+                  border-radius: 15px;
+                  font-size: 0.9em;
+                  font-weight: 600;
+                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                  transition: background-color 0.3s;
+                "
+  
+              >
+                {{ movie.title }}
+              </span>
+            </a>
           </div>
+
 
           <!-- No Movies State -->
           <div *ngIf="!genre.movies || genre.movies.length === 0">
