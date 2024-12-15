@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Emitters } from '../../emitters/emitters';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.http.get('http://localhost:8000/api/user', { withCredentials: true }).subscribe(
+    this.http.get(environment.baseUrl + 'user').subscribe(
       (res: any) => {
         
         Emitters.authEmitter.emit(true);

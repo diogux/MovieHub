@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { Genre } from '../../models/genre';
 import { GenreService } from '../../services/genre.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-genres-list',
@@ -15,7 +16,7 @@ import { GenreService } from '../../services/genre.service';
 export class GenresListComponent implements OnInit {
   genres: Genre[] = [];
   loading: boolean = true;
-  baseUrl = 'http://localhost:8000/';
+  baseUrl =  environment.baseUrl;
 
   constructor(private genreService: GenreService) {}
 
