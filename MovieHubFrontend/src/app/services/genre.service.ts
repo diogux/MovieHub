@@ -1,20 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Producer } from '../models/producer';
-import { Observable } from 'rxjs';
+import { Observable, map, forkJoin } from 'rxjs';
 import { Genre } from '../models/genre';
+import { Movie } from '../models/movie';
+import { MovieService } from './movie.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenreService {
-  private baseUrl = 'http://localhost:8000/api/genres';
+  private genresUrl = 'http://localhost:8000/api/genres';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private movieService: MovieService) { }
 
-  getGenres(): Observable<Genre[]> {
-    return this.http.get<Genre[]>(this.baseUrl);
+  getGenresWithMovies(): Observable<Genre[]> {
+    // Fetch genres and movies using the existing MovieService
+    return forkJoin({
+      genres: this.http.get<Genre[]>(this.genresUrl),
+      movies: this.movieService.getMovies(),
+    }).pipe(
+      map(({ genres, movies }) => {
+        return genres.map(genre => ({
+          ...genre,
+          movies: movies.filter(movie => movie.genres.some(g => g.id === genre.id))
+        }));
+      })
+      
+    );
   }
-
- 
 }

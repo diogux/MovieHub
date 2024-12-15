@@ -1,101 +1,67 @@
 <div class="container" style="position: relative;">
+  <!-- Page Title -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 style="color: #7d1324; font-weight: bold;">Genres</h1>
+  </div>
 
-    <!-- Flash Messages -->
-    <!-- <div *ngIf="messages?.length">
-      <div
-        *ngFor="let message of messages"
-        [ngClass]="{
-          'alert-success': message.type === 'success',
-          'alert-danger': message.type === 'warning',
-          'alert-info': message.type === 'info'
-        }"
-        class="alert alert-dismissible fade show"
-        role="alert"
-      >
-        {{ message.text }}
-        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    </div> -->
+  <!-- Genres Grid -->
+  <div class="row">
+    <div *ngFor="let genre of genres" class="col-md-4 mb-4">
+      <!-- Genre Card -->
+      <div class="card" style="border: 1px solid #7d1324; border-radius: 8px;">
+        <div class="card-body" style="padding: 20px;">
+          <!-- Genre Title -->
+          <h4
+            class="card-title"
+            style="color: #7d1324; font-weight: bold; margin-bottom: 8px;"
+          >
+            {{ genre.name }}
+          </h4>
+
+          <!-- Movies Count -->
+          <p
+            class="card-text"
+            style="color: #343a40; font-weight: 600; font-size: 0.9em; margin-bottom: 8px;"
+          >
+            Movies: ({{ genre.movies.length }})
+          </p>
+
+          <!-- Movies List -->
+          <div
+            *ngIf="genre.movies && genre.movies.length > 0"
+            style="display: flex; flex-wrap: wrap; gap: 8px;"
+          >
+            <a
+              *ngFor="let movie of genre.movies"
+              [routerLink]="['/movies', movie.id]"
+              style="text-decoration: none;"
+            >
+              <span
+                class="badge badge-pill"
+                style="
+                  background-color: #7d1324;
+                  color: white;
+                  padding: 8px 12px;
+                  border-radius: 15px;
+                  font-size: 0.9em;
+                  font-weight: 600;
+                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                  transition: background-color 0.3s;
+                "
   
-    <!-- Header Section -->
-    <!-- <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1 style="color: #7d1324" class="mb-0">Genres</h1>
-      <button 
-        *ngIf="isAuthenticated && hasPermission('add_genre')" 
-        class="btn btn-primary" 
-        style="background-color: #7d1324; border: none;"
-        (click)="navigateToAddGenre()">
-        Add New Genre
-      </button>
-    </div>
-   -->
-    <!-- Genres Grid -->
-    <div class="row">
-      <div *ngFor="let genre of genres" class="col-md-4 mb-4">
-        <div class="card" style="border: 1px solid #7d1324; transition: transform 0.2s;">
-          <div class="card-body" style="padding: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <!-- Genre Title -->
-              <h4 class="card-title" style="color: #7d1324; margin-bottom: 0;">{{ genre.name }}</h4>
-  
-              <!-- Delete Button -->
-              <!-- <button 
-                *ngIf="isAuthenticated && hasPermission('delete_genre')" 
-                class="btn btn-danger btn-sm" 
-                style="font-size: 1.1em; padding: 5px 10px;"
-                (click)="deleteGenre(genre.id)">
-                Delete
-              </button> -->
-            </div>
-  
-            <!-- Movies Associated with Genre -->
-            <div *ngIf="!loading; else loadingTemplate">
-                <!-- Iterate through Genres -->
-                <div *ngFor="let genre of genres" class="mb-4">
-                  <h3>{{ genre.name }}</h3>
-                  <!-- List Movies -->
-                  <div *ngIf="genre.movies.length > 0; else noMovies">
-                    <div *ngFor="let movie of genre.movies" class="card mb-3">
-                      <div class="card-body">
-                        <h5 class="card-title">{{ movie.title }}</h5>
-                        <p class="card-text"><strong>Duration:</strong> {{ movie.duration }} min</p>
-                        <p class="card-text"><strong>Release Date:</strong> {{ movie.release_date }}</p>
-                        <p class="card-text"><strong>Synopsis:</strong> {{ movie.synopsis }}</p>
-              
-                        <!-- List Producers -->
-                        <p *ngIf="movie.producers.length > 0">
-                          <strong>Producers:</strong>
-                          <span *ngFor="let producer of movie.producers">
-                            {{ producer.name }}
-                            <span *ngIf="!producer.date_of_death"> (Active)</span>
-                            <span *ngIf="producer.date_of_death"> (Deceased)</span>
-                          </span>
-                        </p>
-              
-                        <!-- List Actors -->
-                        <p *ngIf="movie.actors.length > 0">
-                          <strong>Actors:</strong>
-                          <span *ngFor="let actor of movie.actors">
-                            {{ actor.name }}<span *ngIf="!actor.date_of_death"> (Active)</span>
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <ng-template #noMovies>
-                    <p>No movies available for this genre.</p>
-                  </ng-template>
-                </div>
-              </div>
-              
-              <ng-template #loadingTemplate>
-                <p>Loading genres and movies...</p>
-              </ng-template>
-              
-              
+              >
+                {{ movie.title }}
+              </span>
+            </a>
+          </div>
+
+
+          <!-- No Movies State -->
+          <div *ngIf="!genre.movies || genre.movies.length === 0">
+            <p style="color: #6c757d; font-style: italic;">No movies available.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,19 +10,26 @@ import { GenreService } from '../../services/genre.service';
   standalone: true,
   imports: [CommonModule, RouterModule, HttpClientModule],
   templateUrl: './genres-list.component.html',
-  styleUrl: './genres-list.component.css'
+  styleUrls: ['./genres-list.component.css']
 })
-export class GenresListComponent {
+export class GenresListComponent implements OnInit {
   genres: Genre[] = [];
   loading: boolean = true;
   baseUrl = 'http://localhost:8000/';
 
-  constructor(private genreService : GenreService) { }
+  constructor(private genreService: GenreService) {}
 
   ngOnInit(): void {
-    this.genreService.getGenres().subscribe(genres => {
-      this.genres = genres;
-    });
+    // Use the getGenresWithMovies method to fetch genres with their associated movies
+    this.genreService.getGenresWithMovies().subscribe(
+      (genresWithMovies: Genre[]) => {
+        this.genres = genresWithMovies;
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Error fetching genres with movies:', error);
+        this.loading = false;
+      }
+    );
   }
-
 }

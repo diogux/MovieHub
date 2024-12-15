@@ -145,3 +145,5 @@ SESSION_COOKIE_SAMESITE = 'None'
 
 
 
+SESSION_COOKIE_SAMESITE = 'None'  # Required for cross-origin cookies
+SESSION_COOKIE_SECURE = True     # Required if using HTTPS

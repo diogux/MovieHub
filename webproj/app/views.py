@@ -197,14 +197,27 @@ def actor_update_insert(request):
     }
     return render(request, 'actor_update_insert.html', tparams)
 
-def actor_details(request, id):
-    actor = Actor.objects.get(id=id)
-    tparams = {
-        'title': 'Actor Details',
-        'actor': actor,
-        'movies': actor.movies.all()
-    }
-    return render(request, 'actor_details.html', tparams)
+@api_view(['GET'])
+def actor_details(request, actor_id):
+    try:
+        actor = Actor.objects.get(id=actor_id)
+        serializer = ActorSerializer(actor)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Actor.DoesNotExist:
+        return Response({"error": "Actor not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+def actor_movies(request, actor_id):
+    try:
+        actor = Actor.objects.get(id=actor_id)
+        movies = actor.movies.all()
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Actor.DoesNotExist:
+        return Response({"error": "Actor not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    
+    
 
 
 @login_required(login_url='/login/')
@@ -282,15 +295,24 @@ def producer_add(request):
     return render(request, 'producer_add.html', tparams)
 
 
+@api_view(['GET'])
+def producer_details(request, producer_id):
+    try:
+        producer = Producer.objects.get(id=producer_id)
+        serializer = ProducerSerializer(producer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Producer.DoesNotExist:
+        return Response({"error": "Producer not found"}, status=status.HTTP_404_NOT_FOUND)
 
-def producer_details(request, id):
-    producer = Producer.objects.get(id=id)
-    tparams = {
-        'title': 'Producer Details',
-        'producer': producer,
-    }
-    return render(request, 'producer_details.html', tparams)
-
+@api_view(['GET'])
+def producer_movies(request, producer_id):
+    try:
+        producer = Producer.objects.get(id=producer_id)
+        movies = producer.movies.all()
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Producer.DoesNotExist:
+        return Response({"error": "Producer not found"}, status=status.HTTP_404_NOT_FOUND)
 
 @login_required(login_url='/login/')
 @permissions_required(['app.delete_producer'], 'producers')

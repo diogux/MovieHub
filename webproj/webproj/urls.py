@@ -50,14 +50,16 @@ urlpatterns = [
     # ACTORS
     path('api/actors/', views.actors, name='actors'),
     path('api/actors/add/', views.create_actor, name='actor_add'),
-    path('actors/<int:id>/', views.actor_details, name='actor_details'),
+    path('api/actors/<int:actor_id>/', views.actor_details, name='actor_details'),
     path('actor/<int:id>/edit/', views.edit_actor, name='edit_actor'),
     path('actor/<int:id>/delete/', views.delete_actor, name='delete_actor'),
+    path('api/actors/<int:actor_id>/movies/', views.actor_movies, name='actor_movies'),
 
     # PRODUCERS
     path('api/producers/', views.producers, name='producers'),
     path('api/producers/add/', views.create_producer, name='producer_add'),
-    path('producers/<int:id>/', views.producer_details, name='producer_details'),
+    path('api/producers/<int:producer_id>/', views.producer_details, name='producer_details'),
+    path('api/producers/<int:producer_id>/movies/', views.producer_movies, name='producer_movies'),
     path('producers/edit/<int:id>/', views.edit_producer, name='edit_producer'),
     path('producers/delete/<int:id>/', views.delete_producer, name='delete_producer'),
 

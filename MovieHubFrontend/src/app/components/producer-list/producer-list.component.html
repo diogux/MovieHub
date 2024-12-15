@@ -14,13 +14,13 @@
       <div class="card mb-3" style="max-width: 540px;">
         <div class="row no-gutters align-items-center">
           <div class="col-md-4 d-flex justify-content-center align-items-center">
-            <a [routerLink]="['/producer', producer.id]" title="Click to see producer details" style="text-decoration: none; color: #7d1324;">
+            <a [routerLink]="['/producers', producer.id]" title="Click to see producer details" style="text-decoration: none; color: #7d1324;">
               <img [src]="producer.picture ? baseUrl + producer.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'" class="card-img" alt="{{ producer.name }}" style="object-fit: cover; width: 150px; height: 150px; border-radius: 50%;" />
             </a>
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <a [routerLink]="['/producer', producer.id]" title="Click to see producer details" style="text-decoration: none; color: #7d1324;">
+              <a [routerLink]="['/producers', producer.id]" title="Click to see producer details" style="text-decoration: none; color: #7d1324;">
                 <h5 class="card-title">{{ producer.name }}</h5>
               </a>
               <p class="card-text"><strong>Date of Birth:</strong> {{ producer.date_of_birth }}</p>
