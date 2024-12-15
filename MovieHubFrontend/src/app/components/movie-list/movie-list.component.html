@@ -64,16 +64,16 @@
             </p>
   
             <!-- Like Button -->
-            <!-- <button (click)="toggleLike(movie)" style="background: none; border: none; cursor: pointer; position: absolute; bottom: 20px; right: 20px;">
+            <button (click)="toggleFavorite(movie.id)" style="background: none; border: none; cursor: pointer; position: absolute; bottom: 20px; right: 20px;">
               <i
                 class="bi"
                 [ngClass]="{
-                  'bi-heart-fill': isLiked(movie),
-                  'bi-heart': !isLiked(movie)
+                  'bi-heart-fill': isMovieFavorite(movie.id),
+                  'bi-heart': !isMovieFavorite(movie.id)
                 }"
                 style="font-size: 35px; color: #7d1324;"
               ></i>
-            </button> -->
+            </button>
   
             <!-- Details Button -->
             <a [routerLink]="['/movies', movie.id]" title="Click to see movie details" class="btn btn-primary" style="background-color: #7d1324; border: none;">

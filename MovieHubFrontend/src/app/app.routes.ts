@@ -7,6 +7,7 @@ import { GenresListComponent } from './components/genres-list/genres-list.compon
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { ActorDetailsComponent } from './components/actor-details/actor-details.component';
 import { ProducerDetailsComponent } from './components/producer-details/producer-details.component';
+import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';
 
 export const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -21,5 +22,9 @@ export const routes: Routes = [
 
     
 { path: 'genres', component: GenresListComponent },
+
+
+// Favorite
+{ path: 'favorites', component: FavoriteListComponent },
 
 ];
