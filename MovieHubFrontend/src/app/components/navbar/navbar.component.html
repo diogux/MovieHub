@@ -25,29 +25,29 @@
               <!-- <li><a class="dropdown-item" routerLink="/add-movie" *ngIf="hasAddMoviePermission">Add Movie</a></li>
               <li><a class="dropdown-item" routerLink="/add-actor" *ngIf="hasAddActorPermission">Add Actor</a></li>
               <li><a class="dropdown-item" routerLink="/add-genre" *ngIf="hasAddGenrePermission">Add Genre</a></li> -->
-              
-              <!-- {% if user.is_authenticated %} -->
-             <form id="logoutForm" action="/logout" method="post" class="navbar-right">
+            </ul>
+
+   
+              <form id="logoutForm" action="/logout" method="post" class="navbar-right" *ngIf="authenticated">
                 <!-- {% csrf_token %} -->
                 <ul class="nav navbar-nav navbar-right">
-                  <li><span class="navbar-brand">Hi </span></li>
+                  <li><span class="navbar-brand">{{himessage}}</span></li>
                   <li class="d-flex align-items-center"><a class="btn btn-primary "
                       href="javascript:document.getElementById('logoutForm').submit()">Log Off</a></li>
-                </ul> 
+                </ul>
 
               </form>
 
-              <!-- {% else %} -->
 
-              <ul class="nav navbar-nav navbar-right">
-                <a routerLink="/login" class="btn btn-outline-primary">Log In</a>
-                <a routerLink="/register" class="btn btn-primary ms-2 ms-lg-3">Sign Up</a>
+            <!-- {% else %} -->
 
-              </ul>
-
-              <!-- {% endif %} --> 
+            <ul class="nav navbar-nav navbar-right" *ngIf="!authenticated">
+              <a routerLink="/login" class="btn btn-outline-primary">Log In</a>
+              <a routerLink="/register" class="btn btn-primary ms-2 ms-lg-3">Sign Up</a>
 
             </ul>
+
+            <!-- {% endif %} -->
           </li>
         </ul>
       </div>
