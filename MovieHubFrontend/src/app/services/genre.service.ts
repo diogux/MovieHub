@@ -20,12 +20,12 @@ export class GenreService {
       movies: this.movieService.getMovies(),
     }).pipe(
       map(({ genres, movies }) => {
-        // Map movies to their respective genres
         return genres.map(genre => ({
           ...genre,
-          movies: movies.filter(movie => movie.genres.includes(genre))
+          movies: movies.filter(movie => movie.genres.some(g => g.id === genre.id))
         }));
       })
+      
     );
   }
 }
