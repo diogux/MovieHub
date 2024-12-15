@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from .decorators import permissions_required
+from .decorators import permissions_required, permission_required
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -35,10 +35,14 @@ MOVIE OBJECT
 
 
 @api_view(['GET'])
+# @permission_required(['app.view_movie'])
 def movies(request):
     """ 
     Handles GET requests to retrieve all movies.
     """
+    # if not has_permissions(request, ['app.view_movie']):
+    #     return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+
     movies = Movie.objects.all()  # Fetch all movies
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK) 
@@ -499,6 +503,35 @@ def logout(request):
         'message': 'Logout successful'
     }
     return response
+
+
+# If u are seeing this, delete this
+
+# def verify_user(request):
+#     token = request.COOKIES.get('jwt')
+
+#     if not token:
+#         return None
+
+#     try:
+#         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+#     except jwt.ExpiredSignatureError:
+#         return None
+
+#     user = User.objects.filter(id=payload['id']).first()
+#     return user
+
+# def has_permissions(request, permissions):
+#     user = verify_user(request)
+
+#     if user is None:
+#         return False
+
+#     for perm in permissions:
+#         if not user.has_perm(perm):
+#             return False
+
+#     return True
 
 
     
