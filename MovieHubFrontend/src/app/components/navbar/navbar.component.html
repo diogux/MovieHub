@@ -31,12 +31,12 @@
 
    
         </ul>
-        <form id="logoutForm" action="/logout" method="post" class="navbar-right" *ngIf="authenticated">
+        <form id="logoutForm" class="navbar-right" *ngIf="authenticated">
           <!-- {% csrf_token %} -->
           <ul class="nav navbar-nav navbar-right">
             <li><span class="navbar-brand">{{himessage}}</span></li>
             <li class="d-flex align-items-center"><a class="btn btn-primary "
-                href="javascript:document.getElementById('logoutForm').submit()">Log Off</a></li>
+              (click)="logout()">Log Off</a></li>
           </ul>
 
         </form>

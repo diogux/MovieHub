@@ -37,6 +37,11 @@ export class NavbarComponent implements OnInit {
      
   }
 
+  logout():void{
+    this.http.post(this.baseUrl +'logout', {}, {withCredentials:true})
+    .subscribe(()=> this.authenticated = false);
+  }
+
 }
 
 
