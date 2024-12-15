@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 class Producer(models.Model):
     """
@@ -78,6 +79,18 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+# class User(AbstractUser):
+#     username = models.CharField(max_length=255)
+#     email = models.EmailField(unique=True)
+#     password = models.CharField(max_length=255)
+
+#     USERNAME_FIELD = 'username'
+#     REQUIRED_FIELDS = []
+
+
 
 
 class UserProfile(models.Model):

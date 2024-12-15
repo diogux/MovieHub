@@ -27,6 +27,13 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('', views.home, name='home'),
 
+
+    # API auth
+    path('api/register', views.register, name='register'),
+    path('api/login', views.login, name='login'),
+    path('api/user', views.user, name='user'),
+    path('api/logout', views.logout, name='logout'),
+
     # MOVIES
     path('api/movies/', views.movies, name='movies'),
     path('api/movies/add/', views.create_movie, name='add_movie'),
