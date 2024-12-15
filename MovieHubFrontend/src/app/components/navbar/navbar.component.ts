@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { Emitters } from '../../emitters/emitters';
 import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 export class NavbarComponent implements OnInit {
   authenticated = false;
   himessage = '';
+  baseUrl = environment.baseUrl;
   constructor(
     private http: HttpClient
   ){}
@@ -23,7 +25,7 @@ export class NavbarComponent implements OnInit {
         (auth: boolean) => {
           this.authenticated = auth;
           if (this.authenticated == true){
-            this.http.get('http://localhost:8000/api/user', {withCredentials : true}).subscribe(
+            this.http.get(this.baseUrl+ '/user', {withCredentials : true}).subscribe(
               (res : any) => {
                 this.himessage = `Hi ${res.username}`;
                 console.log(res)
