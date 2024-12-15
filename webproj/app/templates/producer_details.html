@@ -54,7 +54,7 @@
                     <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
                         <strong>Movies:</strong>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-                            {% for movie in producer.movies.all %}
+                            {% for movie in movies %}
                             <a href="{% url 'movie_details' movie.id %}">
                                 <span class="badge badge-pill" style="
                                     padding: 8px 12px;
@@ -65,8 +65,7 @@
                                     border-radius: 15px;
                                     transition: background-color 0.3s;
                                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                                " onmouseover="this.style.backgroundColor='#bb2d3b'"
-                                  onmouseout="this.style.backgroundColor='#7d1324'">
+
                                     {{ movie.title }}
                                 </span>
                             </a>

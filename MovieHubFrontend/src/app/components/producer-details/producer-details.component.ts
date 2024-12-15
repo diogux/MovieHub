@@ -2,47 +2,49 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { Actor } from '../../models/actor';
-import { ActorService } from '../../services/actor.service';
+import { Producer } from '../../models/producer';
+import { ProducerService } from '../../services/producer.service';
 import { environment } from '../../../environments/environment';
 import { Location } from '@angular/common';
 import { Movie } from '../../models/movie';
 
 @Component({
-  selector: 'app-actor-details',
+  selector: 'app-producer-details',
   standalone: true,
   imports: [CommonModule, RouterModule, HttpClientModule],
-  templateUrl: './actor-details.component.html',
-  styleUrl: './actor-details.component.css'
+  templateUrl: './producer-details.component.html',
+  styleUrl: './producer-details.component.css'
 })
 
-export class ActorDetailsComponent implements OnInit {
-  actor: Actor | undefined = undefined; 
-  loading: boolean = true; 
-  baseUrl = environment.pictureUrl; 
-  private actorService: ActorService = inject(ActorService);
+
+export class ProducerDetailsComponent implements OnInit {
+  producer: Producer | undefined = undefined;
+  loading: boolean = true;
+  baseUrl = environment.pictureUrl;
+  private producerService: ProducerService = inject(ProducerService);
   movies: any;
 
   constructor(
     private route: ActivatedRoute,
     private location: Location
-  ) {}
+    ) {
+  }
 
   ngOnInit(): void {
-    this.getActor();
+    this.getProducer();
     this.getMovies();
   }
 
-  getActor(): void {
+  getProducer(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.actorService.getActor(id).subscribe({
-        next: (actor: Actor) => {
-          this.actor = actor;
+      this.producerService.getProducer(id).subscribe({
+        next: (producer: Producer) => {
+          this.producer = producer;
           this.loading = false;
         },
         error: (error) => {
-          console.error('Error fetching actor details:', error);
+          console.error('Error fetching producer details:', error);
           this.loading = false;
         }
       });
@@ -52,13 +54,13 @@ export class ActorDetailsComponent implements OnInit {
   getMovies(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.actorService.getMovies(id).subscribe({
+      this.producerService.getMovies(id).subscribe({
         next: (movies: Movie[]) => {
           this.movies = movies;
           this.loading = false;
         },
         error: (error) => {
-          console.error('Error fetching actor movies:', error);
+          console.error('Error fetching producer movies:', error);
           this.loading = false;
         }
       });
@@ -68,4 +70,5 @@ export class ActorDetailsComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
 }

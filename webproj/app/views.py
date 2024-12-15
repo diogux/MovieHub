@@ -295,15 +295,24 @@ def producer_add(request):
     return render(request, 'producer_add.html', tparams)
 
 
+@api_view(['GET'])
+def producer_details(request, producer_id):
+    try:
+        producer = Producer.objects.get(id=producer_id)
+        serializer = ProducerSerializer(producer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Producer.DoesNotExist:
+        return Response({"error": "Producer not found"}, status=status.HTTP_404_NOT_FOUND)
 
-def producer_details(request, id):
-    producer = Producer.objects.get(id=id)
-    tparams = {
-        'title': 'Producer Details',
-        'producer': producer,
-    }
-    return render(request, 'producer_details.html', tparams)
-
+@api_view(['GET'])
+def producer_movies(request, producer_id):
+    try:
+        producer = Producer.objects.get(id=producer_id)
+        movies = producer.movies.all()
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Producer.DoesNotExist:
+        return Response({"error": "Producer not found"}, status=status.HTTP_404_NOT_FOUND)
 
 @login_required(login_url='/login/')
 @permissions_required(['app.delete_producer'], 'producers')
