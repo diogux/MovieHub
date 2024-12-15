@@ -64,12 +64,12 @@
             class="col-md-4 d-flex justify-content-center align-items-center"
           >
             <a
-              [routerLink]="['/actor-details', actor.id]"
+              [routerLink]="['/actors', actor.id]"
               title="Click to see actor details"
             >
               <img
                 *ngIf="actor.picture"
-[src]="actor.picture ? baseUrl + actor.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'"
+                [src]="actor.picture ? baseUrl + actor.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'"
                 class="card-img"
                 [alt]="actor.name"
                 style="
@@ -96,7 +96,7 @@
           <div class="col-md-8">
             <div class="card-body">
               <a
-                [routerLink]="['/actor-details', actor.id]"
+                [routerLink]="['/actors', actor.id]"
                 title="Click to see actor details"
               >
                 <h5 class="card-title producer-name-on-card">{{ actor.name }}</h5>
