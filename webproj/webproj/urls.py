@@ -34,6 +34,11 @@ urlpatterns = [
     path('api/user', views.user, name='user'),
     path('api/logout', views.logout, name='logout'),
 
+
+    # Favorite Movies API
+    path('api/favorites/', views.get_favorites_movies, name='get_favorites_movies'),
+    path('api/favorites/toggle', views.toggle_favorite, name='toggle_favorite'),
+
     # MOVIES
     path('api/movies/', views.movies, name='movies'),
     path('api/movies/add/', views.create_movie, name='add_movie'),
@@ -45,7 +50,6 @@ urlpatterns = [
     path('movies/delete/<int:movie_id>/', views.delete_movie, name='delete_movie'),
     path('movies/edit/<int:movie_id>/', views.edit_movie, name='edit_movie'),
     path('toggle-like/<int:movie_id>/', views.toggle_like, name='toggle_like'),
-    path('favorites/', views.favorites, name='favorites'),
 
     # ACTORS
     path('api/actors/', views.actors, name='actors'),
