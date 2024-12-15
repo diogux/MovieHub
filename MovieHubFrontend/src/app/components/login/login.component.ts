@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
-    this.http.post("http://localhost:8000/api/login", this.form.getRawValue(),{
+    this.http.post(environment.baseUrl, this.form.getRawValue(),{
     withCredentials: true
   }).subscribe(()=>this.router.navigate(['/']));
   }
