@@ -36,6 +36,17 @@ def permission_required(permissions):
         return _wrapped_view
     return decorator
 
+def user_required():
+    def decorator(view_func):
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            user = verify_user(request)
+            if not user:
+                return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+            return view_func(request, *args, **kwargs)
+        return _wrapped_view
+    return decorator
+
 
 
 def verify_user(request):

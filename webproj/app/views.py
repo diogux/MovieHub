@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from .decorators import permissions_required, permission_required
+from .decorators import permissions_required, permission_required, user_required, verify_user
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -116,34 +116,43 @@ def edit_movie(request, movie_id):
 def toggle_like(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
 
-    # If not logged in, we use the session to store the liked movies
-
-    if not request.user.is_authenticated:
-        liked_movies = request.session.get('liked_movies', [])
-        if movie.id in liked_movies:
-            liked_movies.remove(movie.id)
-        else:
-            liked_movies.append(movie.id)
-        request.session['liked_movies'] = liked_movies
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
+    if movie in profile.liked_movies.all():
+        profile.liked_movies.remove(movie)
     else:
-        profile, created = UserProfile.objects.get_or_create(user=request.user)
-        
-        if movie in profile.liked_movies.all():
-            profile.liked_movies.remove(movie)
-        else:
-            profile.liked_movies.add(movie)
+        profile.liked_movies.add(movie)
 
     this_page = request.META.get('HTTP_REFERER')
     return redirect(this_page)
-    
-def favorites(request):
-    if request.user.is_authenticated:
-        profile, created = UserProfile.objects.get_or_create(user=request.user)
-        liked_movies = profile.liked_movies.all()
-    else:
-        liked_movies = Movie.objects.filter(id__in=request.session.get('liked_movies', []))
-    return render(request, 'favorites.html', {'liked_movies': liked_movies})
 
+
+@api_view(['POST'])
+@user_required()
+def toggle_favorite(request):
+    id = request.data.get('id')
+    user = verify_user(request)
+    movie = get_object_or_404(Movie, id=id)
+    profile, created = UserProfile.objects.get_or_create(user=user)
+    if movie not in profile.liked_movies.all():
+        profile.liked_movies.add(movie)
+        return Response({'message': 'Movie favorited successfully!'}, status=status.HTTP_200_OK)
+    else:
+        profile.liked_movies.remove(movie)
+        return Response({'message': 'Movie unfavorited successfully!'}, status=status.HTTP_200_OK)
+
+
+
+@api_view(['GET'])
+@user_required()
+def get_favorites_movies(request):
+    user = verify_user(request)
+    profile, created = UserProfile.objects.get_or_create(user=user)
+    liked_movies = profile.liked_movies.all()
+    liked_movies_ids = [movie.id for movie in liked_movies]
+    return Response({'liked_movies': liked_movies_ids}, status=status.HTTP_200_OK)
+
+    
 
 """
 ACTOR OBJECT
