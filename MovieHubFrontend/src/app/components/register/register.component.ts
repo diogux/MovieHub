@@ -36,9 +36,7 @@ export class RegisterComponent implements OnInit {
 
   submit(): void{
     console.log(this.form.getRawValue());
-    this.http.post(environment.baseUrl + 'register', this.form.getRawValue(),{
-      withCredentials: true
-    })
+    this.http.post(environment.baseUrl + 'register', this.form.getRawValue())
     .subscribe( () => this.router.navigate(['/login']));
   }
 }

@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
         (auth: boolean) => {
           this.authenticated = auth;
           if (this.authenticated == true){
-            this.http.get(this.baseUrl+ '/user', {withCredentials : true}).subscribe(
+            this.http.get(this.baseUrl+ 'user', {withCredentials : true}).subscribe(
               (res : any) => {
                 this.himessage = `Hi ${res.username}`;
                 console.log(res)
@@ -35,6 +35,11 @@ export class NavbarComponent implements OnInit {
         }
       );
      
+  }
+
+  logout():void{
+    this.http.post(this.baseUrl +'logout', {}, {withCredentials:true})
+    .subscribe(()=> this.authenticated = false);
   }
 
 }

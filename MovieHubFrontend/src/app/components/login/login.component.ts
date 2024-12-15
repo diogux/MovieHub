@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
-    this.http.post(environment.baseUrl, this.form.getRawValue(),{
+    this.http.post(environment.baseUrl + 'login', this.form.getRawValue(),{
     withCredentials: true
   }).subscribe(()=>this.router.navigate(['/']));
   }
