@@ -4,12 +4,13 @@ import { Genre } from '../models/genre';
 import { Movie } from '../models/movie';
 import { MovieService } from './movie.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenreService {
-  private genresUrl = 'http://localhost:8000/api/genres';
+  private genresUrl = environment.baseUrl + 'genres';
 
   constructor(private http: HttpClient, private movieService: MovieService) { }
 
