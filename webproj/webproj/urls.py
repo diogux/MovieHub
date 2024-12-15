@@ -60,9 +60,18 @@ urlpatterns = [
     path('genres/delete/<int:id>/', views.delete_genre, name='delete_genre'),
 
     #USERS
-    path('users/', views.users, name='users'),
-    path('users/<int:id>/', views.user_liked_movies, name='liked_movies'),
-    path('users/delete/<int:id>/', views.delete_user, name='delete_user'),
+    # path('users/', views.users, name='users'),
+    # path('users/<int:id>/', views.user_liked_movies, name='liked_movies'),
+    # path('users/delete/<int:id>/', views.delete_user, name='delete_user'),
+
+
+
+    path('api/register/', views.RegisterView.as_view()),
+    path('api/login/', views.LoginView.as_view()),
+    path('api/user/', views.UserView.as_view()),
+    path('api/logout/', views.LogoutView.as_view()),
+
+    # path('api/register/', views.RegisterView.as_view(), name='register'),  # URL para a view de registro
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
