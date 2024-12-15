@@ -26,7 +26,7 @@ export const routes: Routes = [
     
 { path: 'genres', component: GenresListComponent },
 { path: 'login', component: LoginComponent},
-{ path: 'register', component: RegisterComponent}
+{ path: 'register', component: RegisterComponent},
 
 
 // Favorite
