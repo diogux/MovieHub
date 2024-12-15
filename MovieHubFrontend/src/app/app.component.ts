@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { FooterComponent } from "./components/footer/footer.component";
+// import { HttpClient } from '@angular/common/http';
+// import { Emitters } from './emitters/emitters'
 
 @Component({
   selector: 'app-root',
@@ -13,4 +15,8 @@ import { FooterComponent } from "./components/footer/footer.component";
 })
 export class AppComponent {
   title = 'MovieHubFrontend';
+
+
+
+
 }

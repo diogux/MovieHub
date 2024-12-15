@@ -2,25 +2,52 @@
   <nav class="navbar navbar-expand-xl navbar-light text-center py-3">
     <div class="container">
       <a class="navbar-brand" routerLink="/">
-        <img loading="preload" decoding="async" class="img-fluid" width="90" src="assets/images/logo.png" alt="MovieHub">
+        <img loading="preload" decoding="async" class="img-fluid" width="90" src="assets/images/logo.png"
+          alt="MovieHub">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span
+          class="navbar-toggler-icon"></span> </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item"><a class="nav-link" routerLink="/">Home</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/movies">Movies</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/actors">Actors</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/producers">Producers</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="/favorites">My Favorites <i class="bi bi-heart"></i></a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/favorites">My Favorites <i class="bi bi-heart"></i></a>
+          </li>
           <li class="nav-item"><a class="nav-link" routerLink="/users">All Users</a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" routerLink="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+            <a class="nav-link dropdown-toggle" routerLink="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" routerLink="/genres">Movie Genres</a></li>
               <!-- <li><a class="dropdown-item" routerLink="/add-movie" *ngIf="hasAddMoviePermission">Add Movie</a></li>
               <li><a class="dropdown-item" routerLink="/add-actor" *ngIf="hasAddActorPermission">Add Actor</a></li>
               <li><a class="dropdown-item" routerLink="/add-genre" *ngIf="hasAddGenrePermission">Add Genre</a></li> -->
             </ul>
+
+   
+              <form id="logoutForm" action="/logout" method="post" class="navbar-right" *ngIf="authenticated">
+                <!-- {% csrf_token %} -->
+                <ul class="nav navbar-nav navbar-right">
+                  <li><span class="navbar-brand">{{himessage}}</span></li>
+                  <li class="d-flex align-items-center"><a class="btn btn-primary "
+                      href="javascript:document.getElementById('logoutForm').submit()">Log Off</a></li>
+                </ul>
+
+              </form>
+
+
+            <!-- {% else %} -->
+
+            <ul class="nav navbar-nav navbar-right" *ngIf="!authenticated">
+              <a routerLink="/login" class="btn btn-outline-primary">Log In</a>
+              <a routerLink="/register" class="btn btn-primary ms-2 ms-lg-3">Sign Up</a>
+
+            </ul>
+
+            <!-- {% endif %} -->
           </li>
         </ul>
       </div>

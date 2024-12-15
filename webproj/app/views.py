@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.models import *
 from django.http import HttpResponse
 from app.forms import *
@@ -16,7 +16,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from app.serializers import *
-import jwt, datetime
+import jwt
 
 # Create your views here.
 
@@ -482,8 +482,8 @@ def login(request):
 
     payload = {
         'id': user.id,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
-        'iat': datetime.datetime.utcnow()
+        'exp': datetime.now() + timedelta(days=1),
+        'iat': datetime.now()
     }
 
     token = jwt.encode(payload, 'secret', algorithm='HS256')
