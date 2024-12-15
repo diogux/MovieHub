@@ -144,3 +144,5 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 
+SESSION_COOKIE_SAMESITE = 'None'  # Required for cross-origin cookies
+# SESSION_COOKIE_SECURE = True     # Required if using HTTPS
