@@ -1,5 +1,6 @@
 from app.models import *
 from rest_framework import serializers
+from django.contrib.auth.models import User, Group
 
 class ProducerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,20 +33,27 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = '__all__'
 
+
 class UserSerializer(serializers.ModelSerializer):
     userprofile = UserProfileSerializer(read_only=True)  # Nested serialization for user profile
+    groups = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all(), many=True)  # Add groups
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'userprofile', 'password']
+        fields = ['id', 'username', 'email', 'userprofile', 'password', 'groups']
         extra_kwargs = {
             'password': {'write_only': True}
         }
 
     def create(self, validated_data):
         password = validated_data.pop('password')
+        groups = validated_data.pop('groups', [])  # Remove groups from validated data
         instance = User(**validated_data)
-        if password is not None:
+        if password:
             instance.set_password(password)
         instance.save()
+
+        # Assign user to groups
+        if groups:
+            instance.groups.set(groups)  # Set the groups for the user
         return instance
