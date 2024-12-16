@@ -18,7 +18,6 @@ import { environment } from '../../../environments/environment';
 })
 
 export class LoginComponent implements OnInit {
-
   form: FormGroup = this.formBuilder.group({});
 
   constructor(
