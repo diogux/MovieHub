@@ -511,7 +511,7 @@ def login(request):
 
     response = Response()
 
-    response.set_cookie(key='jwt', value=token, httponly=True)
+    response.set_cookie(key='jwt', value=token, httponly=False, samesite='Lax',  secure=False)
     response.data = {
         'message': 'Login successful',
         'jwt': token
