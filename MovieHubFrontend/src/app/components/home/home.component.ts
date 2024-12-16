@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.http.get(environment.baseUrl + 'user').subscribe(
+    this.http.get(environment.baseUrl + 'user', { withCredentials: true }).subscribe(
       (res: any) => {
         
         Emitters.authEmitter.emit(true);
