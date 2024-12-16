@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router 
+    private router: Router,
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit {
   submit(): void {
     this.http.post(environment.baseUrl + 'login', this.form.getRawValue(),{
     withCredentials: true
-  }).subscribe(()=>this.router.navigate(['/']));
+  }).subscribe(()=>{this.router.navigate(['/']);this.auth.set_logged_in();});
   }
 
 }
