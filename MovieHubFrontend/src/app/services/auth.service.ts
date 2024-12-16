@@ -16,13 +16,50 @@ export class AuthService {
   private cookie = this.getCookie("jwt")
   private registerUrl = this.baseUrl + 'register/';
   private loginUrl = this.baseUrl + 'login/';
-  private userUrl = this.baseUrl + 'user/'
+  private userUrl = this.baseUrl + 'user'
   private authenticated = false;
 
   constructor(
     private http: HttpClient,
     private router: Router, 
-  ){}
+    @Inject (PLATFORM_ID) private platformId: object
+  ){
+  }
+
+  is_logged_in(): boolean {
+    const logged = localStorage.getItem('logged');
+    if (logged == 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  set_logged_in(): void {
+    localStorage.setItem('logged', 'true');
+    this.authenticated = true;
+    console.log("cookie:"+this.getCookie("jwt"));
+  }
+
+  set_logged_out(): void {
+    localStorage.setItem('logged', 'false');
+    this.authenticated = false;
+    // remove the cookie
+    this.setCookie("jwt", "", -1);
+    console.log("cookie:"+this.getCookie("jwt"));
+  }
+
+  setCookie(name: string, value: string, days: number): void {
+    let expires = "";
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      expires = `; expires=${date.toUTCString()}`;
+    }
+    document.cookie = `${name}=${value || ""}${expires}; path=/`;
+  }
+
+
   //   @Inject(PLATFORM_ID) private platformId: object
   // ) {
   //   if (isPlatformBrowser(this.platformId)) {
@@ -38,18 +75,18 @@ export class AuthService {
   // }
 
 
-  getCookie(name: string): string | null {
-    const nameLenPlus = (name.length + 1);
-    return document.cookie
-      .split(';')
-      .map(c => c.trim())
-      .filter(cookie => {
-        return cookie.substring(0, nameLenPlus) === `${name}=`;
-      })
-      .map(cookie => {
-        return decodeURIComponent(cookie.substring(nameLenPlus));
-      })[0] || null;
+getCookie(cookieName: string): string | null {
+  if (isPlatformBrowser(this.platformId)) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${cookieName}=`);
+    
+    if (parts.length === 2) {
+      return parts.pop()?.split(';').shift() || null;
+    }
   }
+  
+  return null;
+}
 
   // login(username: string, password: string): Observable<any> {
   //   return this.http.post(this.loginUrl, { username, password }).pipe(
@@ -85,22 +122,24 @@ export class AuthService {
     this.http.post(this.loginUrl, formData, { withCredentials: true })
       .pipe(
         tap((response: any) => {
-          if (!response.id || !response.username || !response.groups) {
-            throw new Error('Missing user data in the response');
-          }
+
+          this.authenticated = true;
+          // if (!response.id || !response.username || !response.groups) {
+          //   throw new Error('Missing user data in the response');
+          // }
   
-          // Construir o objeto do usuário
-          const user: User = {
-            id: response.id,
-            username: response.username,
-            groups: response.groups
-          };
+          // // Construir o objeto do usuário
+          // const user: User = {
+          //   id: response.id,
+          //   username: response.username,
+          //   groups: response.groups
+          // };
   
-          // Atualizar o estado do usuário
-          this.userSubject.next(user);
+          // // Atualizar o estado do usuário
+          // this.userSubject.next(user);
   
-          // Inserir no localStorage
-          localStorage.setItem('user', JSON.stringify(user));
+          // // Inserir no localStorage
+          // localStorage.setItem('user', JSON.stringify(user));
         }),
         catchError((error) => {
           console.error('Login failed:', error);
@@ -190,44 +229,45 @@ export class AuthService {
       .subscribe(() => this.router.navigate(['/login']));
   }
 
-  isAuthenticated(): boolean {
-    const cookie = this.cookie;
+  isAuthenticated(): Observable<boolean> {
+    const cookie = document.cookie;  // Or wherever you're storing the cookie
     if (!cookie) {
-      return false;
+      return new Observable<boolean>((observer) => observer.next(false));
     }
-    this.http.get(this.userUrl, { withCredentials: true }).subscribe(
-      (res: any) => {
-        
-        return true;
-      },
-      err => {
-        return false;
-      }
-    );
-    return false;
+
+    return new Observable<boolean>((observer) => {
+      this.http.get(this.userUrl, { withCredentials: true }).subscribe(
+        (res: any) => {
+          observer.next(true);
+        },
+        (err) => {
+          observer.next(false);
+        }
+      );
+    });
   }
 
   
 
 
 
-  getUserIdFromLocalStorage(): number | null {
-    const cookie = this.cookie;
-    if (!cookie) {
-      return null;
-    }
-    const user = localStorage.getItem("user"); 
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user) as { id: string }; 
-        return parseInt(parsedUser.id); 
-      } catch (error) {
-        console.error("Error parsing user from localStorage:", error);
-        return null; 
-      }
-    }
-    return null;
-  }
+  // getUserIdFromLocalStorage(): number | null {
+  //   const cookie = this.cookie;
+  //   if (!cookie) {
+  //     return null;
+  //   }
+  //   const user = localStorage.getItem("user"); 
+  //   if (user) {
+  //     try {
+  //       const parsedUser = JSON.parse(user) as { id: string }; 
+  //       return parseInt(parsedUser.id); 
+  //     } catch (error) {
+  //       console.error("Error parsing user from localStorage:", error);
+  //       return null; 
+  //     }
+  //   }
+  //   return null;
+  // }
 
   getUserIdWithCookie(): number | null {
     const cookie = this.getCookie("jwt");
