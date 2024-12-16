@@ -42,6 +42,7 @@ toggleFavorite(movieId: number): void {
         this.favoritesService.removeFavorite_session(movieId);
       } else {
         this.favoritesService.addFavorite_session(movieId);
+        console.log("Added to favorites");
       }
     }
   }
@@ -52,7 +53,7 @@ toggleFavorite(movieId: number): void {
       return false;
     }
     else{
-      return this.favoritesService.isFavorite(movieId);
+      return this.favoritesService.isFavorite_session(movieId);
     }
   }
 
