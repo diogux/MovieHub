@@ -69,7 +69,7 @@ export class AuthService {
     if (localStorage.getItem('perms')  ) {
       const perms = localStorage.getItem('perms');
       console.log(perms)
-      return perms ? perms.includes("add_movie") : false;
+      return perms ? perms.includes(perm) : false;
     }
 
       if (localStorage.getItem('name') === 'admin') {

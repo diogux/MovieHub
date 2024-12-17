@@ -4,6 +4,7 @@ import { ActorService } from '../../services/actor.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -18,10 +19,13 @@ export class ActorListComponent implements OnInit {
   actors: Actor[] = [];
   loading: boolean = true;
   baseUrl = environment.pictureUrl;
+  hasPerm: boolean = false;
 
 
 
-  constructor(private actorService: ActorService) { }
+  constructor(private actorService: ActorService, private auth: AuthService) {
+    this.hasPerm = this.auth.has_perm("add_actor");
+   }
 
   ngOnInit(): void {
     this.actorService.getActors().subscribe(actors => {
