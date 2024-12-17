@@ -7,6 +7,7 @@ import { MovieService } from '../../services/movie.service';
 import { env } from 'process';
 import { environment } from '../../../environments/environment';
 import { FavoritesService } from '../../services/favorites.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-movie-list',
@@ -21,9 +22,13 @@ export class MovieListComponent implements OnInit {
   baseUrl = environment.pictureUrl;
   isLoggedIn: boolean = false;
 
-  constructor(private movieService: MovieService, private favoritesService: FavoritesService) { }
+  constructor(private movieService: MovieService, private favoritesService: FavoritesService, private auth: AuthService) { 
+    this.isLoggedIn = this.auth.is_logged_in();
+    console.log(this.isLoggedIn);
+  }
 
   ngOnInit(): void {
+    
     this.movieService.getMovies().subscribe(movies => {
       this.movies = movies;
       this.loading = false;
@@ -32,6 +37,8 @@ export class MovieListComponent implements OnInit {
 
 toggleFavorite(movieId: number): void {
     if (this.isLoggedIn) {
+      console.log("to logado");
+      this.favoritesService.addFavorite(movieId);
 
       // Handling with the api
 
@@ -52,7 +59,7 @@ toggleFavorite(movieId: number): void {
       return false;
     }
     else{
-      return this.favoritesService.isFavorite(movieId);
+      return this.favoritesService.isFavorite_session(movieId);
     }
   }
 

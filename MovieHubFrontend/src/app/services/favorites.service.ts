@@ -1,40 +1,49 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FavoritesService {
+export class FavoritesService{
 
 private sessionKey = 'favoriteMovies';
+private baseUrl = 'http://localhost:8000/api/favorites/toggle';
 
-  constructor() {}
+  constructor(private http: HttpClient, private auth: AuthService) {
+    console.log(auth.is_logged_in());
+  }
 
   // Fetch favorites (SessionStorage for non-logged-in users)
-  getFavorites(): number[] {
-    const favorites = sessionStorage.getItem(this.sessionKey);
-    return favorites ? JSON.parse(favorites) : [];
+  getFavorites(): Observable<number[]> {
+    return this.http.get<number[]>(this.baseUrl);
   }
 
   // Add a movie to favorites
   addFavorite(movieId: number): void {
-    const favorites = this.getFavorites();
-    if (!favorites.includes(movieId)) {
-      favorites.push(movieId);
-      sessionStorage.setItem(this.sessionKey, JSON.stringify(favorites));
-    }
+    console.log(movieId);
+    this.http.post(
+      this.baseUrl,
+      { id: movieId }, // Send "id" instead of "movieId"
+      { withCredentials: true } // Include credentials like cookies
+    ).subscribe();
   }
+
+  // isFavorite(movieId: number): boolean {
+  //   return 
+  // }
+
+
 
   // Remove a movie from favorites
-  removeFavorite(movieId: number): void {
-    let favorites = this.getFavorites();
-    favorites = favorites.filter(id => id !== movieId);
-    sessionStorage.setItem(this.sessionKey, JSON.stringify(favorites));
-  }
+  // removeFavorite(movieId: number): void {
+  //   let favorites = this.getFavorites();
+  //   favorites = favorites.filter(id => id !== movieId);
+  //   sessionStorage.setItem(this.sessionKey, JSON.stringify(favorites));
+  // }
 
   // Check if a movie is favorited
-  isFavorite(movieId: number): boolean {
-    return this.getFavorites().includes(movieId);
-  }
 
   getFavorites_session(): number[] {
     const favorites = sessionStorage.getItem(this.sessionKey);
@@ -42,7 +51,7 @@ private sessionKey = 'favoriteMovies';
   }
 
   addFavorite_session(movieId: number): void {
-    const favorites = this.getFavorites();
+    const favorites = this.getFavorites_session();
     if (!favorites.includes(movieId)) {
       favorites.push(movieId);
       sessionStorage.setItem(this.sessionKey, JSON.stringify(favorites));
@@ -50,13 +59,13 @@ private sessionKey = 'favoriteMovies';
   }
 
   removeFavorite_session(movieId: number): void {
-    let favorites = this.getFavorites();
+    let favorites = this.getFavorites_session();
     favorites = favorites.filter(id => id !== movieId);
     sessionStorage.setItem(this.sessionKey, JSON.stringify(favorites));
   }
 
   isFavorite_session(movieId: number): boolean {
-    return this.getFavorites().includes(movieId);
+    return this.getFavorites_session().includes(movieId);
   }
 
 
