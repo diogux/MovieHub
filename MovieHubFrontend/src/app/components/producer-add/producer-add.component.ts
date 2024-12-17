@@ -46,6 +46,7 @@ export class ProducerAddComponent {
 
   submitForm(): void {
     if (this.producerForm.invalid) {
+      this.errors = {message : 'Please fill all the required fields!'}
       return;
     }
 

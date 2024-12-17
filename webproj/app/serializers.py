@@ -48,7 +48,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
     def get_group_permissions(self, obj):
-        # Obter as permissões associadas aos grupos do usuário
         permissions = []
         for group in obj.groups.all():
             permissions.extend(group.permissions.values_list('codename', flat=True))
@@ -56,15 +55,14 @@ class UserSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         password = validated_data.pop('password')
-        groups = validated_data.pop('groups', [])  # Remove groups from validated data
+        groups = validated_data.pop('groups', [])  
         instance = User(**validated_data)
         if password:
             instance.set_password(password)
         instance.save()
-
-        # Assign user to groups
+   
         if groups:
-            instance.groups.set(groups)  # Set the groups for the user
+            instance.groups.set(groups)  
         return instance
     
 
@@ -74,10 +72,3 @@ class GroupPermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ['name', 'permissions']
-
-# class UserSerializer(serializers.ModelSerializer):
-#     groups = GroupPermissionSerializer(many=True)
-
-#     class Meta:
-#         model = User
-#         fields = ['username', 'groups']

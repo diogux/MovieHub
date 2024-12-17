@@ -23,7 +23,7 @@ export class ActorAddComponent {
     private router: Router
   ) {
     this.actorForm = this.fb.group({
-      name: ['', [Validators.required, Validators.maxLength(100)]],
+      name: ['', Validators.required],
       date_of_birth: ['', Validators.required],
       place_of_birth: ['', Validators.required],
       date_of_death: [''],
@@ -41,6 +41,7 @@ export class ActorAddComponent {
 
   submitForm(): void {
     if (this.actorForm.invalid) {
+      this.errors = {message : "Please fill all the required fields!"}
       return;
     }
 

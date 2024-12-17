@@ -27,6 +27,7 @@ export class AddMovieComponent implements OnInit {
   producers: Producer[] = [];
   actors: Actor[] = [];
   genres: Genre[] = [];
+  errors: any = {};
 
   constructor(
 
@@ -48,7 +49,7 @@ export class AddMovieComponent implements OnInit {
       release_date: ['', Validators.required],
       genres: [[]],   
       synopsis: ['', Validators.required],
-      score: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
+      score: [0],
       likes: [0],
       poster: [null], 
       
@@ -75,7 +76,7 @@ export class AddMovieComponent implements OnInit {
   }
   
   onCheckboxChange(event: any, field: string): void {
-    const value = +event.target.value; // Converte o ID para número
+    const value = +event.target.value; 
     const checked = event.target.checked;
   
     const currentValues: number[] = this.form.value[field] || [];
@@ -91,9 +92,6 @@ export class AddMovieComponent implements OnInit {
     }
   }
   
-
-
-
   addMovie(): void {
     if (this.form.invalid) {
       return; 
@@ -138,8 +136,6 @@ export class AddMovieComponent implements OnInit {
   
     }
   }
-  
-  
 
   private resetForm(): void {
     this.form.reset({
@@ -174,12 +170,12 @@ export class AddMovieComponent implements OnInit {
 
   submit(): void {
     if (this.form.invalid) {
+      this.errors = {message : 'Please fill all the required fields!'}
       return;
     }
   
     const formData = new FormData();
   
-    // Mapear valores do formulário para FormData
     Object.keys(this.form.value).forEach(key => {
       const value = this.form.value[key];
   

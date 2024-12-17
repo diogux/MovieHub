@@ -80,19 +80,6 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
-
-
-# class User(AbstractUser):
-#     username = models.CharField(max_length=255)
-#     email = models.EmailField(unique=True)
-#     password = models.CharField(max_length=255)
-
-#     USERNAME_FIELD = 'username'
-#     REQUIRED_FIELDS = []
-
-
-
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     liked_movies = models.ManyToManyField(Movie, related_name='liked_by', blank=True)

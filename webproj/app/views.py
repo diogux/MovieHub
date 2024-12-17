@@ -11,7 +11,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from .decorators import permissions_required, permission_required, user_required, verify_user
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status

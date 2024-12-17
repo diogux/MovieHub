@@ -9,7 +9,7 @@
                         <!-- Title -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="title"
-                                style="color: #343a40; font-weight: 500;">Title</label>
+                                style="color: #343a40; font-weight: 500;">Title<span style="color:red">*</span></label>
                             <input formControlName="title" id="title" class="form-control" placeholder="Movie Title"
                                 required>
                         </div>
@@ -17,7 +17,7 @@
                         <!-- Duration -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="duration"
-                                style="color: #343a40; font-weight: 500;">Duration</label>
+                                style="color: #343a40; font-weight: 500;">Duration<span style="color:red">*</span></label>
                             <input formControlName="duration" id="duration" class="form-control"
                                 placeholder="Duration (e.g. 120m)" required>
                         </div>
@@ -81,7 +81,7 @@
                                 <!-- Release Date -->
                                 <div class="mb-3">
                                     <label class="form-label" for="release_date"
-                                        style="color: #343a40; font-weight: 500;">Release Date</label>
+                                        style="color: #343a40; font-weight: 500;">Release Date<span style="color:red">*</span></label>
                                     <input formControlName="release_date" id="release_date" type="date"
                                         class="form-control" required>
                                 </div>
@@ -99,7 +99,7 @@
                         <!-- Synopsis -->
                         <div class="col-md-12 mb-3">
                             <label class="form-label" for="synopsis"
-                                style="color: #343a40; font-weight: 500;">Synopsis</label>
+                                style="color: #343a40; font-weight: 500;">Synopsis<span style="color:red">*</span></label>
                             <textarea formControlName="synopsis" id="synopsis" rows="3" class="form-control"
                                 placeholder="Synopsis" required></textarea>
                             <!-- <div *ngIf="form.controls.synopsis.invalid && form.controls.synopsis.touched" class="invalid-feedback">
@@ -125,7 +125,9 @@
                     <button type="submit" class="btn btn-primary w-100"
                         style="background-color: #7d1324; border: none;">Save Movie</button>
                 </form>
-            </div>
+                <div *ngIf="errors.message" class="alert alert-danger mt-3">
+                    {{ errors.message }}
+                  </div>
         </div>
     </div>
 </div>
