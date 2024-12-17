@@ -73,20 +73,24 @@ def add_movie(request):
 
         if actors_data:
             actors_data = list_json_parsing(actors_data)
+            print(actors_data)
             actors = Actor.objects.filter(id__in=actors_data)
             movie.actors.set(actors)
 
         if producers_data:
+            print(producers_data)
             producers_data = list_json_parsing(producers_data)
             producers = Producer.objects.filter(id__in=producers_data)
             movie.producers.set(producers)
 
         if genres_data:
+            print(genres_data)
             genres_data = list_json_parsing(genres_data)
             genres = Genre.objects.filter(id__in=genres_data)
             movie.genres.set(genres)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])

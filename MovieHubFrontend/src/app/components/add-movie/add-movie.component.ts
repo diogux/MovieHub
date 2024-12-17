@@ -50,7 +50,7 @@ export class AddMovieComponent implements OnInit {
       synopsis: ['', Validators.required],
       score: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
       likes: [0],
-      poster: [], 
+      poster: [null], 
       
     });
     
@@ -129,15 +129,23 @@ export class AddMovieComponent implements OnInit {
     const input = event.target as HTMLInputElement;
   
     if (input.files && input.files.length > 0) {
-      const file = input.files[0];
+      const file: File = input.files[0]; // Tipo explícito File
   
-      const reader = new FileReader();
+      const reader: FileReader = new FileReader(); // Declaração de tipo para FileReader
       reader.onload = () => {
-        this.posterPreview = reader.result as string; // Certifica-te de usar 'string' como tipo aqui
+        this.posterPreview = reader.result as string; // Garante que é tratado como string
       };
-      reader.readAsDataURL(file);
+  
+      reader.readAsDataURL(file); // Converte o ficheiro para Base64
+  
+      // Adicionar o ficheiro ao formulário
+      this.form.patchValue({ poster: file });
+      this.form.get('poster')?.markAsTouched();
+  
+      console.log("Ficheiro selecionado:", file);
     }
   }
+  
   
 
   private resetForm(): void {
@@ -179,23 +187,37 @@ export class AddMovieComponent implements OnInit {
   
     const formData = new FormData();
   
-    // Mapear valores para o FormData
-    Object.keys(this.form.value).forEach((key) => {
+    // Mapear valores do formulário para FormData
+    Object.keys(this.form.value).forEach(key => {
       const value = this.form.value[key];
   
       if (key === 'poster' && value) {
-        formData.append('poster', value); // Anexar ficheiro
-      } else if (Array.isArray(value)) {
-        // Converte arrays em strings compatíveis
-        formData.append(key, JSON.stringify(value));
-      } else {
-        formData.append(key, value);
+        formData.append('poster', value); // Adicionar o ficheiro
+      } else if (Array.isArray(value) && value != null ) {
+        formData.append(key, JSON.stringify(value)); // Arrays como JSON
+      } else if (value){
+        formData.append(key, value); // Outros campos
       }
     });
   
-    this.http.post("http://localhost:8000/api/movies/add/", formData, {
+      // ** Log do conteúdo do FormData usando forEach **
+  console.log('Dados enviados para a API:');
+  formData.forEach((value, key) => {
+    console.log(`${key}:`, value);
+  });
+  
+    this.http.post('http://localhost:8000/api/movies/add/', formData, {
       withCredentials: true
-    }).subscribe(() => this.router.navigate(['movies']));
+    }).subscribe({
+      next: (response) => {
+        console.log("Filme adicionado com sucesso:", response);
+        this.router.navigate(['/movies']);
+      },
+      error: (err) => {
+        console.error("Erro ao enviar dados:", err);
+      }
+    });
   }
+  
   
 }

@@ -146,6 +146,7 @@ submit(): void {
 
     if (key === 'poster' && value) {
       // Adiciona o ficheiro de poster
+      
       formData.append('poster', value);
     } else if (Array.isArray(value) && value != null) {
       // Adiciona o array diretamente como uma string no formato desejado
