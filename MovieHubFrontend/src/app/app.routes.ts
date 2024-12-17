@@ -46,4 +46,10 @@ export const routes: Routes = [
 // Favorite
 { path: 'favorites', component: FavoriteListComponent },
 
+
+// Default if page not found
+
+{path: '**', redirectTo: ''}
+
+
 ];
