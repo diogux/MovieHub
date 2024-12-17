@@ -26,9 +26,13 @@
                         {% endif %} -->
                         <!-- <input type="hidden" name="next" value="{{ next }}" />
                         <input type="submit" value="Log In" class="btn btn-primary" /> -->
-                        <button class="btn btn-primary" type="submit">Long In</button>
+                        <button class="btn btn-primary" type="submit">Log In</button>
 
-                        <p class="mt-2">Don't have an account? <a Linkto="/register">Sign Up</a></p>
+                        <p class="mt-2">
+                            Don't have an account? 
+                            <a [routerLink]="'/register'">Sign Up</a>
+                          </p>
+                          
                     </form>
                 </div>
             </div>

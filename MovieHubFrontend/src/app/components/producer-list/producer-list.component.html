@@ -2,13 +2,28 @@
   <p>Loading...</p>
 </div>
 
+
+
 <div *ngIf="!loading && producers.length === 0" class="alert alert-info">
   No producers available.
 </div>
 
 <div *ngIf="!loading && producers.length > 0" class="container">
-  <h1 class="mb-4" style="color: #7d1324;">Producers</h1>
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-4" style="color: #7d1324;">Producers</h1>
 
+    <div class="ms-auto">
+
+      <!-- Add Movie Button -->
+      <h1 style="color: #7d1324">
+        <a [routerLink]="'/producers/add'">
+          <i class="bi bi-plus-square-fill mt-1" style="color: #7d1324"></i>
+        </a>
+      </h1>
+    </div>
+  </div>
+  
   <div class="row">
     <div class="col-md-6 mb-3" *ngFor="let producer of producers">
       <div class="card mb-3" style="max-width: 540px;">

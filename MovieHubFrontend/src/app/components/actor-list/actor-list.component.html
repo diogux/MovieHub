@@ -23,35 +23,29 @@
 
   <!-- Header and Search -->
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <a [routerLink]="['/actors']">
-      <h1 style="color: #7d1324" class="mb-0">Actors</h1>
-    </a>
+    <h1 style="color: #7d1324" class="mb-0">
+      <a [routerLink]="['/actors']">Actors</a>
+    </h1>
 
     <div class="d-flex align-items-center">
-      <!-- <h1 style="color: #7d1324">
-        <a
-          *ngIf="user.isAuthenticated && user.permissions.addActor"
-          [routerLink]="['/actor-add']"
-        >
-          <i class="bi bi-plus-square-fill mt-1 mr-2" style="color: #7d1324"></i>
-        </a>
-      </h1> -->
+      <!-- Add Movie Button -->
+      <h1 style="color: #7d1324">
+        <!-- <a *ngIf="isAuthenticated && hasPermission('add_movie')"[routerLink]="['/add-movie']"> -->
+          <a [routerLink]="'/actors/add'">
+            <i class="bi bi-plus-square-fill mt-1 mr-2" style="color: #7d1324"></i>
 
-      <!-- Search form -->
+          </a>
+
+        <!-- </a> -->
+      </h1>
+
+      <!-- Search Form -->
       <!-- <form (ngSubmit)="onSearch()" class="d-flex mb-0">
         <div class="input-group">
-          <input
-            type="text"
-            [(ngModel)]="searchQuery"
-            name="query"
-            class="form-control"
-            placeholder="Search"
-          />
+          <input [(ngModel)]="searchQuery" name="query" class="form-control" placeholder="Search movies" />
           <button type="submit" class="btn btn-primary">Search</button>
         </div>
       </form> -->
-
-
     </div>
   </div>
 
