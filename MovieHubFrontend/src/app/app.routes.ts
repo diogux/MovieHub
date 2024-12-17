@@ -10,6 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ActorDetailsComponent } from './components/actor-details/actor-details.component';
 import { ProducerDetailsComponent } from './components/producer-details/producer-details.component';
 import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';
+import { AddMovieComponent } from './components/add-movie/add-movie.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
 { path: 'actors', component: ActorListComponent },
 { path: 'actors/:id', component: ActorDetailsComponent },
 
+{ path: 'movies/add', component: AddMovieComponent },
 { path: 'movies/:id', component: MovieDetailsComponent },
 { path: 'movies', component: MovieListComponent },
 
