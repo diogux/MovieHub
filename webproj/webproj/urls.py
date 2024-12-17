@@ -22,11 +22,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.login_view, name='login'),
-    path('logout', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
-    path('signup/', views.signup, name='signup'),
-    path('', views.home, name='home'),
-
 
     # API auth
     path('api/register', views.register, name='register'),
@@ -45,7 +40,6 @@ urlpatterns = [
     path('api/movies/<int:movie_id>/', views.movie_details, name='movie_details'),
     path('api/movies/<int:movie_id>/edit/', views.edit_movie, name='edit_movie'),
     path('api/movies/<int:movie_id>/del/', views.delete_movie, name='delete_movie'),
-    path('toggle-like/<int:movie_id>/', views.toggle_like, name='toggle_like'),
 
     # ACTORS
     path('api/actors/', views.actors, name='actors'),
@@ -67,12 +61,8 @@ urlpatterns = [
     #GENRES
     path('api/genres/', views.genres, name='genres'),
     path('api/genres/add/', views.create_genre, name='add_genre'),
-    path('genres/delete/<int:id>/', views.delete_genre, name='delete_genre'),
 
     #USERS
-    path('users/', views.users, name='users'),
-    path('users/<int:id>/', views.user_liked_movies, name='liked_movies'),
-    path('users/delete/<int:id>/', views.delete_user, name='delete_user'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

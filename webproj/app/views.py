@@ -18,21 +18,10 @@ from rest_framework import status
 from app.serializers import *
 import jwt
 
-# Create your views here.
-
-def home(request):
-    tparams = {
-        'title': 'Home Page',
-        'year': datetime.now().year,
-    }
-    return render(request, 'index.html', tparams)
-
-
 
 """
 MOVIE OBJECT
 """
-
 
 @api_view(['GET'])
 def movies(request):
@@ -142,25 +131,6 @@ def edit_movie(request, movie_id):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def list_json_parsing(json_string):
-    if (isinstance(json_string, list) and len(json_string) == 1 
-            and isinstance(json_string[0], str) 
-            and json_string[0].startswith('[') and json_string[0].endswith(']')):
-                return eval(json_string[0])
-    return json_string
-
-def toggle_like(request, movie_id):
-    movie = get_object_or_404(Movie, id=movie_id)
-
-    profile, created = UserProfile.objects.get_or_create(user=request.user)
-    
-    if movie in profile.liked_movies.all():
-        profile.liked_movies.remove(movie)
-    else:
-        profile.liked_movies.add(movie)
-
-    this_page = request.META.get('HTTP_REFERER')
-    return redirect(this_page)
 
 
 @api_view(['POST'])
@@ -207,6 +177,7 @@ def actors(request):
 
 
 @api_view(['POST'])
+@permission_required(['app.add_actor'])
 def create_actor(request):
     """
     Handles POST requests to create a new actor.
@@ -217,30 +188,6 @@ def create_actor(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@login_required(login_url='/login/')
-@permissions_required(['app.add_actor'], 'actors')
-def actor_update_insert(request):
-    
-    action_title = 'Add New Actor'
-    
-    if request.method == 'POST':
-        form = ActorInsertOrUpdateForm(request.POST, request.FILES)
-        
-        if form.is_valid():
-            actor = form.save()
-            message = f"Actor '{actor.name}' added successfully!"
-            messages.success(request, message)
-            return redirect('actors')
-        else:
-            messages.error(request, "Please correct the errors below.")
-    else:
-        form = ActorInsertOrUpdateForm()
-    
-    tparams = {
-        'action_title': action_title,
-        'form': form,
-    }
-    return render(request, 'actor_update_insert.html', tparams)
 
 @api_view(['GET'])
 def actor_details(request, actor_id):
@@ -264,13 +211,11 @@ def actor_movies(request, actor_id):
 @api_view(['PUT'])
 @permission_required(['app.change_actor'])
 def edit_actor(request, actor_id):
-
     actor = get_object_or_404(Actor, id=actor_id)
 
     data = request.data.copy()
     picture = request.FILES.get('picture') 
 
-    # Atualiza o ator
     serializer = ActorSerializer(instance=actor, data=data, partial=True)
 
     if serializer.is_valid():
@@ -308,6 +253,7 @@ def producers(request):
 
 
 @api_view(['POST'])
+@permission_required(['app.add_producer'])
 def create_producer(request):
     """
     Handles POST requests to create a new producer.
@@ -317,30 +263,6 @@ def create_producer(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@login_required(login_url='/login/')
-@permissions_required(['app.add_producer'], 'producers')
-def producer_add(request):
-    if request.method == 'POST':
-        form = ProducerInsertOrUpdateForm(request.POST, request.FILES)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            date_of_birth = form.cleaned_data['date_of_birth']
-            date_of_death = form.cleaned_data['date_of_death']
-            biography = form.cleaned_data['biography']
-            picture = form.cleaned_data['picture']  
-            producer = Producer(name=name, date_of_birth=date_of_birth, date_of_death=date_of_death, biography=biography, picture=picture)
-            producer.save()
-            message = 'Producer ' + name + ' added successfully!'
-            messages.success(request, message)
-            return redirect('producers')
-    else:
-        form = ProducerInsertOrUpdateForm()
-    tparams = {
-        'title': 'Add Producer',
-        'form': form,
-    }
-    return render(request, 'producer_add.html', tparams)
 
 
 @api_view(['GET'])
@@ -406,6 +328,7 @@ def genres(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
+@permission_required(['app.add_genre'])
 def create_genre(request):
     """
     Handles POST requests to create a new genre.
@@ -416,95 +339,9 @@ def create_genre(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-@login_required(login_url='/login/')
-@permissions_required(['app.add_genre'], 'genres')
-def add_genre(request):
-    if request.method == 'POST':
-        form = GenreInsertForm(request.POST)
-        if form.is_valid():
-            form.save()
-            message = 'Genre ' + form.cleaned_data['name'] + ' added successfully!'
-            messages.success(request, message)
-            return redirect('genres')
-    else:
-        form = GenreInsertForm()
-    tparams = {
-        'title': 'Add Genre',
-        'form': form,
-    }
-    return render(request, 'add_genre.html', tparams)
-
-
-@login_required(login_url='/login/')
-@permissions_required(['app.delete_genre'], 'genres')
-def delete_genre(request, id):
-    genre = get_object_or_404(Genre, id=id)
-    genre.delete()
-    return redirect('genres')
-
 """
 AUTHENTICATION
 """
-
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()  
-            group = form.cleaned_data['group']
-            group.user_set.add(user)
-            login(request, user)  
-            return redirect('home')  
-    else:
-        form = SignUpForm()  
-
-    return render(request, 'signup.html', {'form': form})
-
-def login_view(request):
-    next_url = request.GET.get('next', request.POST.get('next', 'home'))
-    if request.method == 'POST':
-        form = CustomLoginForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect(next_url)  # Redirect to the next URL
-    else:
-        form = CustomLoginForm()
-
-    return render(request, 'login.html', {'form': form, 'next': next_url})
-
-
-def users(request):
-    users = User.objects.all()
-    tparams = {
-        'title': 'Users',
-        'users': users,
-    }
-    return render(request, 'users.html', tparams)
-
-def user_liked_movies(request, id):
-    user = User.objects.get(id=id)
-    profile, _ = UserProfile.objects.get_or_create(user=user)
-    liked_movies = profile.liked_movies.all()
-    tparams = {
-        'title': 'User Liked Movies',
-        'user_': user,
-        'liked_movies': liked_movies,
-    }
-    return render(request, 'user_liked_movies.html', tparams)
-
-
-@login_required(login_url='/login/')
-@permissions_required(['app.delete_user'], 'users')
-def delete_user(request, id):
-    user = get_object_or_404(User, id=id)
-    user.delete()
-    return redirect('users')
-
-
-## API VIEWS FOR USER REGISTRATION
 
 @api_view(['POST'])
 def register(request):
@@ -587,33 +424,11 @@ def logout(request):
     return response
 
 
-# If u are seeing this, delete this
+# Help func
 
-# def verify_user(request):
-#     token = request.COOKIES.get('jwt')
-
-#     if not token:
-#         return None
-
-#     try:
-#         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-#     except jwt.ExpiredSignatureError:
-#         return None
-
-#     user = User.objects.filter(id=payload['id']).first()
-#     return user
-
-# def has_permissions(request, permissions):
-#     user = verify_user(request)
-
-#     if user is None:
-#         return False
-
-#     for perm in permissions:
-#         if not user.has_perm(perm):
-#             return False
-
-#     return True
-
-
-    
+def list_json_parsing(json_string):
+    if (isinstance(json_string, list) and len(json_string) == 1 
+            and isinstance(json_string[0], str) 
+            and json_string[0].startswith('[') and json_string[0].endswith(']')):
+                return eval(json_string[0])
+    return json_string
