@@ -7,29 +7,46 @@
 </div>
 
 <div *ngIf="!loading && producers.length > 0" class="container">
-  <h1 class="mb-4" style="color: #7d1324;">Producers</h1>
 
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 style="color: #7d1324" class="mb-0">Producers</h1>
+
+    <div class="d-flex align-items-center">
+      <!-- Add Producer Button with Permissions -->
+      <h1 style="color: #7d1324" class="mb-0">
+        <a *ngIf="authenticated && userperms.includes('add_producer')" [routerLink]="['/producers/add']"
+          title="Add Producer">
+          <i class="bi bi-plus-square-fill mt-1 mr-2" style="color: #7d1324; font-size: 1.5em;"></i>
+        </a>
+      </h1>
+    </div>
+  </div>
+
+  <!-- Producers Grid -->
   <div class="row">
     <div class="col-md-6 mb-3" *ngFor="let producer of producers">
       <div class="card mb-3" style="max-width: 540px;">
         <div class="row no-gutters align-items-center">
           <div class="col-md-4 d-flex justify-content-center align-items-center">
-            <a [routerLink]="['/producers', producer.id]" title="Click to see producer details" style="text-decoration: none; color: #7d1324;">
-              <img [src]="producer.picture ? baseUrl + producer.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'" class="card-img" alt="{{ producer.name }}" style="object-fit: cover; width: 150px; height: 150px; border-radius: 50%;" />
+            <a [routerLink]="['/producers', producer.id]" title="Click to see producer details"
+              style="text-decoration: none; color: #7d1324;">
+              <img
+                [src]="producer.picture ? baseUrl + producer.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'"
+                class="card-img" alt="{{ producer.name }}"
+                style="object-fit: cover; width: 150px; height: 150px; border-radius: 50%;" />
             </a>
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <a [routerLink]="['/producers', producer.id]" title="Click to see producer details" style="text-decoration: none; color: #7d1324;">
+              <a [routerLink]="['/producers', producer.id]" title="Click to see producer details"
+                style="text-decoration: none; color: #7d1324;">
                 <h5 class="card-title">{{ producer.name }}</h5>
               </a>
               <p class="card-text"><strong>Date of Birth:</strong> {{ producer.date_of_birth }}</p>
-              <p class="card-text" *ngIf="producer.date_of_death"><strong>Date of Death:</strong> {{ producer.date_of_death }}</p>
-              <!-- <p class="card-text" *ngIf="producer.biography">{{ producer.biography | truncate: 5 }}</p> -->
+              <p class="card-text" *ngIf="producer.date_of_death"><strong>Date of Death:</strong> {{
+                producer.date_of_death }}</p>
               <p class="card-text" *ngIf="!producer.biography">No biography available</p>
-              <!-- <p class="card-text">
-                <small class="text-muted">Number of Movies: {{ producer.movies_count }}</small>
-              </p> -->
             </div>
           </div>
         </div>

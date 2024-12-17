@@ -1,12 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Producer } from '../../models/producer';
 import { ProducerService } from '../../services/producer.service';
 import { environment } from '../../../environments/environment';
 import { Location } from '@angular/common';
 import { Movie } from '../../models/movie';
+import { Emitters } from '../../emitters/emitters';
 
 @Component({
   selector: 'app-producer-details',
@@ -15,27 +16,50 @@ import { Movie } from '../../models/movie';
   templateUrl: './producer-details.component.html',
   styleUrl: './producer-details.component.css'
 })
-
-
 export class ProducerDetailsComponent implements OnInit {
   producer: Producer | undefined = undefined;
+  movies: Movie[] = [];
   loading: boolean = true;
   baseUrl = environment.pictureUrl;
+  userperms: string[] = [];
+  authenticated: boolean = false;
+
   private producerService: ProducerService = inject(ProducerService);
-  movies: any;
+  private http: HttpClient = inject(HttpClient);
 
   constructor(
     private route: ActivatedRoute,
     private location: Location
-    ) {
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.getUserPermissions(); // Carrega permissões do usuário
     this.getProducer();
     this.getMovies();
   }
 
-  onDeleteProducer(id : number | undefined): void {
+  // Método para buscar permissões do usuário
+  getUserPermissions(): void {
+    Emitters.authEmitter.subscribe((auth: boolean) => {
+      this.authenticated = auth;
+
+      if (this.authenticated) {
+        this.http
+          .get<any>(`${environment.baseUrl}user`, { withCredentials: true })
+          .subscribe(
+            (res) => {
+              this.userperms = res.group_permissions || [];
+            },
+            (error) => {
+              console.error('Error fetching user permissions:', error);
+              this.userperms = [];
+            }
+          );
+      }
+    });
+  }
+
+  onDeleteProducer(id: number | undefined): void {
     if (!id) {
       console.error('ID do produtor inválido:', id);
       return;
@@ -48,7 +72,8 @@ export class ProducerDetailsComponent implements OnInit {
       (error) => {
         console.error('Erro ao deletar produtor:', error);
       }
-    );}
+    );
+  }
 
   getProducer(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -85,5 +110,4 @@ export class ProducerDetailsComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-
 }
