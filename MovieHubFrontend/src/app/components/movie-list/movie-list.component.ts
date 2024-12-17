@@ -26,7 +26,6 @@ export class MovieListComponent implements OnInit {
 
   constructor(private movieService: MovieService, private favoritesService: FavoritesService, private auth: AuthService) {
     this.isLoggedIn = this.auth.is_logged_in();
-    console.log(this.isLoggedIn);
     this.get_favorites();
     this.hasPerm = this.auth.has_perm("add_movie");
   }

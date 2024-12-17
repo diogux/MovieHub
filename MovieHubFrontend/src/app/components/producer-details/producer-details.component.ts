@@ -46,7 +46,6 @@ export class ProducerDetailsComponent implements OnInit {
     }
     this.producerService.deleteProducer(id).subscribe(
       (response) => {
-        console.log('Produtor deletado com sucesso:', response);
         this.location.back(); // Redireciona após sucesso
       },
       (error) => {

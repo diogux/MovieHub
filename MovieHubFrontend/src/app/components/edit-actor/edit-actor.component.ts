@@ -93,14 +93,9 @@ export class EditActorComponent implements OnInit {
       }
     });
 
-    console.log('Dados enviados para a API:');
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
 
     this.actorService.editActor(formData, Number(this.actorId)).subscribe(
       (response) => {
-        console.log('Ator atualizado com sucesso:', response);
         this.router.navigate(['/actors', this.actorId]); 
       },
       (error) => {

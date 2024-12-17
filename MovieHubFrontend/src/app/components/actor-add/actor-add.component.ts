@@ -41,7 +41,6 @@ export class ActorAddComponent {
 
   submitForm(): void {
     if (this.actorForm.invalid) {
-      console.log("Formulário inválido");
       return;
     }
 
@@ -59,10 +58,6 @@ export class ActorAddComponent {
       }
     });
 
-    console.log('Dados enviados para a API:');
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
 
     this.http.post('http://localhost:8000/api/actors/add/', formData, {
       withCredentials: true

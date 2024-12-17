@@ -46,7 +46,6 @@ export class ProducerAddComponent {
 
   submitForm(): void {
     if (this.producerForm.invalid) {
-      console.log("Formulário inválido");
       return;
     }
 
@@ -64,11 +63,7 @@ export class ProducerAddComponent {
       }
     });
 
-    console.log('Dados enviados para a API:');
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
-
+   
     this.http.post('http://localhost:8000/api/producers/add/', formData, {
       withCredentials: true
     }).subscribe({

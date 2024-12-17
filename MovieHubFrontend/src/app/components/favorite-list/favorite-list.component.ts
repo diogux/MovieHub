@@ -20,7 +20,6 @@ export class FavoriteListComponent {
   favorites_list: Movie[] = [];
 
   constructor(private favoritesService: FavoritesService, private auth: AuthService, private movieService: MovieService) { 
-    console.log("Logged In: "+this.auth.is_logged_in())
     this.isLoggedIn = this.auth.is_logged_in();
     this.get_favorites();
   }
@@ -60,15 +59,11 @@ toggleFavorite(movieId: number): void {
     if (this.isLoggedIn) {
       this.favoritesService.getFavorites().subscribe(favorites => {
         this.favorites = favorites;
-        console.log(favorites)
         const array = Object.values(favorites)[0];
         if (Array.isArray(array)) {
-          console.log(array.length);
           this.favorites = array;
           this.movieService.getMoviesByIds(array).subscribe(movies => {
-            console.log(movies);
             this.favorites_list = movies;
-            console.log(this.favorites_list);
           });
         } else {
           console.error("Expected an array but got:", typeof array);
@@ -80,12 +75,9 @@ toggleFavorite(movieId: number): void {
 
       const array = this.favorites;
       if (Array.isArray(array)) {
-          console.log(array.length);
           this.favorites = array;
           this.movieService.getMoviesByIds(array).subscribe(movies => {
-            console.log(movies);
             this.favorites_list = movies;
-            console.log(this.favorites_list);
           });
         } else {
           console.error("Expected an array but got:", typeof array);

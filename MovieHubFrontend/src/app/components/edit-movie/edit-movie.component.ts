@@ -149,14 +149,9 @@ submit(): void {
     }
   });
 
-  console.log('Dados enviados para a API:');
-  formData.forEach((value, key) => {
-    console.log(`${key}:`, value);
-  });
 
   this.movieService.editMovie(formData, Number(this.movieId)).subscribe(
     (response) => {
-      console.log('Filme atualizado com sucesso:', response);
       this.router.navigate(['/movies', this.movieId ]);
 
     },

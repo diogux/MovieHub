@@ -25,14 +25,11 @@ getMoviesByIds(ids: number[]): Observable<Movie[]> {
   return this.http.get<Movie[]>(this.baseUrl).pipe(
     map(movies => {
       const filteredMovies = movies.filter(movie => ids.includes(movie.id));
-      filteredMovies.forEach(movie => console.log(movie)); // Log each movie
-      console.log(filteredMovies); // Log the array of movies
+      filteredMovies.forEach(movie => console.log(movie)); 
       return filteredMovies;
     })
   );
 }
-
-
 
   getMoviePosterUrl(movie: Movie): string {
     return movie.poster ? `http://localhost:8000${movie.poster}` : '';

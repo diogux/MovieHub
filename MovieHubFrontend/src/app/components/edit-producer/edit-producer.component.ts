@@ -90,14 +90,8 @@ export class EditProducerComponent implements OnInit {
       }
     });
 
-    console.log('Dados enviados para a API:');
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
-
     this.producerService.editProducer(formData, Number(this.producerId)).subscribe(
       (response) => {
-        console.log('Produtor atualizado com sucesso:', response);
         this.router.navigate(['/producers', this.producerId]); 
       },
       (error) => {

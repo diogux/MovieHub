@@ -136,7 +136,6 @@ export class AddMovieComponent implements OnInit {
       this.form.patchValue({ poster: file });
       this.form.get('poster')?.markAsTouched();
   
-      console.log("Ficheiro selecionado:", file);
     }
   }
   
@@ -175,7 +174,6 @@ export class AddMovieComponent implements OnInit {
 
   submit(): void {
     if (this.form.invalid) {
-      console.log("Formulário inválido");
       return;
     }
   
@@ -194,16 +192,12 @@ export class AddMovieComponent implements OnInit {
       }
     });
   
-  console.log('Dados enviados para a API:');
-  formData.forEach((value, key) => {
-    console.log(`${key}:`, value);
-  });
+
   
     this.http.post('http://localhost:8000/api/movies/add/', formData, {
       withCredentials: true
     }).subscribe({
       next: (response) => {
-        console.log("Filme adicionado com sucesso:", response);
         this.router.navigate(['/movies']);
       },
       error: (err) => {
