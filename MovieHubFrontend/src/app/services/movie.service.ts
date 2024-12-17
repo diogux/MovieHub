@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Movie } from '../models/movie';
 import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +20,19 @@ export class MovieService {
   getMovie(id: number): Observable<Movie> {
     return this.http.get<Movie>(`${this.baseUrl}/${id}`);
   }
+
+getMoviesByIds(ids: number[]): Observable<Movie[]> {
+  return this.http.get<Movie[]>(this.baseUrl).pipe(
+    map(movies => {
+      const filteredMovies = movies.filter(movie => ids.includes(movie.id));
+      filteredMovies.forEach(movie => console.log(movie)); // Log each movie
+      console.log(filteredMovies); // Log the array of movies
+      return filteredMovies;
+    })
+  );
+}
+
+
 
   getMoviePosterUrl(movie: Movie): string {
     return movie.poster ? `http://localhost:8000${movie.poster}` : '';
