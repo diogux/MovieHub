@@ -62,12 +62,32 @@ def add_movie(request):
     """
     Handles POST requests to create a new movie.
     """
-    serializer = MovieSerializer(data=request.data)  # Validate input data
+    data = request.data.copy()
+    actors_data = data.pop('actors', [])
+    producers_data = data.pop('producers', [])
+    genres_data = data.pop('genres', [])
+
+    serializer = MovieSerializer(data=data)
     if serializer.is_valid():
-        serializer.save()  # Save movie if valid
+        movie = serializer.save()
+
+        if actors_data:
+            actors_data = list_json_parsing(actors_data)
+            actors = Actor.objects.filter(id__in=actors_data)
+            movie.actors.set(actors)
+
+        if producers_data:
+            producers_data = list_json_parsing(producers_data)
+            producers = Producer.objects.filter(id__in=producers_data)
+            movie.producers.set(producers)
+
+        if genres_data:
+            genres_data = list_json_parsing(genres_data)
+            genres = Genre.objects.filter(id__in=genres_data)
+            movie.genres.set(genres)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-  
+
 
 @api_view(['DELETE'])
 @permission_required(['app.delete_movie'])
