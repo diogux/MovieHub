@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { Producer } from '../../models/producer';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 
 
@@ -19,6 +20,7 @@ export class ProducerAddComponent {
 
   producerForm: FormGroup;
   producers: Producer[] = [];
+  baseUrl = environment.baseUrl;
 
   errors: any = {};
   successMessage: string | null = null;
@@ -65,7 +67,8 @@ export class ProducerAddComponent {
     });
 
    
-    this.http.post('http://localhost:8000/api/producers/add/', formData, {
+    const url = this.baseUrl + 'producers/add/';
+    this.http.post(url, formData, {
       withCredentials: true
     }).subscribe({
       next: (response) => {

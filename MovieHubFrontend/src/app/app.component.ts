@@ -6,6 +6,7 @@ import { FooterComponent } from "./components/footer/footer.component";
 
 import { HttpClient } from '@angular/common/http';
 import { Emitters } from './emitters/emitters'
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -16,13 +17,16 @@ import { Emitters } from './emitters/emitters'
 })
 export class AppComponent implements OnInit {
   title = 'MovieHubFrontend';
+  private baseUrl = environment.baseUrl;
 
   constructor(
     private http: HttpClient
   ) { }
 
   ngOnInit(): void {
-    this.http.get('http://localhost:8000/api/user', { withCredentials: true }).subscribe(
+    // baseurl + 'users
+    const url = this.baseUrl + 'user';
+    this.http.get(url, { withCredentials: true }).subscribe(
       (res: any) => {
         
         Emitters.authEmitter.emit(true);

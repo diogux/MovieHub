@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,8 @@ import { AuthService } from './auth.service';
 export class FavoritesService {
 
   private sessionKey = 'favoriteMovies';
-  private baseUrl = 'http://localhost:8000/api/favorites/toggle';
-  private baseFavoritesUrl = 'http://localhost:8000/api/favorites';
+  private baseUrl = environment.baseUrl + 'favorites/toggle';
+  private baseFavoritesUrl = environment.baseUrl + 'favorites';
 
   constructor(private http: HttpClient, private auth: AuthService) {
     auth.is_logged_in();

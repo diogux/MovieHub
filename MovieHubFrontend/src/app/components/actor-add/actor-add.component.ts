@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-actor-add',
@@ -16,6 +17,7 @@ export class ActorAddComponent {
   actorForm: FormGroup;
   successMessage: string | null = null;
   errors: any = {};
+  private baseUrl = environment.baseUrl;
 
   constructor(
     private http: HttpClient,
@@ -59,8 +61,9 @@ export class ActorAddComponent {
       }
     });
 
-
-    this.http.post('http://localhost:8000/api/actors/add/', formData, {
+    const url = this.baseUrl + 'actors/add/';
+    
+    this.http.post(url, formData, {
       withCredentials: true
     }).subscribe({
       next: (response) => {

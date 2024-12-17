@@ -33,6 +33,7 @@ export class EditMovieComponent implements OnInit {
   posterPreview: string | null = null; 
   currentPosterUrl: string | null = null; 
   baseUrl = environment.pictureUrl;
+  backendUrl = environment.backendUrl;
 
 
   constructor(
@@ -87,9 +88,8 @@ export class EditMovieComponent implements OnInit {
           likes: data.likes
         });
     
-        this.currentPosterUrl = data.poster
-          ? `http://localhost:8000${data.poster}`
-          : null;
+        this.currentPosterUrl = data.poster ? `${this.backendUrl}${data.poster}` : null;
+
       },
       (error) => console.error('Erro ao carregar filme:', error)
     );

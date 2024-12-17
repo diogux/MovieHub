@@ -12,6 +12,7 @@ import { ProducerService } from '../../services/producer.service';
 import { ActorService } from '../../services/actor.service';
 import { GenreService } from '../../services/genre.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-movie',
@@ -28,6 +29,7 @@ export class AddMovieComponent implements OnInit {
   actors: Actor[] = [];
   genres: Genre[] = [];
   errors: any = {};
+  baseUrl = environment.baseUrl;
 
   constructor(
 
@@ -189,8 +191,8 @@ export class AddMovieComponent implements OnInit {
     });
   
 
-  
-    this.http.post('http://localhost:8000/api/movies/add/', formData, {
+    const url = this.baseUrl + 'movies/add/';
+    this.http.post(url, formData, {
       withCredentials: true
     }).subscribe({
       next: (response) => {

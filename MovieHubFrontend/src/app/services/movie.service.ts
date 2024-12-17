@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 export class MovieService {
 
   private baseUrl = environment.baseUrl + 'movies';
+  private backendUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -32,7 +33,7 @@ getMoviesByIds(ids: number[]): Observable<Movie[]> {
 }
 
   getMoviePosterUrl(movie: Movie): string {
-    return movie.poster ? `http://localhost:8000${movie.poster}` : '';
+    return movie.poster ? `${this.backendUrl}${movie.poster}` : '';
   }
 
   addMovie(movie: Movie): Observable<Movie> {
