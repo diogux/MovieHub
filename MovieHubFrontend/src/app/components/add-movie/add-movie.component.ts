@@ -53,7 +53,7 @@ export class AddMovieComponent implements OnInit {
       synopsis: ['', Validators.required],
       score: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
       likes: [0],
-      // poster: ['', Validators.required]
+      poster : []
     });
   }
 
@@ -89,6 +89,7 @@ export class AddMovieComponent implements OnInit {
       const file = input.files[0];
       this.form.patchValue({ poster: file });
       this.form.get('poster')?.markAsTouched();
+      console.log(file);
     }
   }
 
@@ -129,9 +130,9 @@ export class AddMovieComponent implements OnInit {
       console.log("Form is invalid");
       return;
     }
-
+  
     const formData = new FormData();
-
+  
     // Append form fields to FormData
     Object.keys(this.form.value).forEach(key => {
       const value = this.form.value[key];
@@ -142,9 +143,11 @@ export class AddMovieComponent implements OnInit {
       }
     });
 
+
+  
     this.http.post("http://localhost:8000/api/movies/add/", formData, {
       withCredentials: true
     }).subscribe(() => this.router.navigate(['movies']));
   }
-
+  
 }

@@ -20,8 +20,22 @@ export class MovieService {
     return this.http.get<Movie>(`${this.baseUrl}/${id}`);
   }
 
+  getMoviePosterUrl(movie: Movie): string {
+    return movie.poster ? `http://localhost:8000${movie.poster}` : '';
+  }
+
   addMovie(movie: Movie): Observable<Movie> {
     return this.http.post<Movie>(this.baseUrl, movie, { withCredentials: true });
+  }
+
+  editMovie( formData: FormData,movieId: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${movieId}/edit/`, formData, {
+      withCredentials: true
+    });
+  }
+
+  deleteMovie(id: number): Observable<Movie> {
+    return this.http.delete<Movie>(`${this.baseUrl}/${id}/del/`, { withCredentials: true });
   }
   
 

@@ -11,6 +11,7 @@ import { ActorDetailsComponent } from './components/actor-details/actor-details.
 import { ProducerDetailsComponent } from './components/producer-details/producer-details.component';
 import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';
 import { AddMovieComponent } from './components/add-movie/add-movie.component';
+import { EditMovieComponent } from './components/edit-movie/edit-movie.component';
 
 
 export const routes: Routes = [
@@ -24,6 +25,8 @@ export const routes: Routes = [
 { path: 'movies/add', component: AddMovieComponent },
 { path: 'movies/:id', component: MovieDetailsComponent },
 { path: 'movies', component: MovieListComponent },
+{ path: 'movies/:id/edit', component: EditMovieComponent },
+
 
     
 { path: 'genres', component: GenresListComponent },

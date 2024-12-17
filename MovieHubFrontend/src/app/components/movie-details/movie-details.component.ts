@@ -37,5 +37,13 @@ export class MovieDetailsComponent{
       });
     }
 
+    deleteMovie(): void {
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+      this.movieService.deleteMovie(id)
+        .subscribe(() => {
+          this.location.back();
+        });
+      }
+
 
 }

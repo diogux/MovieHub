@@ -42,21 +42,17 @@ urlpatterns = [
     # MOVIES
     path('api/movies/', views.movies, name='movies'),
     path('api/movies/add/', views.add_movie, name='add_movie'),
-
     path('api/movies/<int:movie_id>/', views.movie_details, name='movie_details'),
-    path('movies/delete/<int:movie_id>/', views.delete_movie, name='delete_movie'),
-     path('movies/edit/<int:movie_id>/', views.edit_movie, name='edit_movie'),
-
-    path('movies/delete/<int:movie_id>/', views.delete_movie, name='delete_movie'),
-    path('movies/edit/<int:movie_id>/', views.edit_movie, name='edit_movie'),
+    path('api/movies/<int:movie_id>/edit/', views.edit_movie, name='edit_movie'),
+    path('api/movies/<int:movie_id>/del/', views.delete_movie, name='delete_movie'),
     path('toggle-like/<int:movie_id>/', views.toggle_like, name='toggle_like'),
 
     # ACTORS
     path('api/actors/', views.actors, name='actors'),
     path('api/actors/add/', views.create_actor, name='actor_add'),
     path('api/actors/<int:actor_id>/', views.actor_details, name='actor_details'),
-    path('actor/<int:id>/edit/', views.edit_actor, name='edit_actor'),
-    path('actor/<int:id>/delete/', views.delete_actor, name='delete_actor'),
+    path('api/actors/<int:actor_id>/movies/', views.actor_movies, name='actor_movies'),
+    path('api/actors/<int:actor_id>/movies/add/', views.create_actor, name='actor_movies_add'),
     path('api/actors/<int:actor_id>/movies/', views.actor_movies, name='actor_movies'),
 
     # PRODUCERS

@@ -35,28 +35,14 @@ MOVIE OBJECT
 
 
 @api_view(['GET'])
-# @permission_required(['app.view_movie'])
 def movies(request):
     """ 
     Handles GET requests to retrieve all movies.
     """
-    # if not has_permissions(request, ['app.view_movie']):
-    #     return Response({'error': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
-
     movies = Movie.objects.all()  # Fetch all movies
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK) 
 
-@api_view(['POST'])
-def create_movie(request):
-    """
-    Handles POST requests to create a new movie.
-    """
-    serializer = MovieSerializer(data=request.data)  # Validate input data
-    if serializer.is_valid():
-        serializer.save()  # Save movie if valid
-        return Response(serializer.data, status=status.HTTP_201_CREATED)    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def movie_details(request, movie_id):
@@ -70,24 +56,6 @@ def movie_details(request, movie_id):
     except Movie.DoesNotExist:
         return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
 
-# @login_required(login_url='/login/')
-# @permissions_required(['app.add_movie'], 'movies')
-# def add_movie(request):
-#     if request.method == 'POST':
-#         form = MovieInsertOrUpdateForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             message = 'Movie ' + form.cleaned_data['title'] + ' added successfully!'
-#             messages.success(request, message)
-#             return redirect('movies')
-#     else:
-#         form = MovieInsertOrUpdateForm()
-#     tparams = {
-#         'title': 'Add Movie',
-#         'form': form,
-#     }
-#     return render(request, 'addmovie.html', tparams)
-
 @api_view(['POST'])
 @permission_required(['app.add_movie'])
 def add_movie(request):
@@ -99,31 +67,63 @@ def add_movie(request):
         serializer.save()  # Save movie if valid
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
 
-@login_required(login_url='/login/')
-@permissions_required(['app.delete_movie'], 'movies')
+@api_view(['DELETE'])
+@permission_required(['app.delete_movie'])
 def delete_movie(request, movie_id):
-    movie = get_object_or_404(Movie, id=movie_id)
+    movie = Movie.objects.get(id=movie_id)
     movie.delete()
-    messages.warning(request, 'Movie deleted successfully!')
-    return redirect('movies')  
+    return Response(status=status.HTTP_200_OK)
 
-@login_required(login_url='/login/')
-@permissions_required(['app.change_movie'], 'movies')
+
+
+@api_view(['PUT'])
+@permission_required(['app.change_movie'])
 def edit_movie(request, movie_id):
-    movie = get_object_or_404(Movie, id=movie_id)
-    if request.method == 'POST':
-        form = MovieInsertOrUpdateForm(request.POST, request.FILES, instance=movie) 
-        if form.is_valid():
-            message = f"Movie '{movie.title}' edited successfully!"
-            messages.success(request, message)
-            form.save()
-            return redirect('movies')  
-    else:
-        form = MovieInsertOrUpdateForm(instance=movie)
-    
-    return render(request, 'editmovie.html', {'form': form, 'movie': movie})
+    try:
+        movie = Movie.objects.get(id=movie_id)
+    except Movie.DoesNotExist:
+        return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
 
+    # Atualiza os campos simples (não-relacionais)
+    data = request.data.copy()
+    actors_data = data.pop('actors', [])
+    producers_data = data.pop('producers', [])
+    genres_data = data.pop('genres', [])
+
+    serializer = MovieSerializer(instance=movie, data=data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+
+        # Atualiza os campos many-to-many
+        if actors_data:
+            actors_data = list_json_parsing(actors_data)
+            
+            
+            actors = Actor.objects.filter(id__in=actors_data)
+            movie.actors.set(actors)
+
+        if producers_data:
+            producers_data = list_json_parsing(producers_data)
+            producers = Producer.objects.filter(id__in=producers_data)
+            movie.producers.set(producers)
+
+        if genres_data:
+            genres_data = list_json_parsing(genres_data)
+            genres = Genre.objects.filter(id__in=genres_data)
+            movie.genres.set(genres)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def list_json_parsing(json_string):
+    if (isinstance(json_string, list) and len(json_string) == 1 
+            and isinstance(json_string[0], str) 
+            and json_string[0].startswith('[') and json_string[0].endswith(']')):
+                return eval(json_string[0])
+    return json_string
 
 def toggle_like(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
