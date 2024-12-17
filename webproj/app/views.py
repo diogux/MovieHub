@@ -555,18 +555,24 @@ def login(request):
 
 @api_view(['GET'])
 def user(request):
-
     token = request.COOKIES.get('jwt')
 
     if not token:
         return Response({'error': 'Unauthenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
     try:
+        # Decodificar o token JWT
         payload = jwt.decode(token, 'secret', algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
         return Response({'error': 'Unauthenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
+    # Buscar o usuário com base no ID do payload do JWT
     user = User.objects.filter(id=payload['id']).first()
+
+    if not user:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    # Serializar o usuário, incluindo seus grupos e permissões
     serializer = UserSerializer(user)
 
     return Response(serializer.data)

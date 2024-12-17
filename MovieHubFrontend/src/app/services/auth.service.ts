@@ -5,6 +5,7 @@ import { User } from '../models/user';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationStart } from '@angular/router'; // Import Router and NavigationStart
 import { environment } from '../../environments/environment';
+import { Emitters } from '../emitters/emitters';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +22,9 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router, 
-    @Inject (PLATFORM_ID) private platformId: object
-  ){
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {
   }
 
   is_logged_in(): boolean {
@@ -34,11 +35,34 @@ export class AuthService {
     return false; // Default to not logged in if no localStorage
   }
 
+  getUserPermissions(): void {
+    // Subscribing to the authEmitter to check if user is authenticated
+    Emitters.authEmitter.subscribe((auth: boolean) => {
+      this.authenticated = auth;
+
+      // If authenticated, fetch user data
+      if (this.authenticated) {
+        this.http.get<any>(this.baseUrl + 'user', { withCredentials: true }).subscribe(
+          (res) => {
+            // Extraindo as permissões de grupos
+            const groupPermissions = res.group_permissions;
+            console.log(groupPermissions);  // Exibe as permissões no console
+            // Agora podemos fazer algo com as permissões (ex: exibir no frontend)
+            return groupPermissions;
+          },
+          (error) => {
+            console.error('Error fetching user data:', error);
+          }
+        );
+      }
+    });
+  }
+
 
   set_logged_in(): void {
     localStorage.setItem('logged', 'true');
     this.authenticated = true;
-    console.log("cookie:"+this.getCookie("jwt"));
+    console.log("cookie:" + this.getCookie("jwt"));
   }
 
   set_logged_out(): void {
@@ -46,7 +70,7 @@ export class AuthService {
     this.authenticated = false;
     // remove the cookie
     this.setCookie("jwt", "", -1);
-    console.log("cookie:"+this.getCookie("jwt"));
+    console.log("cookie:" + this.getCookie("jwt"));
   }
 
   setCookie(name: string, value: string, days: number): void {
@@ -75,18 +99,18 @@ export class AuthService {
   // }
 
 
-getCookie(cookieName: string): string | null {
-  if (isPlatformBrowser(this.platformId)) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${cookieName}=`);
-    
-    if (parts.length === 2) {
-      return parts.pop()?.split(';').shift() || null;
+  getCookie(cookieName: string): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${cookieName}=`);
+
+      if (parts.length === 2) {
+        return parts.pop()?.split(';').shift() || null;
+      }
     }
+
+    return null;
   }
-  
-  return null;
-}
 
   // login(username: string, password: string): Observable<any> {
   //   return this.http.post(this.loginUrl, { username, password }).pipe(
@@ -127,17 +151,17 @@ getCookie(cookieName: string): string | null {
           // if (!response.id || !response.username || !response.groups) {
           //   throw new Error('Missing user data in the response');
           // }
-  
+
           // // Construir o objeto do usuário
           // const user: User = {
           //   id: response.id,
           //   username: response.username,
           //   groups: response.groups
           // };
-  
+
           // // Atualizar o estado do usuário
           // this.userSubject.next(user);
-  
+
           // // Inserir no localStorage
           // localStorage.setItem('user', JSON.stringify(user));
         }),
@@ -151,7 +175,7 @@ getCookie(cookieName: string): string | null {
         this.router.navigate(['/']);
       });
   }
-  
+
 
   // loadUserFromToken(): void {
   //   if (!isPlatformBrowser(this.platformId)) {
@@ -230,7 +254,7 @@ getCookie(cookieName: string): string | null {
   }
 
   isAuthenticated(): Observable<boolean> {
-    const cookie = document.cookie; 
+    const cookie = document.cookie;
     if (!cookie) {
       return new Observable<boolean>((observer) => observer.next(false));
     }
@@ -247,7 +271,7 @@ getCookie(cookieName: string): string | null {
     });
   }
 
-  
+
 
 
 
@@ -276,8 +300,8 @@ getCookie(cookieName: string): string | null {
     }
     this.http.get(this.userUrl, { withCredentials: true }).subscribe(
       (res: any) => {
-        
-        return parseInt(res.id)? parseInt(res.id) : null;
+
+        return parseInt(res.id) ? parseInt(res.id) : null;
       },
       err => {
         return null;
@@ -304,25 +328,25 @@ getCookie(cookieName: string): string | null {
 
   getUserInfo(): Observable<User> {
     const userString = localStorage.getItem('user');
-  
+
     if (!userString) {
       console.error('No user data found in localStorage');
       return throwError(() => new Error('No user data found in localStorage'));
     }
-  
+
     try {
       const user: User = JSON.parse(userString);
       console.log('User info from localStorage:', user);
-  
+
       this.userSubject.next(user);
-  
+
       return of(user);
     } catch (error) {
       console.error('Error parsing user data from localStorage:', error);
       return throwError(() => new Error('Invalid user data in localStorage'));
     }
   }
-  
+
 
   // getUserInfo(): Observable<User> {
   //   const url = `${this.baseUrl}/user/`; // Endpoint URL
