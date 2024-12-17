@@ -61,8 +61,8 @@ urlpatterns = [
     path('api/producers/add/', views.create_producer, name='producer_add'),
     path('api/producers/<int:producer_id>/', views.producer_details, name='producer_details'),
     path('api/producers/<int:producer_id>/movies/', views.producer_movies, name='producer_movies'),
-    path ('api/producers/<int:producer_id>/edit/', views.edit_producer, name='edit_producer'),
-    path('api/producers/del/<int:id>/', views.delete_producer, name='delete_producer'),
+    path('api/producers/<int:producer_id>/edit/', views.edit_producer, name='edit_producer'),
+    path('api/producers/<int:producer_id>/del/', views.delete_producer, name='delete_producer'),
 
     #GENRES
     path('api/genres/', views.genres, name='genres'),

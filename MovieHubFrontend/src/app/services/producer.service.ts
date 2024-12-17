@@ -30,11 +30,11 @@ export class ProducerService {
   }
 
   editProducer(formData: FormData, producerId: number): Observable<any>{
-    return this.http.put(`${this.baseUrl}/edit/${producerId}`, formData,{withCredentials:true});
+    return this.http.put(`${this.baseUrl}/${producerId}/edit/`, formData, {withCredentials: true});
   }
 
   deleteProducer(producerId: number): Observable<Producer>{
-    return this.http.delete<Producer>(`${this.baseUrl}/delete/${producerId}`,{withCredentials:true});
+    return this.http.delete<Producer>(`${this.baseUrl}/${producerId}/del/`, {withCredentials: true});
   }
 
 }

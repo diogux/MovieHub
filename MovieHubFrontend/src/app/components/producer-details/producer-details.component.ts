@@ -35,6 +35,21 @@ export class ProducerDetailsComponent implements OnInit {
     this.getMovies();
   }
 
+  onDeleteProducer(id : number | undefined): void {
+    if (!id) {
+      console.error('ID do produtor inválido:', id);
+      return;
+    }
+    this.producerService.deleteProducer(id).subscribe(
+      (response) => {
+        console.log('Produtor deletado com sucesso:', response);
+        this.location.back(); // Redireciona após sucesso
+      },
+      (error) => {
+        console.error('Erro ao deletar produtor:', error);
+      }
+    );}
+
   getProducer(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
