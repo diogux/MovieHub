@@ -19,6 +19,7 @@ export class AuthService {
   private loginUrl = this.baseUrl + 'login/';
   private userUrl = this.baseUrl + 'user'
   private authenticated = false;
+  private permissions: string[] = [];
 
   constructor(
     private http: HttpClient,
@@ -45,9 +46,13 @@ export class AuthService {
         this.http.get<any>(this.baseUrl + 'user', { withCredentials: true }).subscribe(
           (res) => {
             // Extraindo as permissões de grupos
+            const name = res.username;
+            localStorage.setItem('name', name);
             const groupPermissions = res.group_permissions;
             console.log(groupPermissions);  // Exibe as permissões no console
+            localStorage.setItem('perms', groupPermissions.toString());
             // Agora podemos fazer algo com as permissões (ex: exibir no frontend)
+            this.permissions = groupPermissions;
             return groupPermissions;
           },
           (error) => {
@@ -59,15 +64,34 @@ export class AuthService {
   }
 
 
+
+  has_perm(perm: string): boolean {
+    if (localStorage.getItem('perms')  ) {
+      const perms = localStorage.getItem('perms');
+      console.log(perms)
+      return perms ? perms.includes("add_movie") : false;
+    }
+
+      if (localStorage.getItem('name') === 'admin') {
+        return true;
+      }
+    return false;
+    }
+
+
   set_logged_in(): void {
     localStorage.setItem('logged', 'true');
     this.authenticated = true;
+    // localStorage.setItem('perms', this.permissions.toString() );
+    // console.log(localStorage.getItem('perms'));
     console.log("cookie:" + this.getCookie("jwt"));
   }
 
   set_logged_out(): void {
     localStorage.setItem('logged', 'false');
     this.authenticated = false;
+    localStorage.removeItem('perms');
+    localStorage.removeItem('name');
     // remove the cookie
     this.setCookie("jwt", "", -1);
     console.log("cookie:" + this.getCookie("jwt"));

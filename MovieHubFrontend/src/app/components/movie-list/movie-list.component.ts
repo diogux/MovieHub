@@ -22,11 +22,13 @@ export class MovieListComponent implements OnInit {
   baseUrl = environment.pictureUrl;
   isLoggedIn: boolean = false;
   favorites: number[] = [];
+  hasPerm: boolean = false;
 
   constructor(private movieService: MovieService, private favoritesService: FavoritesService, private auth: AuthService) { 
     this.isLoggedIn = this.auth.is_logged_in();
     console.log(this.isLoggedIn);
     this.get_favorites();
+    this.hasPerm = this.auth.has_perm("add_movie");
   }
 
   ngOnInit(): void {
