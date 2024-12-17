@@ -27,13 +27,13 @@ export class AuthService {
   }
 
   is_logged_in(): boolean {
-    const logged = localStorage.getItem('logged');
-    if (logged == 'true') {
-      return true;
-    } else {
-      return false;
+    if (typeof window !== 'undefined') {
+      const logged = localStorage.getItem('logged');
+      return logged === 'true';
     }
+    return false; // Default to not logged in if no localStorage
   }
+
 
   set_logged_in(): void {
     localStorage.setItem('logged', 'true');
