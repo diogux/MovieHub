@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { Actor } from '../../models/actor'; // Importe a interface Actor
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-actor-add',
   templateUrl: './actor-add.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule],
+  imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
   styleUrls: ['./actor-add.component.css']
 })
 export class ActorAddComponent {
