@@ -21,18 +21,16 @@ export class MovieService {
     return this.http.get<Movie>(`${this.baseUrl}/${id}`);
   }
 
-getMoviesByIds(ids: number[]): Observable<Movie[]> {
-  return this.http.get<Movie[]>(this.baseUrl).pipe(
-    map(movies => {
-      const filteredMovies = movies.filter(movie => ids.includes(movie.id));
-      filteredMovies.forEach(movie => console.log(movie)); // Log each movie
-      console.log(filteredMovies); // Log the array of movies
-      return filteredMovies;
-    })
-  );
-}
-
-
+  getMoviesByIds(ids: number[]): Observable<Movie[]> {
+    return this.http.get<Movie[]>(this.baseUrl).pipe(
+      map(movies => {
+        const filteredMovies = movies.filter(movie => ids.includes(movie.id));
+        filteredMovies.forEach(movie => console.log(movie)); // Log each movie
+        console.log(filteredMovies); // Log the array of movies
+        return filteredMovies;
+      })
+    );
+  }
 
   getMoviePosterUrl(movie: Movie): string {
     return movie.poster ? `http://localhost:8000${movie.poster}` : '';
@@ -42,7 +40,7 @@ getMoviesByIds(ids: number[]): Observable<Movie[]> {
     return this.http.post<Movie>(this.baseUrl, movie, { withCredentials: true });
   }
 
-  editMovie( formData: FormData,movieId: number): Observable<any> {
+  editMovie(formData: FormData, movieId: number): Observable<any> {
     return this.http.put(`${this.baseUrl}/${movieId}/edit/`, formData, {
       withCredentials: true
     });
@@ -51,6 +49,6 @@ getMoviesByIds(ids: number[]): Observable<Movie[]> {
   deleteMovie(id: number): Observable<Movie> {
     return this.http.delete<Movie>(`${this.baseUrl}/${id}/del/`, { withCredentials: true });
   }
-  
+
 
 }

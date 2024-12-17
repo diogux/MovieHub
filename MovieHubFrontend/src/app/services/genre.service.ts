@@ -20,7 +20,6 @@ export class GenreService {
   }
 
   getGenresWithMovies(): Observable<Genre[]> {
-    // Fetch genres and movies using the existing MovieService
     return forkJoin({
       genres: this.http.get<Genre[]>(this.genresUrl),
       movies: this.movieService.getMovies(),

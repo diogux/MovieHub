@@ -25,16 +25,16 @@ export class ProducerService {
     return this.http.get<Movie[]>(`${this.baseUrl}/${id}/movies`);
   }
 
-  addProducer(producer: Producer): Observable<Producer>{
-    return this.http.post<Producer>(this.baseUrl + '/add', producer, {withCredentials: true});
+  addProducer(producer: Producer): Observable<Producer> {
+    return this.http.post<Producer>(this.baseUrl + '/add', producer, { withCredentials: true });
   }
 
-  editProducer(formData: FormData, producerId: number): Observable<any>{
-    return this.http.put(`${this.baseUrl}/${producerId}/edit/`, formData, {withCredentials: true});
+  editProducer(formData: FormData, producerId: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${producerId}/edit/`, formData, { withCredentials: true });
   }
 
-  deleteProducer(producerId: number): Observable<Producer>{
-    return this.http.delete<Producer>(`${this.baseUrl}/${producerId}/del/`, {withCredentials: true});
+  deleteProducer(producerId: number): Observable<Producer> {
+    return this.http.delete<Producer>(`${this.baseUrl}/${producerId}/del/`, { withCredentials: true });
   }
 
 }
