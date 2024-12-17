@@ -81,6 +81,19 @@ toggleFavorite(movieId: number): void {
     } else {
 
       this.favorites = this.favoritesService.getFavorites_session();
+
+      const array = this.favorites;
+      if (Array.isArray(array)) {
+          console.log(array.length);
+          this.favorites = array;
+          this.movieService.getMoviesByIds(array).subscribe(movies => {
+            console.log(movies);
+            this.favorites_list = movies;
+            console.log(this.favorites_list);
+          });
+        } else {
+          console.error("Expected an array but got:", typeof array);
+        }
       };
     }
   
