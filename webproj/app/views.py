@@ -263,6 +263,7 @@ def create_producer(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    
 
 @api_view(['GET'])
 def producer_details(request, producer_id):
@@ -338,9 +339,11 @@ def create_genre(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 """
 AUTHENTICATION
 """
+
 
 @api_view(['POST'])
 def register(request):
