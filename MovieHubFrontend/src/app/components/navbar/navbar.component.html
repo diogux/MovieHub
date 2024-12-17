@@ -14,22 +14,23 @@
           <li class="nav-item"><a class="nav-link" routerLink="/movies">Movies</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/actors">Actors</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/producers">Producers</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/genres"> Movie Genres</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/favorites">My Favorites <i class="bi bi-heart"></i></a>
-          </li>
+
+          
           <!-- <li class="nav-item"><a class="nav-link" routerLink="/users">All Users</a></li> -->
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" routerLink="#" id="navbarDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" routerLink="/genres">Movie Genres</a></li>
+             -->
               <!-- <li><a class="dropdown-item" routerLink="/add-movie" *ngIf="hasAddMoviePermission">Add Movie</a></li>
               <li><a class="dropdown-item" routerLink="/add-actor" *ngIf="hasAddActorPermission">Add Actor</a></li>
               <li><a class="dropdown-item" routerLink="/add-genre" *ngIf="hasAddGenrePermission">Add Genre</a></li> -->
-            </ul>
+            <!-- </ul> -->
             <!-- {% endif %} -->
-          </li>
+          <!-- </li> -->
 
-   
         </ul>
         <form id="logoutForm" class="navbar-right" *ngIf="authenticated">
           <!-- {% csrf_token %} -->
