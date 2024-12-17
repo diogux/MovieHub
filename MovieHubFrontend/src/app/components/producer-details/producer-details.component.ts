@@ -7,6 +7,7 @@ import { ProducerService } from '../../services/producer.service';
 import { environment } from '../../../environments/environment';
 import { Location } from '@angular/common';
 import { Movie } from '../../models/movie';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-producer-details',
@@ -23,11 +24,14 @@ export class ProducerDetailsComponent implements OnInit {
   baseUrl = environment.pictureUrl;
   private producerService: ProducerService = inject(ProducerService);
   movies: any;
+  hasPerm:boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private auth:AuthService
     ) {
+    this.hasPerm = this.auth.has_perm("change_producer");
   }
 
   ngOnInit(): void {

@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 
 
@@ -23,8 +24,10 @@ export class MovieDetailsComponent{
   movieService: MovieService = inject(MovieService);
   loading: boolean = true;
   baseUrl = environment.pictureUrl;
+  hasPerm: boolean = false;
   
-  constructor(private route: ActivatedRoute, private location: Location) {
+  constructor(private route: ActivatedRoute, private location: Location, private auth: AuthService) {
+    this.hasPerm = this.auth.has_perm("change_movie");
     this.getMovie();
    }
 

@@ -23,8 +23,7 @@ export class ProducerListComponent implements OnInit {
 
 
   constructor(private producerService: ProducerService, private auth: AuthService) { 
-
-    this.hasPerm = this.auth.has_perm("add_actor");
+    this.hasPerm = this.auth.has_perm("add_producer");
   }
 
   ngOnInit(): void {

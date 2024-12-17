@@ -1,24 +1,26 @@
 <div class="container mt-5" style="position: relative;">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1 class="mb-4" style="color: #7d1324;">{{ actor?.name }}</h1>
-      <div>
+ <div class="d-flex justify-content-between align-items-center">
+    <h1 class="mb-4" style="color: #7d1324;">{{ actor?.name }}</h1>
+    
+    <!-- Verifica permissões para exibir os botões -->
+    <div *ngIf="hasPerm">
+      <!-- Botão de Editar -->
+      <a
+        [routerLink]="['/actors/', actor?.id, 'edit']"
+        class="btn btn-secondary me-2"
+      >
+        <i class="fas fa-edit"></i> Edit
+      </a>
 
-        <a
-          
-          [routerLink]="['/actors/', actor?.id, 'edit']"
-          class="btn btn-secondary me-2"  
-        >
-          <i class="fas fa-edit"></i> Edit
-        </a>
-
-        <button
-          (click)="onDeleteActor(actor?.id)"
-          class="btn btn-danger"
-        >
-          <i class="fas fa-trash"></i> Delete
-        </button>
-      </div>
+      <!-- Botão de Deletar -->
+      <button
+        (click)="onDeleteActor(actor?.id)"
+        class="btn btn-danger"
+      >
+        <i class="fas fa-trash"></i> Delete
+      </button>
     </div>
+  </div>
   
     <!-- Actor Details -->
     <div class="row">

@@ -7,6 +7,7 @@ import { ActorService } from '../../services/actor.service';
 import { environment } from '../../../environments/environment';
 import { Location } from '@angular/common';
 import { Movie } from '../../models/movie';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-actor-details',
@@ -22,11 +23,15 @@ export class ActorDetailsComponent implements OnInit {
   baseUrl = environment.pictureUrl; 
   private actorService: ActorService = inject(ActorService);
   movies: any;
+  hasPerm:boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location
-  ) {}
+    private location: Location,
+    private auth: AuthService
+  ) {
+      this.hasPerm = this.auth.has_perm("change_actor");
+  }
 
   ngOnInit(): void {
     this.getActor();
