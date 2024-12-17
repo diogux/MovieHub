@@ -260,35 +260,38 @@ def actor_movies(request, actor_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Actor.DoesNotExist:
         return Response({"error": "Actor not found"}, status=status.HTTP_404_NOT_FOUND)
-    
-    
-    
 
+@api_view(['PUT'])
+@permission_required(['app.change_actor'])
+def edit_actor(request, actor_id):
 
-@login_required(login_url='/login/')
-@permissions_required(['app.delete_actor'], 'actors')
-def delete_actor(request, id):
-    actor = get_object_or_404(Actor, id=id)
-    actor.delete()
-    return redirect('actors') 
+    actor = get_object_or_404(Actor, id=actor_id)
 
+    data = request.data.copy()
+    picture = request.FILES.get('picture') 
 
-@login_required(login_url='/login/')
-@permissions_required(['app.change_actor'], 'actors')
-def edit_actor(request, id):
-    actor = get_object_or_404(Actor, id=id)
-    if request.method == 'POST':
-        form = ActorInsertOrUpdateForm(request.POST, request.FILES, instance=actor)
-        if form.is_valid():
-            message = f"Actor '{actor.name}' edited successfully!"
-            messages.success(request, message)
-            form.save()
-            return redirect('actors')
+    # Atualiza o ator
+    serializer = ActorSerializer(instance=actor, data=data, partial=True)
+
+    if serializer.is_valid():
+        if picture:
+            actor.picture = picture
+            actor.save()
+
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
     else:
-        form = ActorInsertOrUpdateForm(instance=actor)
-    title = 'Edit Actor - ' + actor.name
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    return render(request, 'actor_update_insert.html', {'form': form, 'actor': actor, 'action_title': title})
+    
+@api_view(['DELETE'])
+@permission_required(['app.delete_actor'])
+def delete_actor(request, actor_id):
+    actor = Actor.objects.get(id=actor_id)
+    actor.delete()
+    
+    return Response(status=status.HTTP_200_OK)
+
 
 """
 PRODUCER OBJECT
@@ -359,30 +362,36 @@ def producer_movies(request, producer_id):
     except Producer.DoesNotExist:
         return Response({"error": "Producer not found"}, status=status.HTTP_404_NOT_FOUND)
 
-@login_required(login_url='/login/')
-@permissions_required(['app.delete_producer'], 'producers')
-def delete_producer(request, id):
-    producer = get_object_or_404(Producer, id=id)
+@api_view(['DELETE'])
+@permission_required(['app.delete_producer'])
+def delete_producer(request, producer_id):
+    producer = Producer.objects.get(id=producer_id)
     producer.delete()
-    return redirect('producers')
-
-
-@login_required(login_url='/login/')
-@permissions_required(['app.change_producer'], 'producers')
-def edit_producer(request, id):
-    producer = get_object_or_404(Producer, id=id)
-    if request.method == 'POST':
-        form = ProducerInsertOrUpdateForm(request.POST, request.FILES, instance=producer)
-        if form.is_valid():
-            message = f"Producer '{producer.name}' edited successfully!"
-            messages.success(request, message)
-            form.save()
-            return redirect('producers')
-    else:
-        form = ProducerInsertOrUpdateForm(instance=producer)
     
-    return render(request, 'editproducer.html', {'form': form, 'producer': producer})
+    return Response(status=status.HTTP_200_OK)
 
+@api_view(['PUT'])
+@permission_required(['app.change_producer'])
+def edit_producer(request, producer_id):
+    producer = get_object_or_404(Producer, id=producer_id)
+
+    data = request.data.copy()
+    logo = request.FILES.get('logo')  # Captura o ficheiro enviado (se existir)
+
+    # Atualiza o produtor
+    serializer = ProducerSerializer(instance=producer, data=data, partial=True)
+
+    if serializer.is_valid():
+
+        if logo:
+            producer.logo = logo
+            producer.save()
+
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 """
 GENRE OBJECT
 """

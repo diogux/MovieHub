@@ -32,11 +32,11 @@ export class ActorService {
   }
 
   deleteActor(id: number): Observable<Actor>{
-    return this.http.delete<Actor>(`${this.baseUrl}/${id}/delete`, {withCredentials: true})
+    return this.http.delete<Actor>(`${this.baseUrl}/${id}/del`, {withCredentials: true})
   }
 
   editActor(formData: FormData, actorId: number): Observable<any>{
-    return this.http.put(`${this.baseUrl}/${actorId}/update`, formData, {withCredentials: true})
+    return this.http.put(`${this.baseUrl}/${actorId}/edit`, formData, {withCredentials: true})
   }
   
 

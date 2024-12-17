@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Movie } from '../../models/movie';
 import { MovieService } from '../../services/movie.service';
 import { Producer } from '../../models/producer';
 import { Actor } from '../../models/actor';

@@ -68,4 +68,20 @@ export class ActorDetailsComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  onDeleteActor(id: number | undefined): void {
+    if (!id) {
+      console.error('ID do actor inválido:', id);
+      return;
+    }
+    this.actorService.deleteActor(id).subscribe(
+      (response) => {
+        console.log('Actor deletado com sucesso:', response);
+        this.location.back(); // Redireciona após sucesso
+      },
+      (error) => {
+        console.error('Erro ao deletar actor:', error);
+      }
+    );
+  }
 }
