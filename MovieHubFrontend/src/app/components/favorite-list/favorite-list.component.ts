@@ -18,16 +18,30 @@ export class FavoriteListComponent {
 
   constructor(private favoritesService: FavoritesService, private auth: AuthService) { 
     console.log("Logged In: "+this.auth.is_logged_in())
+    this.isLoggedIn = this.auth.is_logged_in();
+    this.get_favorites();
   }
 
-  get_favorites(): number[] {
+  favorites: number[] = [];
+
+  get_favorites(): void {
     if (this.isLoggedIn) {
-      // Fetch favorites from the API
-      return [];
+      this.favoritesService.getFavorites().subscribe(favorites => {
+        this.favorites = favorites;
+        console.log(favorites)
+        const array = Object.values(favorites)[0];
+        if (Array.isArray(array)) {
+          console.log(array.length);
+          this.favorites = array;
+        } else {
+          console.error("Expected an array but got:", typeof array);
+        }
+      });
+    } else {
+
+      this.favorites = this.favoritesService.getFavorites_session();
+      };
     }
-    else{
-      return this.favoritesService.getFavorites_session();
-    }
-  }
+  
 
 }

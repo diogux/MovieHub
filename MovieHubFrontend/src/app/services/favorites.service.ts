@@ -10,6 +10,7 @@ export class FavoritesService{
 
 private sessionKey = 'favoriteMovies';
 private baseUrl = 'http://localhost:8000/api/favorites/toggle';
+private baseFavoritesUrl = 'http://localhost:8000/api/favorites';
 
   constructor(private http: HttpClient, private auth: AuthService) {
     console.log(auth.is_logged_in());
@@ -17,7 +18,7 @@ private baseUrl = 'http://localhost:8000/api/favorites/toggle';
 
   // Fetch favorites (SessionStorage for non-logged-in users)
   getFavorites(): Observable<number[]> {
-    return this.http.get<number[]>(this.baseUrl);
+    return this.http.get<number[]>(this.baseFavoritesUrl, { withCredentials: true });
   }
 
   // Add a movie to favorites
@@ -30,9 +31,9 @@ private baseUrl = 'http://localhost:8000/api/favorites/toggle';
     ).subscribe();
   }
 
-  // isFavorite(movieId: number): boolean {
-  //   return 
-  // }
+  isFavorite(movieId: number, favs: number[]): boolean {
+    return favs.includes(movieId);
+  }
 
 
 
