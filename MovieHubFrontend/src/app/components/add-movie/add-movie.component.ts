@@ -39,23 +39,63 @@ export class AddMovieComponent implements OnInit {
     private router: Router
 
 
-  ) { }
-
-  ngOnInit(): void {
-    // Initialize form
+  ) { 
     this.form = this.fb.group({
       title: ['', Validators.required],
       duration: ['', Validators.required],
-      producers: [[]], // Array of producers
-      actors: [[]], // Array of actors
+      producers: [[]], // Inicialmente vazio
+      actors: [[]],    // Inicialmente vazio
       release_date: ['', Validators.required],
-      genres: [[]], // Array of genres
+      genres: [[]],    // Inicialmente vazio
       synopsis: ['', Validators.required],
       score: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
       likes: [0],
-      poster : []
+      poster: [], 
+      
     });
+    
   }
+
+  ngOnInit(): void {
+    this.loadActors();
+    this.loadGenres();
+    this.loadProducers();
+  } 
+
+
+  loadActors(): void {
+    this.actorService.getActors().subscribe((actors) => this.actors = actors);
+  }
+  
+  loadGenres(): void {
+    this.genreService.getGenres().subscribe((genres) => this.genres = genres);
+  }
+  
+  loadProducers(): void {
+    this.producerService.getProducers().subscribe((producers) => this.producers = producers);
+  }
+  
+  onCheckboxChange(event: any, field: string): void {
+    const value = +event.target.value; // Converte o ID para número
+    const checked = event.target.checked;
+  
+    const currentValues: number[] = this.form.value[field] || [];
+  
+    if (checked) {
+      // Adiciona o ID se estiver selecionado
+      this.form.patchValue({
+        [field]: [...currentValues, value]
+      });
+    } else {
+      // Remove o ID se estiver desmarcado
+      this.form.patchValue({
+        [field]: currentValues.filter(id => id !== value)
+      });
+    }
+  }
+  
+
+
 
   addMovie(): void {
     if (this.form.invalid) {
@@ -74,7 +114,7 @@ export class AddMovieComponent implements OnInit {
       next: (movie) => {
         this.loading = false;
         this.resetForm();
-        this.loadMovies();
+        this.loadData();
       },
       error: (err) => {
         console.error('Error adding movie:', err);
@@ -83,16 +123,22 @@ export class AddMovieComponent implements OnInit {
     });
   }
 
+  posterPreview: string | null = null;
+
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
+  
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      this.form.patchValue({ poster: file });
-      this.form.get('poster')?.markAsTouched();
-      console.log(file);
+  
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.posterPreview = reader.result as string; // Certifica-te de usar 'string' como tipo aqui
+      };
+      reader.readAsDataURL(file);
     }
   }
-
+  
 
   private resetForm(): void {
     this.form.reset({
@@ -109,7 +155,7 @@ export class AddMovieComponent implements OnInit {
     });
   }
 
-  private loadMovies(): void {
+  private loadData(): void {
     this.movieService.getMovies().subscribe((movies) => {
       this.movies = movies;
     });
@@ -127,23 +173,25 @@ export class AddMovieComponent implements OnInit {
 
   submit(): void {
     if (this.form.invalid) {
-      console.log("Form is invalid");
+      console.log("Formulário inválido");
       return;
     }
   
     const formData = new FormData();
   
-    // Append form fields to FormData
-    Object.keys(this.form.value).forEach(key => {
+    // Mapear valores para o FormData
+    Object.keys(this.form.value).forEach((key) => {
       const value = this.form.value[key];
+  
       if (key === 'poster' && value) {
-        formData.append('poster', value); // Append file
+        formData.append('poster', value); // Anexar ficheiro
+      } else if (Array.isArray(value)) {
+        // Converte arrays em strings compatíveis
+        formData.append(key, JSON.stringify(value));
       } else {
         formData.append(key, value);
       }
     });
-
-
   
     this.http.post("http://localhost:8000/api/movies/add/", formData, {
       withCredentials: true
