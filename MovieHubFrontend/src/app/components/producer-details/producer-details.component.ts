@@ -24,13 +24,13 @@ export class ProducerDetailsComponent implements OnInit {
   baseUrl = environment.pictureUrl;
   private producerService: ProducerService = inject(ProducerService);
   movies: any;
-  hasPerm:boolean = false;
+  hasPerm: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private auth:AuthService
-    ) {
+    private auth: AuthService
+  ) {
     this.hasPerm = this.auth.has_perm("change_producer");
   }
 
@@ -39,7 +39,7 @@ export class ProducerDetailsComponent implements OnInit {
     this.getMovies();
   }
 
-  onDeleteProducer(id : number | undefined): void {
+  onDeleteProducer(id: number | undefined): void {
     if (!id) {
       console.error('ID do produtor inválido:', id);
       return;
@@ -52,7 +52,8 @@ export class ProducerDetailsComponent implements OnInit {
       (error) => {
         console.error('Erro ao deletar produtor:', error);
       }
-    );}
+    );
+  }
 
   getProducer(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

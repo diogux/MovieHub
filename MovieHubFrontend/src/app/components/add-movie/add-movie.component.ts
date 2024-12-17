@@ -43,10 +43,10 @@ export class AddMovieComponent implements OnInit {
     this.form = this.fb.group({
       title: ['', Validators.required],
       duration: ['', Validators.required],
-      producers: [[]], // Inicialmente vazio
-      actors: [[]],    // Inicialmente vazio
+      producers: [[]], 
+      actors: [[]],   
       release_date: ['', Validators.required],
-      genres: [[]],    // Inicialmente vazio
+      genres: [[]],   
       synopsis: ['', Validators.required],
       score: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
       likes: [0],
@@ -61,7 +61,6 @@ export class AddMovieComponent implements OnInit {
     this.loadGenres();
     this.loadProducers();
   } 
-
 
   loadActors(): void {
     this.actorService.getActors().subscribe((actors) => this.actors = actors);
@@ -82,12 +81,10 @@ export class AddMovieComponent implements OnInit {
     const currentValues: number[] = this.form.value[field] || [];
   
     if (checked) {
-      // Adiciona o ID se estiver selecionado
       this.form.patchValue({
         [field]: [...currentValues, value]
       });
     } else {
-      // Remove o ID se estiver desmarcado
       this.form.patchValue({
         [field]: currentValues.filter(id => id !== value)
       });
@@ -99,14 +96,13 @@ export class AddMovieComponent implements OnInit {
 
   addMovie(): void {
     if (this.form.invalid) {
-      return; // Ensure the form is valid before submission
+      return; 
     }
 
     this.loading = true;
 
-    // Map form value to Movie object
     const movie: Movie = {
-      id: 0, // Assuming the backend will generate the ID
+      id: 0, 
       ...this.form.value,
     };
 
@@ -129,16 +125,14 @@ export class AddMovieComponent implements OnInit {
     const input = event.target as HTMLInputElement;
   
     if (input.files && input.files.length > 0) {
-      const file: File = input.files[0]; // Tipo explícito File
+      const file: File = input.files[0];
   
-      const reader: FileReader = new FileReader(); // Declaração de tipo para FileReader
+      const reader: FileReader = new FileReader(); 
       reader.onload = () => {
-        this.posterPreview = reader.result as string; // Garante que é tratado como string
+        this.posterPreview = reader.result as string; 
       };
   
-      reader.readAsDataURL(file); // Converte o ficheiro para Base64
-  
-      // Adicionar o ficheiro ao formulário
+      reader.readAsDataURL(file); 
       this.form.patchValue({ poster: file });
       this.form.get('poster')?.markAsTouched();
   
@@ -192,15 +186,14 @@ export class AddMovieComponent implements OnInit {
       const value = this.form.value[key];
   
       if (key === 'poster' && value) {
-        formData.append('poster', value); // Adicionar o ficheiro
+        formData.append('poster', value);
       } else if (Array.isArray(value) && value != null ) {
-        formData.append(key, JSON.stringify(value)); // Arrays como JSON
+        formData.append(key, JSON.stringify(value)); 
       } else if (value){
-        formData.append(key, value); // Outros campos
+        formData.append(key, value); 
       }
     });
   
-      // ** Log do conteúdo do FormData usando forEach **
   console.log('Dados enviados para a API:');
   formData.forEach((value, key) => {
     console.log(`${key}:`, value);

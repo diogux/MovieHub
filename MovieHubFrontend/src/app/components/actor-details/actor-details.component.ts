@@ -18,19 +18,19 @@ import { AuthService } from '../../services/auth.service';
 })
 
 export class ActorDetailsComponent implements OnInit {
-  actor: Actor | undefined = undefined; 
-  loading: boolean = true; 
-  baseUrl = environment.pictureUrl; 
+  actor: Actor | undefined = undefined;
+  loading: boolean = true;
+  baseUrl = environment.pictureUrl;
   private actorService: ActorService = inject(ActorService);
   movies: any;
-  hasPerm:boolean = false;
+  hasPerm: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     private auth: AuthService
   ) {
-      this.hasPerm = this.auth.has_perm("change_actor");
+    this.hasPerm = this.auth.has_perm("change_actor");
   }
 
   ngOnInit(): void {

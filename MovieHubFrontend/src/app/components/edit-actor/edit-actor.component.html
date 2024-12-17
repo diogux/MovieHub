@@ -1,69 +1,59 @@
 <div class="container mt-5">
-    <h1 class="mb-4" style="color: #7d1324;">Editar Ator - {{ form.get('name')?.value }}</h1>
-    <div class="card p-4" style="border: 1px solid #7d1324;">
-      <!-- Adiciona a diretiva [formGroup] -->
-      <form [formGroup]="form" (ngSubmit)="submit()" enctype="multipart/form-data">
-        <div class="row">
-          <!-- Campo Nome -->
-          <div class="col-md-6 mb-3">
-            <label for="name" class="form-label" style="color: #343a40; font-weight: 500;">Nome</label>
-            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Nome do ator" />
-          </div>
-  
-          <!-- Data de Nascimento -->
-          <div class="col-md-6 mb-3">
-            <label for="date_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Data de Nascimento</label>
-            <input type="date" class="form-control" id="date_of_birth" formControlName="date_of_birth" />
-          </div>
-  
-          <!-- Local de Nascimento -->
-          <div class="col-md-6 mb-3">
-            <label for="place_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Local de Nascimento</label>
-            <input
-              type="text"
-              class="form-control"
-              id="place_of_birth"
-              formControlName="place_of_birth"
-              placeholder="Local de nascimento"
-            />
-          </div>
-  
-          <!-- Data de Falecimento -->
-          <div class="col-md-6 mb-3">
-            <label for="date_of_death" class="form-label" style="color: #343a40; font-weight: 500;">Data de Falecimento</label>
-            <input type="date" class="form-control" id="date_of_death" formControlName="date_of_death" />
-          </div>
-  
-          <!-- Campo Biografia -->
-          <div class="col-md-12 mb-3">
-            <label for="biography" class="form-label" style="color: #343a40; font-weight: 500;">Biografia</label>
-            <textarea
-              class="form-control"
-              id="biography"
-              rows="5"
-              formControlName="biography"
-              placeholder="Escreve a biografia do ator..."
-            ></textarea>
-          </div>
-  
-          <!-- Upload de Imagem -->
-          <div class="col-md-12 mb-3">
-            <label for="picture" class="form-label" style="color: #343a40; font-weight: 500;">Imagem</label>
-            <input type="file" class="form-control" id="picture" (change)="onPictureChange($event)" />
-  
-            <!-- Pré-visualização da Imagem Atual ou Nova -->
-            <div *ngIf="picturePreview || currentPictureUrl" class="mt-3">
-              <p>Pré-visualização:</p>
-              <img [src]="picturePreview || currentPictureUrl" alt="Imagem do Ator" width="200" />
-            </div>
+  <h1 class="mb-4" style="color: #7d1324;">Edit Actor - {{ form.get('name')?.value }}</h1>
+  <div class="card p-4" style="border: 1px solid #7d1324;">
+    <!-- Adds the [formGroup] directive -->
+    <form [formGroup]="form" (ngSubmit)="submit()" enctype="multipart/form-data">
+      <div class="row">
+        <!-- Name Field -->
+        <div class="col-md-6 mb-3">
+          <label for="name" class="form-label" style="color: #343a40; font-weight: 500;">Name</label>
+          <input type="text" class="form-control" id="name" formControlName="name" placeholder="Actor's name" />
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="col-md-6 mb-3">
+          <label for="date_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Date of Birth</label>
+          <input type="date" class="form-control" id="date_of_birth" formControlName="date_of_birth" />
+        </div>
+
+        <!-- Place of Birth -->
+        <div class="col-md-6 mb-3">
+          <label for="place_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Place of
+            Birth</label>
+          <input type="text" class="form-control" id="place_of_birth" formControlName="place_of_birth"
+            placeholder="Place of birth" />
+        </div>
+
+        <!-- Date of Death -->
+        <div class="col-md-6 mb-3">
+          <label for="date_of_death" class="form-label" style="color: #343a40; font-weight: 500;">Date of Death</label>
+          <input type="date" class="form-control" id="date_of_death" formControlName="date_of_death" />
+        </div>
+
+        <!-- Biography Field -->
+        <div class="col-md-12 mb-3">
+          <label for="biography" class="form-label" style="color: #343a40; font-weight: 500;">Biography</label>
+          <textarea class="form-control" id="biography" rows="5" formControlName="biography"
+            placeholder="Write the actor's biography..."></textarea>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="col-md-12 mb-3">
+          <label for="picture" class="form-label" style="color: #343a40; font-weight: 500;">Image</label>
+          <input type="file" class="form-control" id="picture" (change)="onPictureChange($event)" />
+
+          <!-- Preview of Current or New Image -->
+          <div *ngIf="picturePreview || currentPictureUrl" class="mt-3">
+            <p>Preview:</p>
+            <img [src]="picturePreview || currentPictureUrl" alt="Actor's Image" width="200" />
           </div>
         </div>
-  
-        <!-- Botão Submeter -->
-        <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">
-          Guardar Alterações
-        </button>
-      </form>
-    </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">
+        Save Changes
+      </button>
+    </form>
   </div>
-  
+</div>

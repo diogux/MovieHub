@@ -1,64 +1,50 @@
 <div class="container mt-5">
-  <h1 class="mb-4" style="color: #7d1324;">Editar Filme - {{ form.get('title')?.value }}</h1>
+  <h1 class="mb-4" style="color: #7d1324;">Edit Movie - {{ form.get('title')?.value }}</h1>
   <div class="card p-4" style="border: 1px solid #7d1324;">
-    <!-- Adiciona a diretiva [formGroup] -->
+    <!-- Adds the [formGroup] directive -->
     <form [formGroup]="form" (ngSubmit)="submit()" enctype="multipart/form-data">
       <div class="row">
-        <!-- Campo Título -->
+        <!-- Title Field -->
         <div class="col-md-6 mb-3">
-          <label for="title" class="form-label" style="color: #343a40; font-weight: 500;">Título</label>
+          <label for="title" class="form-label" style="color: #343a40; font-weight: 500;">Title</label>
           <input type="text" class="form-control" id="title" formControlName="title" />
         </div>
 
-        <!-- Campo Duração -->
+        <!-- Duration Field -->
         <div class="col-md-6 mb-3">
-          <label for="duration" class="form-label" style="color: #343a40; font-weight: 500;">Duração</label>
+          <label for="duration" class="form-label" style="color: #343a40; font-weight: 500;">Duration</label>
           <input type="text" class="form-control" id="duration" formControlName="duration" />
         </div>
 
-        <!-- Campo Data de Lançamento -->
+        <!-- Release Date Field -->
         <div class="col-md-6 mb-3">
-          <label for="release_date" class="form-label" style="color: #343a40; font-weight: 500;">Data de Lançamento</label>
+          <label for="release_date" class="form-label" style="color: #343a40; font-weight: 500;">Release Date</label>
           <input type="date" class="form-control" id="release_date" formControlName="release_date" />
         </div>
 
-        <!-- Campo Sinopse -->
+        <!-- Synopsis Field -->
         <div class="col-md-12 mb-3">
-          <label for="synopsis" class="form-label" style="color: #343a40; font-weight: 500;">Sinopse</label>
-          <textarea
-            class="form-control"
-            id="synopsis"
-            rows="3"
-            formControlName="synopsis"
-            placeholder="Escreve a sinopse do filme..."
-          ></textarea>
+          <label for="synopsis" class="form-label" style="color: #343a40; font-weight: 500;">Synopsis</label>
+          <textarea class="form-control" id="synopsis" rows="3" formControlName="synopsis"
+            placeholder="Write the movie's synopsis..."></textarea>
         </div>
 
-        <!-- Campo Pontuação -->
+        <!-- Score Field -->
         <div class="col-md-6 mb-3">
-          <label for="score" class="form-label" style="color: #343a40; font-weight: 500;">Pontuação</label>
-          <input
-            type="number"
-            class="form-control"
-            id="score"
-            formControlName="score"
-            placeholder="Exemplo: 8.5"
-          />
+          <label for="score" class="form-label" style="color: #343a40; font-weight: 500;">Score</label>
+          <input type="number" class="form-control" id="score" formControlName="score" placeholder="Example: 8.5" />
         </div>
 
-        <!-- Produtores -->
+        <!-- Producers -->
         <div class="col-md-12 mb-3">
-          <label class="form-label" style="color: #343a40; font-weight: 500;">Produtores</label>
-          <div style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
+          <label class="form-label" style="color: #343a40; font-weight: 500;">Producers</label>
+          <div
+            style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
             <div *ngFor="let producer of producers">
               <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  [value]="producer.id"
+                <input type="checkbox" class="form-check-input" [value]="producer.id"
                   [checked]="form.value.producers.includes(producer.id)"
-                  (change)="onCheckboxChange($event, 'producers')"
-                />
+                  (change)="onCheckboxChange($event, 'producers')" />
                 <label class="form-check-label" style="color: black;">
                   {{ producer.name }}
                 </label>
@@ -67,19 +53,15 @@
           </div>
         </div>
 
-        <!-- Atores -->
+        <!-- Actors -->
         <div class="col-md-12 mb-3">
-          <label class="form-label" style="color: #343a40; font-weight: 500;">Atores</label>
-          <div style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
+          <label class="form-label" style="color: #343a40; font-weight: 500;">Actors</label>
+          <div
+            style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
             <div *ngFor="let actor of actors">
               <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  [value]="actor.id"
-                  [checked]="form.value.actors.includes(actor.id)"
-                  (change)="onCheckboxChange($event, 'actors')"
-                />
+                <input type="checkbox" class="form-check-input" [value]="actor.id"
+                  [checked]="form.value.actors.includes(actor.id)" (change)="onCheckboxChange($event, 'actors')" />
                 <label class="form-check-label" style="color: black;">
                   {{ actor.name }}
                 </label>
@@ -87,21 +69,17 @@
             </div>
           </div>
         </div>
-        
 
-        <!-- Géneros -->
+
+        <!-- Genres -->
         <div class="col-md-12 mb-3">
-          <label class="form-label" style="color: #343a40; font-weight: 500;">Géneros</label>
-          <div style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
+          <label class="form-label" style="color: #343a40; font-weight: 500;">Genres</label>
+          <div
+            style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
             <div *ngFor="let genre of genres">
               <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  [value]="genre.id"
-                  [checked]="form.value.genres.includes(genre.id)"
-                  (change)="onCheckboxChange($event, 'genres')"
-                />
+                <input type="checkbox" class="form-check-input" [value]="genre.id"
+                  [checked]="form.value.genres.includes(genre.id)" (change)="onCheckboxChange($event, 'genres')" />
                 <label class="form-check-label" style="color: black;">
                   {{ genre.name }}
                 </label>
@@ -110,22 +88,22 @@
           </div>
         </div>
 
-        <!-- Upload de Poster -->
+        <!-- Poster Upload -->
         <div class="col-md-12 mb-3">
           <label for="poster" class="form-label" style="color: #343a40; font-weight: 500;">Poster</label>
           <input type="file" class="form-control" id="poster" (change)="onPosterChange($event)" />
 
-          <!-- Pré-visualização do Poster Atual ou Novo -->
+          <!-- Preview of Current or New Poster -->
           <div *ngIf="posterPreview || currentPosterUrl">
-            <p>Pré-visualização:</p>
+            <p>Preview:</p>
             <img [src]="posterPreview || currentPosterUrl" alt="Poster Preview" width="200" />
           </div>
         </div>
       </div>
 
-      <!-- Botão Submeter -->
+      <!-- Submit Button -->
       <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">
-        Guardar Alterações
+        Save Changes
       </button>
     </form>
   </div>

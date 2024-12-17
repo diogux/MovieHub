@@ -18,35 +18,35 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.css'
 })
-export class MovieDetailsComponent{
+export class MovieDetailsComponent {
 
   movie: Movie | undefined = undefined;
   movieService: MovieService = inject(MovieService);
   loading: boolean = true;
   baseUrl = environment.pictureUrl;
   hasPerm: boolean = false;
-  
+
   constructor(private route: ActivatedRoute, private location: Location, private auth: AuthService) {
     this.hasPerm = this.auth.has_perm("change_movie");
     this.getMovie();
-   }
+  }
 
-   getMovie(): void {
+  getMovie(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.movieService.getMovie(id)
       .subscribe(movie => {
         this.movie = movie;
         this.loading = false;
       });
-    }
+  }
 
-    deleteMovie(): void {
-      const id = Number(this.route.snapshot.paramMap.get('id'));
-      this.movieService.deleteMovie(id)
-        .subscribe(() => {
-          this.location.back();
-        });
-      }
+  deleteMovie(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.movieService.deleteMovie(id)
+      .subscribe(() => {
+        this.location.back();
+      });
+  }
 
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Producer } from '../../models/producer';
 import { ProducerService } from '../../services/producer.service';
 import { CommonModule } from '@angular/common';
@@ -18,11 +18,11 @@ export class ProducerListComponent implements OnInit {
 
   producers: Producer[] = [];
   loading: boolean = true;
-  baseUrl = environment.pictureUrl;  
+  baseUrl = environment.pictureUrl;
   hasPerm: boolean = false;
 
 
-  constructor(private producerService: ProducerService, private auth: AuthService) { 
+  constructor(private producerService: ProducerService, private auth: AuthService) {
     this.hasPerm = this.auth.has_perm("add_producer");
   }
 

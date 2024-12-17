@@ -30,7 +30,7 @@ export class EditMovieComponent implements OnInit {
   actors: Actor[] = [];
   genres: Genre[] = [];
   movieId: string = '';
-  posterPreview: string | null = null; // Pré-visualização da nova imagem
+  posterPreview: string | null = null; 
   currentPosterUrl: string | null = null; 
   baseUrl = environment.pictureUrl;
 
@@ -66,7 +66,7 @@ export class EditMovieComponent implements OnInit {
   }
 
   loadMovieData(): void {
-    const movieIdNumber = Number(this.movieId); // Converte para número
+    const movieIdNumber = Number(this.movieId); 
   
     if (isNaN(movieIdNumber)) {
       console.error('ID do filme inválido:', this.movieId);
@@ -87,7 +87,6 @@ export class EditMovieComponent implements OnInit {
           likes: data.likes
         });
     
-        // Verifica e concatena a URL do poster
         this.currentPosterUrl = data.poster
           ? `http://localhost:8000${data.poster}`
           : null;
@@ -98,18 +97,16 @@ export class EditMovieComponent implements OnInit {
   }
   
   onCheckboxChange(event: any, field: string): void {
-    const value = +event.target.value; // Converte o ID para número
+    const value = +event.target.value; 
     const checked = event.target.checked;
   
     const currentValues = this.form.value[field] || [];
   
     if (checked) {
-      // Adiciona o ID se estiver selecionado
       this.form.patchValue({
         [field]: [...currentValues, value]
       });
     } else {
-      // Remove o ID se estiver desmarcado
       this.form.patchValue({
         [field]: currentValues.filter((id: number) => id !== value)
       });
@@ -130,7 +127,7 @@ export class EditMovieComponent implements OnInit {
       this.form.patchValue({ poster: file });
       const reader = new FileReader();
       reader.onload = () => {
-        this.posterPreview = reader.result as string; // Garantir que é tratado como string
+        this.posterPreview = reader.result as string; 
       };
       reader.readAsDataURL(file);
     }
@@ -139,30 +136,24 @@ export class EditMovieComponent implements OnInit {
 submit(): void {
   const formData = new FormData();
 
-  // Prepara os dados do formulário para envio
   Object.keys(this.form.value).forEach(key => {
     const value = this.form.value[key];
 
     if (key === 'poster' && value) {
-      // Adiciona o ficheiro de poster
       
       formData.append('poster', value);
     } else if (Array.isArray(value) && value != null) {
-      // Adiciona o array diretamente como uma string no formato desejado
       formData.append(key, `[${value}]`);
     } else if (value) {
-      // Adiciona os outros campos simples
       formData.append(key, value);
     }
   });
 
-  // ** Log do conteúdo do FormData usando forEach **
   console.log('Dados enviados para a API:');
   formData.forEach((value, key) => {
     console.log(`${key}:`, value);
   });
 
-  // Chama o serviço para editar o filme
   this.movieService.editMovie(formData, Number(this.movieId)).subscribe(
     (response) => {
       console.log('Filme atualizado com sucesso:', response);

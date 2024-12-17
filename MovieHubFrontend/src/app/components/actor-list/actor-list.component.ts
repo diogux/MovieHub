@@ -25,7 +25,7 @@ export class ActorListComponent implements OnInit {
 
   constructor(private actorService: ActorService, private auth: AuthService) {
     this.hasPerm = this.auth.has_perm("add_actor");
-   }
+  }
 
   ngOnInit(): void {
     this.actorService.getActors().subscribe(actors => {

@@ -17,7 +17,7 @@ export class EditActorComponent implements OnInit {
   form!: FormGroup;
   loading: boolean = false;
   actorId: string = '';
-  picturePreview: string | null = null; // Pré-visualização da nova imagem
+  picturePreview: string | null = null; 
   currentPictureUrl: string | null = null;
   baseUrl = environment.pictureUrl;
 
@@ -84,7 +84,6 @@ export class EditActorComponent implements OnInit {
   submit(): void {
     const formData = new FormData();
 
-    // Prepara os dados do formulário para envio
     Object.keys(this.form.value).forEach((key) => {
       const value = this.form.value[key];
       if (key === 'picture' && value) {
@@ -94,17 +93,15 @@ export class EditActorComponent implements OnInit {
       }
     });
 
-    // Log do FormData para depuração
     console.log('Dados enviados para a API:');
     formData.forEach((value, key) => {
       console.log(`${key}:`, value);
     });
 
-    // Chama o serviço para editar o ator
     this.actorService.editActor(formData, Number(this.actorId)).subscribe(
       (response) => {
         console.log('Ator atualizado com sucesso:', response);
-        this.router.navigate(['/actors', this.actorId]); // Redireciona após sucesso
+        this.router.navigate(['/actors', this.actorId]); 
       },
       (error) => {
         console.error('Erro ao atualizar ator:', error);

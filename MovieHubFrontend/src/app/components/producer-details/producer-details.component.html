@@ -1,76 +1,56 @@
 <div class="container mt-5" style="position: relative;">
-    <!-- <div class="d-flex justify-content-between align-items-center">
-      <h1 class="mb-4" style="color: #7d1324;">{{ producer?.name }}</h1>
-    </div> -->
-  
   <div class="d-flex justify-content-between align-items-center">
     <h1 class="mb-4" style="color: #7d1324;">{{ producer?.name }}</h1>
 
-    <div *ngIf="hasPerm"  class="d-flex justify-content-between align-items-center">
-      <!-- Mostrar Editar e Deletar apenas se o usuário estiver autenticado e tiver permissões -->
-      <a
-        [routerLink]="['/producers/', producer?.id, 'edit']"
-        class="btn btn-secondary me-2"
-      >
+    <div *ngIf="hasPerm" class="d-flex justify-content-between align-items-center">
+      <a [routerLink]="['/producers/', producer?.id, 'edit']" class="btn btn-secondary me-2">
         <i class="fas fa-edit"></i> Edit
       </a>
 
-      <button
-        class="btn btn-danger"
-        (click)="onDeleteProducer(producer?.id)"
-      >
+      <button class="btn btn-danger" (click)="onDeleteProducer(producer?.id)">
         <i class="fas fa-trash"></i> Delete
       </button>
     </div>
   </div>
-    <!-- Producer Details -->
-    <div class="row">
-      <!-- Producer Information -->
-      <div class="col-md-8">
-        <div class="card" style="border: 1px solid #7d1324;">
-          <div class="card-body" style="padding: 20px;">
-            <h5 class="card-title" style="color: #7d1324;">Information</h5>
-  
-            <!-- Full Name -->
-            <div class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
-              <strong>Full name:</strong> {{ producer?.name }}
+  <!-- Producer Details -->
+  <div class="row">
+    <!-- Producer Information -->
+    <div class="col-md-8">
+      <div class="card" style="border: 1px solid #7d1324;">
+        <div class="card-body" style="padding: 20px;">
+          <h5 class="card-title" style="color: #7d1324;">Information</h5>
+
+          <!-- Full Name -->
+          <div class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+            <strong>Full name:</strong> {{ producer?.name }}
+          </div>
+
+          <!-- Date of Birth -->
+          <div class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+            <strong>Date of Birth:</strong> {{ producer?.date_of_birth }}
+          </div>
+
+          <!-- Date of Death -->
+          <div *ngIf="producer?.date_of_death" class="card-text"
+            style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+            <strong>Date of Death:</strong> {{ producer?.date_of_death }}
+          </div>
+
+          <!-- Biography -->
+          <div class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+            <strong>Biography:</strong>
+            <div style="color: #495057; font-size: 1.1em; line-height: 1.6; margin-top: 8px;">
+              {{ producer?.biography }}
             </div>
-  
-            <!-- Date of Birth -->
-            <div class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
-              <strong>Date of Birth:</strong> {{ producer?.date_of_birth }}
-            </div>
-  
-            <!-- Date of Death -->
-            <div
-              *ngIf="producer?.date_of_death"
-              class="card-text"
-              style="color: #343a40; font-size: 1.1em; font-weight: 500;"
-            >
-              <strong>Date of Death:</strong> {{ producer?.date_of_death }}
-            </div>
-  
-            <!-- Biography -->
-            <div class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
-              <strong>Biography:</strong>
-              <div style="color: #495057; font-size: 1.1em; line-height: 1.6; margin-top: 8px;">
-                {{ producer?.biography }}
-              </div>
-            </div>
-  
-            <!-- Movies List -->
-            <div class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
-              <strong>Movies:</strong>
-              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-                <ng-container *ngIf="movies && movies.length > 0; else noMovies">
-                  <a
-                    *ngFor="let movie of movies"
-                    [routerLink]="['/movies', movie.id]"
-                    style="text-decoration: none;"
-                  >
-                    <span
-                      class="badge badge-pill"
-                      style="
+          </div>
+
+          <!-- Movies List -->
+          <div class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+            <strong>Movies:</strong>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+              <ng-container *ngIf="movies && movies.length > 0; else noMovies">
+                <a *ngFor="let movie of movies" [routerLink]="['/movies', movie.id]" style="text-decoration: none;">
+                  <span class="badge badge-pill" style="
                         padding: 8px 12px;
                         background-color: #7d1324;
                         color: white;
@@ -79,41 +59,34 @@
                         border-radius: 15px;
                         transition: background-color 0.3s;
                         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                      "
-
-                    >
-                      {{ movie.title }}
-                    </span>
-                  </a>
-                </ng-container>
-                <ng-template #noMovies>
-                  <span style="color: #6c757d; font-style: italic;">No movies available.</span>
-                </ng-template>
-              </div>
+                      ">
+                    {{ movie.title }}
+                  </span>
+                </a>
+              </ng-container>
+              <ng-template #noMovies>
+                <span style="color: #6c757d; font-style: italic;">No movies available.</span>
+              </ng-template>
             </div>
           </div>
         </div>
       </div>
-  
-      <!-- Producer Picture -->
-      <div class="col-md-4">
-        <img
-          *ngIf="producer?.picture"
-          [src]="producer?.picture ? baseUrl + producer?.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'"
-          [alt]="producer?.name"
-          class="img-fluid"
-          style="border-radius: 8px; width: 100%;"
-        />
-        <p *ngIf="!producer?.picture">No profile picture available.</p>
-      </div>
+    </div>
+
+    <!-- Producer Picture -->
+    <div class="col-md-4">
+      <img *ngIf="producer?.picture"
+        [src]="producer?.picture ? baseUrl + producer?.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'"
+        [alt]="producer?.name" class="img-fluid" style="border-radius: 8px; width: 100%;" />
+      <p *ngIf="!producer?.picture">No profile picture available.</p>
     </div>
   </div>
-  
-  <!-- Hover Effect -->
-  <style>
-    .heart:hover i {
-      transform: scale(1.2);
-      color: #ff4081;
-    }
-  </style>
-  
+</div>
+
+<!-- Hover Effect -->
+<style>
+  .heart:hover i {
+    transform: scale(1.2);
+    color: #ff4081;
+  }
+</style>

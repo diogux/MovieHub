@@ -47,12 +47,8 @@ toggleFavorite(movieId: number): void {
   }
 }
 
-
-
   isMovieFavorite(movieId: number): boolean {
     if (this.isLoggedIn) {
-      // Check if the movie is favorited by the logged-in user
-      // return this.favoritesService.isFavorite(movieId, this.favorites);
       return this.favorites.includes(movieId);
     }
     else{

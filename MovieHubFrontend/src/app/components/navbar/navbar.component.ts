@@ -23,56 +23,41 @@ export class NavbarComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private auth: AuthService
-  ){}
+  ) { }
   ngOnInit(): void {
-    // console.log("nav")
-    // if (this.auth.is_logged_in()){
-    //   this.himessage = `Hi diogu}`;}
-    // else{
 
-    // this.himessage = '';
+    this.auth.getUserPermissions()
 
-    // }  
-      console.log(this.auth.getUserPermissions())
-
-      console.log(this.auth.is_logged_in())
-      Emitters.authEmitter.subscribe(
-        (auth: boolean) => {
-          this.authenticated = auth;
-          if (this.authenticated == true){
-            this.http.get(this.baseUrl+ 'user', {withCredentials : true}).subscribe(
-              (res : any) => {
-                // this.auth.set_logged_in();
-                this.himessage = `Hi ${res.username}`;
-                console.log(res)
-              }
-            )
-          }
+    this.auth.is_logged_in()
+    Emitters.authEmitter.subscribe(
+      (auth: boolean) => {
+        this.authenticated = auth;
+        if (this.authenticated == true) {
+          this.http.get(this.baseUrl + 'user', { withCredentials: true }).subscribe(
+            (res: any) => {
+              this.himessage = `Hi ${res.username}`;
+            }
+          )
         }
-      );
-      // let perms = this.getUserPermissions()
-      // console.log(perms)
+      }
+    );
+
   }
 
-  logout():void{
-    this.http.post(this.baseUrl +'logout', {}, {withCredentials:true})
-    .subscribe(()=> this.authenticated = false);
+  logout(): void {
+    this.http.post(this.baseUrl + 'logout', {}, { withCredentials: true })
+      .subscribe(() => this.authenticated = false);
     this.auth.set_logged_out();
   }
 
   getUserPermissions(): void {
-    // Subscribing to the authEmitter to check if user is authenticated
     Emitters.authEmitter.subscribe((auth: boolean) => {
       this.authenticated = auth;
 
-      // If authenticated, fetch user data
       if (this.authenticated) {
         this.http.get<any>(this.baseUrl + 'user', { withCredentials: true }).subscribe(
           (res) => {
-            // Extraindo as permissões de grupos
             const groupPermissions = res.group_permissions;
-            console.log(groupPermissions);  // Exibe as permissões no console
-            // Agora podemos fazer algo com as permissões (ex: exibir no frontend)
             return groupPermissions;
           },
           (error) => {

@@ -1,61 +1,44 @@
 <div class="container mt-5" style="position: relative;">
- <div class="d-flex justify-content-between align-items-center">
+  <div class="d-flex justify-content-between align-items-center">
     <h1 class="mb-4" style="color: #7d1324;">{{ actor?.name }}</h1>
-    
-    <!-- Verifica permissões para exibir os botões -->
     <div *ngIf="hasPerm">
-      <!-- Botão de Editar -->
-      <a
-        [routerLink]="['/actors/', actor?.id, 'edit']"
-        class="btn btn-secondary me-2"
-      >
+      <a [routerLink]="['/actors/', actor?.id, 'edit']" class="btn btn-secondary me-2">
         <i class="fas fa-edit"></i> Edit
       </a>
-
-      <!-- Botão de Deletar -->
-      <button
-        (click)="onDeleteActor(actor?.id)"
-        class="btn btn-danger"
-      >
+      <button (click)="onDeleteActor(actor?.id)" class="btn btn-danger">
         <i class="fas fa-trash"></i> Delete
       </button>
     </div>
   </div>
-  
-    <!-- Actor Details -->
-    <div class="row">
-      <!-- Actor Information -->
-      <div class="col-md-8">
-        <div class="card" style="border: 1px solid #7d1324;">
-          <div class="card-body" style="padding: 20px;">
-            <h5 class="card-title" style="color: #7d1324;">Information</h5>
-  
-            <p class="card-text">
-              <strong>Full name:</strong> {{ actor?.name }}
-            </p>
-            <p class="card-text">
-              <strong>Date of Birth:</strong> {{ actor?.date_of_birth }}
-            </p>
-            <p class="card-text">
-              <strong>Place of Birth:</strong> {{ actor?.place_of_birth }}
-            </p>
-            <p *ngIf="actor?.date_of_death" class="card-text">
-              <strong>Date of Death:</strong> {{ actor?.date_of_death }}
-            </p>
-  
-            <!-- Movies List -->
-            <div class="card-text">
-                <strong>Movies:</strong>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-                <ng-container *ngIf="movies && movies.length > 0; else noMovies">
-                    <a
-                    *ngFor="let movie of movies"
-                    [routerLink]="['/movies', movie.id]"
-                    style="text-decoration: none;"
-                    >
-                    <span
-                        class="badge badge-pill"
-                        style="
+
+  <!-- Actor Details -->
+  <div class="row">
+    <!-- Actor Information -->
+    <div class="col-md-8">
+      <div class="card" style="border: 1px solid #7d1324;">
+        <div class="card-body" style="padding: 20px;">
+          <h5 class="card-title" style="color: #7d1324;">Information</h5>
+
+          <p class="card-text">
+            <strong>Full name:</strong> {{ actor?.name }}
+          </p>
+          <p class="card-text">
+            <strong>Date of Birth:</strong> {{ actor?.date_of_birth }}
+          </p>
+          <p class="card-text">
+            <strong>Place of Birth:</strong> {{ actor?.place_of_birth }}
+          </p>
+          <p *ngIf="actor?.date_of_death" class="card-text">
+            <strong>Date of Death:</strong> {{ actor?.date_of_death }}
+          </p>
+
+          <!-- Movies List -->
+          <div class="card-text">
+            <strong>Movies:</strong>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+              <ng-container *ngIf="movies && movies.length > 0; else noMovies">
+                <a *ngFor="let movie of movies" [routerLink]="['/movies', movie.id]" style="text-decoration: none;">
+                  <span class="badge badge-pill" style="
                         padding: 8px 12px;
                         background-color: #7d1324;
                         color: white;
@@ -64,50 +47,43 @@
                         border-radius: 15px;
                         transition: background-color 0.3s;
                         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                        "
-
-                    >
-                        {{ movie.title }}
-                    </span>
-                    </a>
-                </ng-container>
-                <ng-template #noMovies>
-                    <span style="color: #6c757d; font-style: italic;">No movies available.</span>
-                </ng-template>
-                </div>
+                        ">
+                    {{ movie.title }}
+                  </span>
+                </a>
+              </ng-container>
+              <ng-template #noMovies>
+                <span style="color: #6c757d; font-style: italic;">No movies available.</span>
+              </ng-template>
             </div>
-            
-    
-            <!-- Biography -->
-            <p *ngIf="actor?.biography" class="card-text" style="margin-top: 10px;">
-              <strong style="display: block; color: #343a40; font-size: 1.2em; margin-bottom: 5px;">
-                Biography:
-              </strong>
-              {{ actor?.biography }}
-            </p>
           </div>
+
+
+          <!-- Biography -->
+          <p *ngIf="actor?.biography" class="card-text" style="margin-top: 10px;">
+            <strong style="display: block; color: #343a40; font-size: 1.2em; margin-bottom: 5px;">
+              Biography:
+            </strong>
+            {{ actor?.biography }}
+          </p>
         </div>
       </div>
-  
-      <!-- Actor Picture -->
-      <div class="col-md-4">
-        <img
-          *ngIf="actor?.picture"
-          [src]="actor?.picture ? baseUrl + actor?.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'"
-          [alt]="actor?.name"
-          class="img-fluid"
-          style="border-radius: 8px; width: 100%;"
-        />
-        <p *ngIf="!actor?.picture">No profile picture available.</p>
-      </div>
+    </div>
+
+    <!-- Actor Picture -->
+    <div class="col-md-4">
+      <img *ngIf="actor?.picture"
+        [src]="actor?.picture ? baseUrl + actor?.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'"
+        [alt]="actor?.name" class="img-fluid" style="border-radius: 8px; width: 100%;" />
+      <p *ngIf="!actor?.picture">No profile picture available.</p>
     </div>
   </div>
-  
-  <!-- Hover Effect for Heart -->
-  <style>
-    .heart:hover i {
-      transform: scale(1.2);
-      color: #ff4081;
-    }
-  </style>
-  
+</div>
+
+<!-- Hover Effect for Heart -->
+<style>
+  .heart:hover i {
+    transform: scale(1.2);
+    color: #ff4081;
+  }
+</style>

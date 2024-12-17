@@ -1,74 +1,76 @@
 <div class="container mt-5">
-    <h1 class="mb-4" style="color: #7d1324;">Add New Actor</h1>
-    <div class="shadow rounded p-5 bg-white">
-      <form [formGroup]="actorForm" (submit)="submitForm()" enctype="multipart/form-data">
-        <div class="row">
-          <!-- Name -->
-          <div class="col-md-6 mb-3">
-            <label for="name" class="form-label" style="color: #343a40; font-weight: 500;">Name</label>
-            <input formControlName="name" id="name" class="form-control" placeholder="Actor Name" required>
-          </div>
-  
-          <!-- Date of Birth -->
-          <div class="col-md-6 mb-3">
-            <label for="date_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Date of Birth</label>
-            <input formControlName="date_of_birth" id="date_of_birth" type="date" class="form-control" required>
-          </div>
-  
-          <!-- Place of Birth -->
-          <div class="col-md-6 mb-3">
-            <label for="place_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Place of Birth</label>
-            <input formControlName="place_of_birth" id="place_of_birth" class="form-control" placeholder="Place of Birth" required>
-          </div>
-  
-          <!-- Date of Death -->
-          <div class="col-md-6 mb-3">
-            <label for="date_of_death" class="form-label" style="color: #343a40; font-weight: 500;">Date of Death</label>
-            <input formControlName="date_of_death" id="date_of_death" type="date" class="form-control">
-          </div>
-  
-          <!-- Biography -->
-          <div class="col-12 mb-3">
-            <label for="biography" class="form-label" style="color: #343a40; font-weight: 500;">Biography</label>
-            <textarea formControlName="biography" id="biography" rows="3" class="form-control" placeholder="Short biography"></textarea>
-          </div>
-  
-          <!-- Picture -->
-          <div class="col-md-6 mb-3">
-            <label for="picture" class="form-label" style="color: #343a40; font-weight: 500;">Picture</label>
-            <input id="picture" type="file" class="form-control" (change)="onFileChange($event)">
-          </div>
+  <h1 class="mb-4" style="color: #7d1324;">Add New Actor</h1>
+  <div class="shadow rounded p-5 bg-white">
+    <form [formGroup]="actorForm" (submit)="submitForm()" enctype="multipart/form-data">
+      <div class="row">
+        <!-- Name -->
+        <div class="col-md-6 mb-3">
+          <label for="name" class="form-label" style="color: #343a40; font-weight: 500;">Name</label>
+          <input formControlName="name" id="name" class="form-control" placeholder="Actor Name" required>
         </div>
-  
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">
-          Save Actor
-        </button>
-      </form>
-  
-      <!-- Success Message -->
-      <div *ngIf="successMessage" class="alert alert-success mt-3">
-        {{ successMessage }}
+
+        <!-- Date of Birth -->
+        <div class="col-md-6 mb-3">
+          <label for="date_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Date of Birth</label>
+          <input formControlName="date_of_birth" id="date_of_birth" type="date" class="form-control" required>
+        </div>
+
+        <!-- Place of Birth -->
+        <div class="col-md-6 mb-3">
+          <label for="place_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Place of
+            Birth</label>
+          <input formControlName="place_of_birth" id="place_of_birth" class="form-control" placeholder="Place of Birth"
+            required>
+        </div>
+
+        <!-- Date of Death -->
+        <div class="col-md-6 mb-3">
+          <label for="date_of_death" class="form-label" style="color: #343a40; font-weight: 500;">Date of Death</label>
+          <input formControlName="date_of_death" id="date_of_death" type="date" class="form-control">
+        </div>
+
+        <!-- Biography -->
+        <div class="col-12 mb-3">
+          <label for="biography" class="form-label" style="color: #343a40; font-weight: 500;">Biography</label>
+          <textarea formControlName="biography" id="biography" rows="3" class="form-control"
+            placeholder="Short biography"></textarea>
+        </div>
+
+        <!-- Picture -->
+        <div class="col-md-6 mb-3">
+          <label for="picture" class="form-label" style="color: #343a40; font-weight: 500;">Picture</label>
+          <input id="picture" type="file" class="form-control" (change)="onFileChange($event)">
+        </div>
       </div>
-  
-      <!-- Error Message -->
-      <div *ngIf="errors.message" class="alert alert-danger mt-3">
-        {{ errors.message }}
-      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">
+        Save Actor
+      </button>
+    </form>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="alert alert-success mt-3">
+      {{ successMessage }}
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errors.message" class="alert alert-danger mt-3">
+      {{ errors.message }}
     </div>
   </div>
-  
-  <style>
-    .form-control {
-      border: 1px solid #7d1324;
-      padding: 10px;
-      font-size: 1.1em;
-      color: #343a40;
-    }
-  
-    .form-control:focus {
-      border-color: #7d1324;
-      box-shadow: 0 0 5px rgba(125, 19, 36, 0.5);
-    }
-  </style>
-  
+</div>
+
+<style>
+  .form-control {
+    border: 1px solid #7d1324;
+    padding: 10px;
+    font-size: 1.1em;
+    color: #343a40;
+  }
+
+  .form-control:focus {
+    border-color: #7d1324;
+    box-shadow: 0 0 5px rgba(125, 19, 36, 0.5);
+  }
+</style>

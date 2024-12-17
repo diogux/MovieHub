@@ -1,48 +1,39 @@
-
 <div class="col-lg-10 mx-auto">
     <div class="shadow rounded p-5 bg-white">
         <div class="row">
             <div class="col-12 mb-4">
                 <h2>Login</h2>
             </div>
-            <div >
+            <div>
                 <div class="contact-form">
                     <form action="." method="post" [formGroup]="form" (submit)="submit()">
-                        <!-- {% csrf_token %} -->
                         <div class="form-group mb-4 pb-2">
                             <label class="form-label">Username</label>
                             <input formControlName="username" class="form-control" placeholder="Username" required>
                         </div>
                         <div class="form-group mb-4 pb-2">
                             <label class="form-label">Password</label>
-                            <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
-                            
+                            <input formControlName="password" type="password" class="form-control"
+                                placeholder="Password" required>
+
                         </div>
-                        
-                        <!-- {% if form.non_field_errors %}
-                            <div class="text-danger mt-2">
-                            {{ form.non_field_errors }}
-                            </div>
-                        {% endif %} -->
-                        <!-- <input type="hidden" name="next" value="{{ next }}" />
-                        <input type="submit" value="Log In" class="btn btn-primary" /> -->
                         <button class="btn btn-primary" type="submit">Log In</button>
 
                         <p class="mt-2">
-                            Don't have an account? 
+                            Don't have an account?
                             <a [routerLink]="'/register'">Sign Up</a>
-                          </p>
-                          
+                        </p>
+
                     </form>
                 </div>
             </div>
-            
+
         </div>
     </div>
-</div> 
+</div>
 
 <style>
     .form-control:focus {
-        border-color: rgba(224, 111, 108, 0.4); 
-      }
+        border-color: rgba(224, 111, 108, 0.4);
+    }
 </style>

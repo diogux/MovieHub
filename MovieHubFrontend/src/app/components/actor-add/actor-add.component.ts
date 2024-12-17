@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Actor } from '../../models/actor'; // Importe a interface Actor
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -33,7 +32,6 @@ export class ActorAddComponent {
     });
   }
 
-  // Método para lidar com mudanças no arquivo de imagem
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -41,7 +39,6 @@ export class ActorAddComponent {
     }
   }
 
-  // Método para enviar o formulário
   submitForm(): void {
     if (this.actorForm.invalid) {
       console.log("Formulário inválido");
@@ -50,26 +47,23 @@ export class ActorAddComponent {
 
     const formData = new FormData();
 
-    // Mapear valores do formulário para FormData
     Object.keys(this.actorForm.value).forEach(key => {
       const value = this.actorForm.value[key];
 
       if (key === 'picture' && value) {
-        formData.append('picture', value); // Adicionar o ficheiro
+        formData.append('picture', value); 
       } else if (Array.isArray(value) && value != null ) {
-        formData.append(key, JSON.stringify(value)); // Arrays como JSON
+        formData.append(key, JSON.stringify(value)); 
       } else if (value) {
-        formData.append(key, value); // Outros campos
+        formData.append(key, value); 
       }
     });
 
-    // ** Log do conteúdo do FormData usando forEach **
     console.log('Dados enviados para a API:');
     formData.forEach((value, key) => {
       console.log(`${key}:`, value);
     });
 
-    // Enviar para a API via HttpClient
     this.http.post('http://localhost:8000/api/actors/add/', formData, {
       withCredentials: true
     }).subscribe({
