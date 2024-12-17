@@ -2,9 +2,7 @@
  <div class="d-flex justify-content-between align-items-center">
     <h1 class="mb-4" style="color: #7d1324;">{{ actor?.name }}</h1>
     
-    <!-- Verifica permissões para exibir os botões -->
     <div *ngIf="hasPerm">
-      <!-- Botão de Editar -->
       <a
         [routerLink]="['/actors/', actor?.id, 'edit']"
         class="btn btn-secondary me-2"
@@ -12,7 +10,6 @@
         <i class="fas fa-edit"></i> Edit
       </a>
 
-      <!-- Botão de Deletar -->
       <button
         (click)="onDeleteActor(actor?.id)"
         class="btn btn-danger"

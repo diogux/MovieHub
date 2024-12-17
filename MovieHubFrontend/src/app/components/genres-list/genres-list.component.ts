@@ -16,12 +16,11 @@ import { environment } from '../../../environments/environment';
 export class GenresListComponent implements OnInit {
   genres: Genre[] = [];
   loading: boolean = true;
-  baseUrl =  environment.baseUrl;
+  baseUrl = environment.baseUrl;
 
-  constructor(private genreService: GenreService) {}
+  constructor(private genreService: GenreService) { }
 
   ngOnInit(): void {
-    // Use the getGenresWithMovies method to fetch genres with their associated movies
     this.genreService.getGenresWithMovies().subscribe(
       (genresWithMovies: Genre[]) => {
         this.genres = genresWithMovies;

@@ -3,7 +3,6 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 style="color: #7d1324; font-weight: bold;">Genres</h1>
   </div>
-
   <!-- Genres Grid -->
   <div class="row">
     <div *ngFor="let genre of genres" class="col-md-4 mb-4">
@@ -11,34 +10,19 @@
       <div class="card" style="border: 1px solid #7d1324; border-radius: 8px;">
         <div class="card-body" style="padding: 20px;">
           <!-- Genre Title -->
-          <h4
-            class="card-title"
-            style="color: #7d1324; font-weight: bold; margin-bottom: 8px;"
-          >
+          <h4 class="card-title" style="color: #7d1324; font-weight: bold; margin-bottom: 8px;">
             {{ genre.name }}
           </h4>
 
           <!-- Movies Count -->
-          <p
-            class="card-text"
-            style="color: #343a40; font-weight: 600; font-size: 0.9em; margin-bottom: 8px;"
-          >
+          <p class="card-text" style="color: #343a40; font-weight: 600; font-size: 0.9em; margin-bottom: 8px;">
             Movies: ({{ genre.movies.length }})
           </p>
 
           <!-- Movies List -->
-          <div
-            *ngIf="genre.movies && genre.movies.length > 0"
-            style="display: flex; flex-wrap: wrap; gap: 8px;"
-          >
-            <a
-              *ngFor="let movie of genre.movies"
-              [routerLink]="['/movies', movie.id]"
-              style="text-decoration: none;"
-            >
-              <span
-                class="badge badge-pill"
-                style="
+          <div *ngIf="genre.movies && genre.movies.length > 0" style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <a *ngFor="let movie of genre.movies" [routerLink]="['/movies', movie.id]" style="text-decoration: none;">
+              <span class="badge badge-pill" style="
                   background-color: #7d1324;
                   color: white;
                   padding: 8px 12px;
@@ -47,9 +31,7 @@
                   font-weight: 600;
                   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                   transition: background-color 0.3s;
-                "
-  
-              >
+                ">
                 {{ movie.title }}
               </span>
             </a>

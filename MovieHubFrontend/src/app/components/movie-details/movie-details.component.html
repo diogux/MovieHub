@@ -1,33 +1,24 @@
 <div class="container mt-5" style="position: relative;">
 
   <div class="d-flex justify-content-between align-items-center">
-
     <h1 class="mb-4" style="color: #7d1324;">{{ movie?.title }}</h1>
-    <div *ngIf="hasPerm" >
-    <!-- <div *ngIf="user.isAuthenticated && user.permissions.includes('change_movie') && user.permissions.includes('delete_movie')"> -->
+    <div *ngIf="hasPerm">
       <a [routerLink]="['/movies/', movie?.id, 'edit']" class="btn btn-secondary me-2">
         <i class="fas fa-edit"></i> Edit
       </a>
-
       <button class="btn btn-danger" (click)="deleteMovie()">
         <i class="fas fa-trash"></i> Delete
       </button>
     </div>
-    <!-- </div> -->
   </div>
-
-
-
   <div class="row">
     <div class="col-md-8">
       <div class="card" style="border: 1px solid #7d1324;">
         <div class="card-body" style="padding: 20px;">
           <h5 class="card-title" style="color: #7d1324;">Details</h5>
-
           <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
             <strong>Duration:</strong> {{ movie?.duration }} <strong>(min)</strong>
           </p>
-
           <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
             <strong>Release Date:</strong> {{ movie?.release_date | date }}
           </p>
@@ -35,9 +26,9 @@
           <!-- Producers -->
           <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
             <strong>Producers:</strong>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-              <a *ngFor="let producer of movie?.producers" [routerLink]="['/producers', producer.id]">
-                            <span class="badge badge-pill" style="
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+            <a *ngFor="let producer of movie?.producers" [routerLink]="['/producers', producer.id]">
+              <span class="badge badge-pill" style="
                                 padding: 8px 12px;
                                 background-color: #7d1324;
                                 color: white;
@@ -47,20 +38,18 @@
                                 transition: background-color 0.3s;
                                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                             " onmouseover="this.style.backgroundColor='#bb2d3b'"
-                            onmouseout="this.style.backgroundColor='#7d1324'">
-
-                  {{ producer.name }}
-                </span>
-              </a>
-            </div>
-
+                onmouseout="this.style.backgroundColor='#7d1324'">
+                {{ producer.name }}
+              </span>
+            </a>
+          </div>
 
           <!-- Genres -->
           <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
             <strong>Genres:</strong>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-              <a *ngFor="let genre of movie?.genres" [routerLink]="['/genres']">
-                            <span class="badge badge-pill" style="
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+            <a *ngFor="let genre of movie?.genres" [routerLink]="['/genres']">
+              <span class="badge badge-pill" style="
                                 padding: 8px 12px;
                                 background-color: #7d1324;
                                 color: white;
@@ -70,19 +59,18 @@
                                 transition: background-color 0.3s;
                                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                             " onmouseover="this.style.backgroundColor='#bb2d3b'"
-                            onmouseout="this.style.backgroundColor='#7d1324'">
-
-                  {{ genre.name }}
-                </span>
-              </a>
-            </div>
+                onmouseout="this.style.backgroundColor='#7d1324'">
+                {{ genre.name }}
+              </span>
+            </a>
+          </div>
 
           <!-- Actors -->
           <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
             <strong>Actors:</strong>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-              <a *ngFor="let actor of movie?.actors" [routerLink]="['/actors', actor.id]">
-                            <span class="badge badge-pill" style="
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+            <a *ngFor="let actor of movie?.actors" [routerLink]="['/actors', actor.id]">
+              <span class="badge badge-pill" style="
                                 padding: 8px 12px;
                                 background-color: #7d1324;
                                 color: white;
@@ -92,10 +80,10 @@
                                 transition: background-color 0.3s;
                                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                             " onmouseover="this.style.backgroundColor='#bb2d3b'"
-                            onmouseout="this.style.backgroundColor='#7d1324'">
-                  {{ actor.name }}
-                </span>               </a>
-            </div>
+                onmouseout="this.style.backgroundColor='#7d1324'">
+                {{ actor.name }}
+              </span> </a>
+          </div>
           <!-- </p> -->
 
           <!-- Synopsis -->
@@ -107,7 +95,8 @@
     </div>
 
     <div class="col-md-4">
-      <img *ngIf="movie" [src]="baseUrl + movie.poster" [alt]="movie.title + ' poster'" class="img-fluid" style="border-radius: 8px; width: 100%;" />
+      <img *ngIf="movie" [src]="baseUrl + movie.poster" [alt]="movie.title + ' poster'" class="img-fluid"
+        style="border-radius: 8px; width: 100%;" />
       <p *ngIf="!movie">No poster available.</p>
     </div>
   </div>

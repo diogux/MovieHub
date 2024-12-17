@@ -17,7 +17,7 @@ export class EditProducerComponent implements OnInit {
   form!: FormGroup;
   loading: boolean = false;
   producerId: string = '';
-  picturePreview: string | null = null; // Pré-visualização da nova imagem
+  picturePreview: string | null = null;
   currentPictureUrl: string | null = null;
   baseUrl = environment.pictureUrl;
 
@@ -81,7 +81,6 @@ export class EditProducerComponent implements OnInit {
   submit(): void {
     const formData = new FormData();
 
-    // Prepara os dados do formulário para envio
     Object.keys(this.form.value).forEach((key) => {
       const value = this.form.value[key];
       if (key === 'picture' && value) {
@@ -91,17 +90,9 @@ export class EditProducerComponent implements OnInit {
       }
     });
 
-    // Log do FormData para depuração
-    console.log('Dados enviados para a API:');
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
-
-    // Chama o serviço para editar o produtor
     this.producerService.editProducer(formData, Number(this.producerId)).subscribe(
       (response) => {
-        console.log('Produtor atualizado com sucesso:', response);
-        this.router.navigate(['/producers', this.producerId]); // Redireciona após sucesso
+        this.router.navigate(['/producers', this.producerId]);
       },
       (error) => {
         console.error('Erro ao atualizar produtor:', error);

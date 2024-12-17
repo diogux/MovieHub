@@ -1,55 +1,42 @@
 <div class="container mt-5">
-    <h1 class="mb-4" style="color: #7d1324;">Editar Produtor - {{ form.get('name')?.value }}</h1>
-    <div class="card p-4" style="border: 1px solid #7d1324;">
-      <form [formGroup]="form" (ngSubmit)="submit()" enctype="multipart/form-data">
-        <div class="row">
-          <!-- Nome -->
-          <div class="col-md-6 mb-3">
-            <label for="name" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="name" formControlName="name" />
-          </div>
-  
-          <!-- Data de Nascimento -->
-          <div class="col-md-6 mb-3">
-            <label for="date_of_birth" class="form-label">Data de Nascimento</label>
-            <input type="date" class="form-control" id="date_of_birth" formControlName="date_of_birth" />
-          </div>
-  
-          <!-- Data de Falecimento -->
-          <div class="col-md-6 mb-3">
-            <label for="date_of_death" class="form-label">Data de Falecimento</label>
-            <input type="date" class="form-control" id="date_of_death" formControlName="date_of_death" />
-          </div>
-  
-          <!-- Biografia -->
-          <div class="col-md-12 mb-3">
-            <label for="biography" class="form-label">Biografia</label>
-            <textarea
-              class="form-control"
-              id="biography"
-              rows="5"
-              formControlName="biography"
-              placeholder="Escreva a biografia do produtor..."
-            ></textarea>
-          </div>
-  
-          <!-- Upload de Imagem -->
-          <div class="col-md-12 mb-3">
-            <label for="picture" class="form-label">Imagem</label>
-            <input type="file" class="form-control" id="picture" (change)="onPictureChange($event)" />
-            <!-- Pré-visualização -->
-            <div *ngIf="picturePreview || currentPictureUrl" class="mt-3">
-              <p>Pré-visualização:</p>
-              <img [src]="picturePreview || currentPictureUrl" alt="Imagem do Produtor" width="200" />
-            </div>
+  <h1 class="mb-4" style="color: #7d1324;">Edit Producer - {{ form.get('name')?.value }}</h1>
+  <div class="card p-4" style="border: 1px solid #7d1324;">
+    <form [formGroup]="form" (ngSubmit)="submit()" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="date_of_birth" class="form-label">Date of Birth</label>
+          <input type="date" class="form-control" id="date_of_birth" formControlName="date_of_birth" />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="date_of_death" class="form-label">Date of Death</label>
+          <input type="date" class="form-control" id="date_of_death" formControlName="date_of_death" />
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label for="biography" class="form-label">Biography</label>
+          <textarea class="form-control" id="biography" rows="5" formControlName="biography"
+            placeholder="Write the producer's biography..."></textarea>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label for="picture" class="form-label">Picture</label>
+          <input type="file" class="form-control" id="picture" (change)="onPictureChange($event)" />
+          <div *ngIf="picturePreview || currentPictureUrl" class="mt-3">
+            <p>Preview:</p>
+            <img [src]="picturePreview || currentPictureUrl" alt="Producer's picture" width="200" />
           </div>
         </div>
-  
-        <!-- Botão Submeter -->
-        <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">
-          Guardar Alterações
-        </button>
-      </form>
-    </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">
+        Save Changes
+      </button>
+    </form>
   </div>
-  
+</div>

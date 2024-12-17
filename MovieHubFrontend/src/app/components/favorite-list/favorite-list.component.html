@@ -1,64 +1,55 @@
 <div *ngIf="!isLoggedIn" class="alert alert-danger alert-dismissible fade show" role="alert">
-    WARNING: You are not logged in, therefore this page is only temporary.
+  WARNING: You are not logged in, therefore this page is only temporary.
 </div>
 
+<div class="row">
+  <div *ngFor="let movie of favorites_list" class="col-md-4 mb-4">
+    <div class="card" style="border: 1px solid #7d1324; transition: transform 0.2s;">
+      <div class="card-body" style="padding: 20px;">
+        <h5 class="card-title" style="color: #7d1324;">{{ movie.title }}</h5>
+        <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+          <strong>Duration:</strong> {{ movie.duration }} <strong>(min)</strong>
+        </p>
+        <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+          <strong>Release Date:</strong> {{ movie.release_date }}
+        </p>
+        <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+          <strong>Genres:</strong>
+          <span *ngFor="let genre of movie.genres; let last = last">
+            {{ genre.name }}<span *ngIf="!last">, </span>
+          </span>
+        </p>
+        <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
+          {{ movie.synopsis | slice: 0:50 }}...
+        </p>
 
+        <!-- Like Button -->
+        <button (click)="toggleFavorite(movie.id)"
+          style="background: none; border: none; cursor: pointer; position: absolute; bottom: 20px; right: 20px;">
 
- <div class="row">
-      <div *ngFor="let movie of favorites_list" class="col-md-4 mb-4">
-        <div class="card" style="border: 1px solid #7d1324; transition: transform 0.2s;">
-          <div class="card-body" style="padding: 20px;">
-            <h5 class="card-title" style="color: #7d1324;">{{ movie.title }}</h5>
-            <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
-              <strong>Duration:</strong> {{ movie.duration }} <strong>(min)</strong>
-            </p>
-            <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
-              <strong>Release Date:</strong> {{ movie.release_date }}
-            </p>
-            <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
-              <strong>Genres:</strong>
-              <span *ngFor="let genre of movie.genres; let last = last">
-                {{ genre.name }}<span *ngIf="!last">, </span>
-              </span>
-            </p>
-            <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
-              {{ movie.synopsis | slice: 0:50 }}...
-            </p>
-  
-            <!-- Like Button -->
-            <button (click)="toggleFavorite(movie.id)" 
-            
-            style="background: none; border: none; cursor: pointer; position: absolute; bottom: 20px; right: 20px;">
-
-              <i
-                class="bi"
-                [ngClass]="{
+          <i class="bi" [ngClass]="{
                   'bi-heart-fill': isMovieFavorite(movie.id),
                   'bi-heart': !isMovieFavorite(movie.id)
-                }"
-                style="font-size: 35px; color: #7d1324;"
-              ></i>
-            </button>
-  
-            <!-- Details Button -->
-            <a [routerLink]="['/movies', movie.id]" title="Click to see movie details" class="btn btn-primary" style="background-color: #7d1324; border: none;">
-              Details
-            </a>
-          </div>
-        </div>
-      </div>
-  
-      <!-- No Movies Message -->
-      <p *ngIf="favorites_list.length === 0">No movies found.</p>
-    </div>
+                }" style="font-size: 35px; color: #7d1324;"></i>
+        </button>
 
-    
-  
-  <!-- Styling -->
-  <style>
-    button:hover i {
-      transform: scale(1.2);
-      color: #ff4081; /* Change color on hover */
-    }
-  </style>
-  
+        <!-- Details Button -->
+        <a [routerLink]="['/movies', movie.id]" title="Click to see movie details" class="btn btn-primary"
+          style="background-color: #7d1324; border: none;">
+          Details
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Movies Message -->
+  <p *ngIf="favorites_list.length === 0">No movies found.</p>
+</div>
+
+<!-- Styling -->
+<style>
+  button:hover i {
+    transform: scale(1.2);
+    color: #ff4081;
+  }
+</style>

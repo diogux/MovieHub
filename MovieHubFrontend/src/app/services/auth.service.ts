@@ -49,9 +49,7 @@ export class AuthService {
             const name = res.username;
             localStorage.setItem('name', name);
             const groupPermissions = res.group_permissions;
-            console.log(groupPermissions);  // Exibe as permissões no console
             localStorage.setItem('perms', groupPermissions.toString());
-            // Agora podemos fazer algo com as permissões (ex: exibir no frontend)
             this.permissions = groupPermissions;
             return groupPermissions;
           },

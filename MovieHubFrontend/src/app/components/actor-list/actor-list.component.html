@@ -1,51 +1,18 @@
- <div class="container">
-  <!-- Display Messages -->
-  <!-- <div *ngIf="messages.length > 0">
-    <div
-      *ngFor="let message of messages"
-      class="alert alert-dismissible fade show"
-      [ngClass]="{
-        'alert-success': message.tags === 'success',
-        'alert-danger': message.tags === 'warning',
-        'alert-info': message.tags === 'info'
-      }"
-      role="alert"
-    >
-      {{ message.text }}
-      <button
-        type="button"
-        class="btn-close ms-auto"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-      ></button>
-    </div>
-  </div> -->
-
-  <!-- Header and Search -->
+<div class="container">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 style="color: #7d1324" class="mb-0">
-     Actors
+      Actors
     </h1>
 
     <div *ngIf="hasPerm" class="d-flex align-items-center">
       <!-- Add Movie Button -->
       <h1 style="color: #7d1324">
-        <!-- <a *ngIf="isAuthenticated && hasPermission('add_movie')"[routerLink]="['/add-movie']"> -->
-          <a [routerLink]="'/actors/add'">
-            <i class="bi bi-plus-square-fill mt-1 mr-2" style="color: #7d1324"></i>
+        <a [routerLink]="'/actors/add'">
+          <i class="bi bi-plus-square-fill mt-1 mr-2" style="color: #7d1324"></i>
 
-          </a>
+        </a>
 
-        <!-- </a> -->
       </h1>
-
-      <!-- Search Form -->
-      <!-- <form (ngSubmit)="onSearch()" class="d-flex mb-0">
-        <div class="input-group">
-          <input [(ngModel)]="searchQuery" name="query" class="form-control" placeholder="Search movies" />
-          <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-      </form> -->
     </div>
   </div>
 
@@ -54,45 +21,29 @@
     <div *ngFor="let actor of actors" class="col-md-6 mb-3">
       <div class="card mb-3" style="max-width: 540px">
         <div class="row no-gutters align-items-center">
-          <div
-            class="col-md-4 d-flex justify-content-center align-items-center"
-          >
-            <a
-              [routerLink]="['/actors', actor.id]"
-              title="Click to see actor details"
-            >
-              <img
-                *ngIf="actor.picture"
+          <div class="col-md-4 d-flex justify-content-center align-items-center">
+            <a [routerLink]="['/actors', actor.id]" title="Click to see actor details">
+              <img *ngIf="actor.picture"
                 [src]="actor.picture ? baseUrl + actor.picture : 'https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png'"
-                class="card-img"
-                [alt]="actor.name"
-                style="
+                class="card-img" [alt]="actor.name" style="
                   object-fit: cover;
                   width: 150px;
                   height: 150px;
                   border-radius: 50%;
-                "
-              />
-              <img
-                *ngIf="!actor.picture"
+                " />
+              <img *ngIf="!actor.picture"
                 src="https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png"
-                class="card-img"
-                [alt]="actor.name"
-                style="
+                class="card-img" [alt]="actor.name" style="
                   object-fit: cover;
                   width: 150px;
                   height: 150px;
                   border-radius: 50%;
-                "
-              />
+                " />
             </a>
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <a
-                [routerLink]="['/actors', actor.id]"
-                title="Click to see actor details"
-              >
+              <a [routerLink]="['/actors', actor.id]" title="Click to see actor details">
                 <h5 class="card-title producer-name-on-card">{{ actor.name }}</h5>
               </a>
               <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
@@ -101,15 +52,11 @@
               <p class="card-text" style="color: #343a40; font-size: 1.1em; font-weight: 500;">
                 <strong>Date of Birth:</strong> {{ actor.date_of_birth }}
               </p>
-              <p
-                *ngIf="actor.date_of_death"
-                class="card-text"
-                style="color: #343a40; font-size: 1.1em; font-weight: 500;"
-              >
+              <p *ngIf="actor.date_of_death" class="card-text"
+                style="color: #343a40; font-size: 1.1em; font-weight: 500;">
                 <strong>Date of Death:</strong> {{ actor.date_of_death }}
               </p>
               <p class="card-text">
-                <!-- <small class="text-muted">Number of Movies: {{ actor.movies.length }}</small> -->
               </p>
             </div>
           </div>

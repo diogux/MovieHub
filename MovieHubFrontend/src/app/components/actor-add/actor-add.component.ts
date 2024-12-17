@@ -33,7 +33,6 @@ export class ActorAddComponent {
     });
   }
 
-  // Método para lidar com mudanças no arquivo de imagem
   onFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -41,16 +40,13 @@ export class ActorAddComponent {
     }
   }
 
-  // Método para enviar o formulário
   submitForm(): void {
     if (this.actorForm.invalid) {
-      console.log("Formulário inválido");
       return;
     }
 
     const formData = new FormData();
 
-    // Mapear valores do formulário para FormData
     Object.keys(this.actorForm.value).forEach(key => {
       const value = this.actorForm.value[key];
 
@@ -63,13 +59,9 @@ export class ActorAddComponent {
       }
     });
 
-    // ** Log do conteúdo do FormData usando forEach **
-    console.log('Dados enviados para a API:');
     formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
     });
 
-    // Enviar para a API via HttpClient
     this.http.post('http://localhost:8000/api/actors/add/', formData, {
       withCredentials: true
     }).subscribe({
