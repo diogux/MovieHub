@@ -166,7 +166,8 @@ submit(): void {
   this.movieService.editMovie(formData, Number(this.movieId)).subscribe(
     (response) => {
       console.log('Filme atualizado com sucesso:', response);
-      this.router.navigate(['/movies']); // Redireciona após sucesso
+      this.router.navigate(['/movies', this.movieId ]);
+
     },
     (error) => {
       console.error('Erro ao atualizar filme:', error);

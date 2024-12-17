@@ -104,7 +104,7 @@ export class EditActorComponent implements OnInit {
     this.actorService.editActor(formData, Number(this.actorId)).subscribe(
       (response) => {
         console.log('Ator atualizado com sucesso:', response);
-        this.router.navigate(['/actors']); // Redireciona após sucesso
+        this.router.navigate(['/actors', this.actorId]); // Redireciona após sucesso
       },
       (error) => {
         console.error('Erro ao atualizar ator:', error);

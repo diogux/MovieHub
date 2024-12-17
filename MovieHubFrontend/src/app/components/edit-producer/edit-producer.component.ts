@@ -101,7 +101,7 @@ export class EditProducerComponent implements OnInit {
     this.producerService.editProducer(formData, Number(this.producerId)).subscribe(
       (response) => {
         console.log('Produtor atualizado com sucesso:', response);
-        this.router.navigate(['/producers']); // Redireciona após sucesso
+        this.router.navigate(['/producers', this.producerId]); // Redireciona após sucesso
       },
       (error) => {
         console.error('Erro ao atualizar produtor:', error);
