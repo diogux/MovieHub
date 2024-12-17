@@ -54,7 +54,7 @@ export class ProducerDetailsComponent implements OnInit {
   getMovies(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.producerService.getMovies(id).subscribe({
+      this.producerService.getProducerMovies(id).subscribe({
         next: (movies: Movie[]) => {
           this.movies = movies;
           this.loading = false;

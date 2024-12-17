@@ -230,7 +230,7 @@ getCookie(cookieName: string): string | null {
   }
 
   isAuthenticated(): Observable<boolean> {
-    const cookie = document.cookie;  // Or wherever you're storing the cookie
+    const cookie = document.cookie; 
     if (!cookie) {
       return new Observable<boolean>((observer) => observer.next(false));
     }

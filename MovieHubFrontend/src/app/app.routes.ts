@@ -12,14 +12,18 @@ import { ProducerDetailsComponent } from './components/producer-details/producer
 import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';
 import { AddMovieComponent } from './components/add-movie/add-movie.component';
 import { EditMovieComponent } from './components/edit-movie/edit-movie.component';
+import { ProducerAddComponent } from './components/producer-add/producer-add.component'
+import { ActorAddComponent } from './components/actor-add/actor-add.component';
 
 
 export const routes: Routes = [
 { path: '', component: HomeComponent },
 { path: 'producers', component: ProducerListComponent },
+{ path: 'producers/add', component: ProducerAddComponent},
 { path: 'producers/:id', component: ProducerDetailsComponent },
 
 { path: 'actors', component: ActorListComponent },
+{ path: 'actors/add', component: ActorAddComponent},
 { path: 'actors/:id', component: ActorDetailsComponent },
 
 { path: 'movies/add', component: AddMovieComponent },

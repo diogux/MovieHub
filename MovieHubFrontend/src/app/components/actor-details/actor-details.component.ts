@@ -52,7 +52,7 @@ export class ActorDetailsComponent implements OnInit {
   getMovies(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.actorService.getMovies(id).subscribe({
+      this.actorService.getActorMovies(id).subscribe({
         next: (movies: Movie[]) => {
           this.movies = movies;
           this.loading = false;

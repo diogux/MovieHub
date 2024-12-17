@@ -1,0 +1,64 @@
+<div class="container mt-5">
+    <h1 class="mb-4" style="color: #7d1324;">Add New Producer</h1>
+    <div class="shadow rounded p-5 bg-white">
+      <form [formGroup]="producerForm" (submit)="submitForm()" enctype="multipart/form-data">
+        <div class="row">
+          <!-- Name -->
+          <div class="col-md-6 mb-3">
+            <label for="name" class="form-label" style="color: #343a40; font-weight: 500;">Name</label>
+            <input formControlName="name" id="name" class="form-control" placeholder="Producer Name" required>
+          </div>
+  
+          <!-- Date of Birth -->
+          <div class="col-md-6 mb-3">
+            <label for="date_of_birth" class="form-label" style="color: #343a40; font-weight: 500;">Date of Birth</label>
+            <input formControlName="date_of_birth" id="date_of_birth" type="date" class="form-control" required>
+          </div>
+  
+          <!-- Biography -->
+          <div class="col-12 mb-3">
+            <label for="biography" class="form-label" style="color: #343a40; font-weight: 500;">Biography</label>
+            <textarea formControlName="biography" id="biography" rows="3" class="form-control"
+              placeholder="Short biography"></textarea>
+          </div>
+  
+          <!-- Movies (Checkbox List) -->
+          <!-- <div class="col-12 mb-3">
+            <label class="form-label" style="color: #343a40; font-weight: 500;">Movies</label>
+            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
+              <div *ngFor="let movie of movies" class="form-check">
+                <input type="checkbox" (change)="onCheckboxChange($event)" [value]="movie.id"
+                  [checked]="producerForm.value.movies.includes(movie.id)" class="form-check-input" [value]="movie.id"
+                  id="movie-{{movie.id}}">
+                <label class="form-check-label" for="movie-{{movie.id}}">
+                  {{ movie.title }}
+                </label>
+              </div>
+            </div>
+          </div>
+   -->
+          <!-- Picture -->
+          <div class="col-md-6 mb-3">
+            <label for="picture" class="form-label" style="color: #343a40; font-weight: 500;">Picture</label>
+            <input id="picture" type="file" class="form-control" (change)="onFileChange($event)">
+          </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">
+          Save Producer
+        </button>
+      </form>
+  
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success mt-3">
+        {{ successMessage }}
+      </div>
+  
+      <!-- Error Message -->
+      <div *ngIf="errors.message" class="alert alert-danger mt-3">
+        {{ errors.message }}
+      </div>
+    </div>
+  </div>
+  
