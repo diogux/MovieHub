@@ -70,23 +70,35 @@ def movie_details(request, movie_id):
     except Movie.DoesNotExist:
         return Response({"error": "Movie not found"}, status=status.HTTP_404_NOT_FOUND)
 
-@login_required(login_url='/login/')
-@permissions_required(['app.add_movie'], 'movies')
+# @login_required(login_url='/login/')
+# @permissions_required(['app.add_movie'], 'movies')
+# def add_movie(request):
+#     if request.method == 'POST':
+#         form = MovieInsertOrUpdateForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             message = 'Movie ' + form.cleaned_data['title'] + ' added successfully!'
+#             messages.success(request, message)
+#             return redirect('movies')
+#     else:
+#         form = MovieInsertOrUpdateForm()
+#     tparams = {
+#         'title': 'Add Movie',
+#         'form': form,
+#     }
+#     return render(request, 'addmovie.html', tparams)
+
+@api_view(['POST'])
+@permission_required(['app.add_movie'])
 def add_movie(request):
-    if request.method == 'POST':
-        form = MovieInsertOrUpdateForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            message = 'Movie ' + form.cleaned_data['title'] + ' added successfully!'
-            messages.success(request, message)
-            return redirect('movies')
-    else:
-        form = MovieInsertOrUpdateForm()
-    tparams = {
-        'title': 'Add Movie',
-        'form': form,
-    }
-    return render(request, 'addmovie.html', tparams)
+    """
+    Handles POST requests to create a new movie.
+    """
+    serializer = MovieSerializer(data=request.data)  # Validate input data
+    if serializer.is_valid():
+        serializer.save()  # Save movie if valid
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @login_required(login_url='/login/')
 @permissions_required(['app.delete_movie'], 'movies')

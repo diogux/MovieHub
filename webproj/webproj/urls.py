@@ -41,7 +41,7 @@ urlpatterns = [
 
     # MOVIES
     path('api/movies/', views.movies, name='movies'),
-    path('api/movies/add/', views.create_movie, name='add_movie'),
+    path('api/movies/add/', views.add_movie, name='add_movie'),
 
     path('api/movies/<int:movie_id>/', views.movie_details, name='movie_details'),
     path('movies/delete/<int:movie_id>/', views.delete_movie, name='delete_movie'),

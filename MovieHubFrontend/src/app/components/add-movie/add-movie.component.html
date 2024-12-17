@@ -1,0 +1,108 @@
+<div class="container mt-5">
+    <h1 class="mb-4" style="color: #7d1324;">Add New Movie</h1>
+    <div class="shadow rounded p-5 bg-white">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="form" (submit)="submit()" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    <div class="row">
+                        <!-- Title -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="title" style="color: #343a40; font-weight: 500;">Title</label>
+                            <input formControlName="title" id="title" class="form-control" placeholder="Movie Title" required>
+                            <!-- <div *ngIf="form.controls.title.invalid && form.controls.title.touched" class="invalid-feedback">
+                                Title is required.
+                            </div> -->
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="duration" style="color: #343a40; font-weight: 500;">Duration</label>
+                            <input formControlName="duration" id="duration" class="form-control" placeholder="Duration (e.g., 2h 30m)" required>
+                            <!-- <div *ngIf="form.controls.duration.invalid && form.controls.duration.touched" class="invalid-feedback">
+                                Duration is required.
+                            </div> -->
+                        </div>
+
+                        <!-- Producers -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="producers" style="color: #343a40; font-weight: 500;">Producers</label>
+                            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
+                                <div *ngFor="let producer of producers" class="form-check">
+                                    <input type="checkbox" [formControlName]="'producers'" [value]="producer.id" class="form-check-input" id="producer-{{producer.id}}">
+                                    <label class="form-check-label" for="producer-{{producer.id}}">{{producer.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actors -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="actors" style="color: #343a40; font-weight: 500;">Actors</label>
+                            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
+                                <div *ngFor="let actor of actors" class="form-check">
+                                    <input type="checkbox" [formControlName]="'actors'" [value]="actor.id" class="form-check-input" id="actor-{{actor.id}}">
+                                    <label class="form-check-label" for="actor-{{actor.id}}">{{actor.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Genres -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="genres" style="color: #343a40; font-weight: 500;">Genres</label>
+                            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #7d1324; padding: 10px; border-radius: 5px;">
+                                <div *ngFor="let genre of genres" class="form-check">
+                                    <input type="checkbox" [formControlName]="'genres'" [value]="genre.id" class="form-check-input" id="genre-{{genre.id}}">
+                                    <label class="form-check-label" for="genre-{{genre.id}}">{{genre.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Release Date -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="release_date" style="color: #343a40; font-weight: 500;">Release Date</label>
+                            <input formControlName="release_date" id="release_date" type="date" class="form-control" required>
+                            <!-- <div *ngIf="form.controls.release_date.invalid && form.controls.release_date.touched" class="invalid-feedback">
+                                Release date is required.
+                            </div> -->
+                        </div>
+
+                        <!-- Synopsis -->
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label" for="synopsis" style="color: #343a40; font-weight: 500;">Synopsis</label>
+                            <textarea formControlName="synopsis" id="synopsis" rows="3" class="form-control" placeholder="Synopsis" required></textarea>
+                            <!-- <div *ngIf="form.controls.synopsis.invalid && form.controls.synopsis.touched" class="invalid-feedback">
+                                Synopsis is required.
+                            </div> -->
+                        </div>
+
+                        <!-- Poster -->
+                         
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="poster" style="color: #343a40; font-weight: 500;">Poster</label>
+                            <input 
+                                id="poster" 
+                                type="file" 
+                                class="form-control" 
+                                (change)="onFileChange($event)" 
+                                required
+                            />
+                            <!-- <div *ngIf="form.controls.poster?.invalid && form.controls.poster?.touched" class="invalid-feedback">
+                                Poster is required.
+                            </div> -->
+                        </div>
+                        
+
+                        <!-- Score -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="score" style="color: #343a40; font-weight: 500;">Score</label>
+                            <input formControlName="score" id="score" type="number" class="form-control" placeholder="Score (e.g., 8.5)" required>
+                            <!-- <div *ngIf="form.controls.score.invalid && form.controls.score.touched" class="invalid-feedback">
+                                Score is required.
+                            </div> -->
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100" style="background-color: #7d1324; border: none;">Save Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

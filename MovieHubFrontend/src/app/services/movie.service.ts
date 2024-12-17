@@ -20,4 +20,9 @@ export class MovieService {
     return this.http.get<Movie>(`${this.baseUrl}/${id}`);
   }
 
+  addMovie(movie: Movie): Observable<Movie> {
+    return this.http.post<Movie>(this.baseUrl, movie, { withCredentials: true });
+  }
+  
+
 }
