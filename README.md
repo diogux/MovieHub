@@ -5,6 +5,10 @@
 
 The website allows different types of users with different permissions. We can also navigate the website without an account, and temporarily save our favourite movies.
 
+# Important Notes
+
+The css isn't done by component because we reused the first's project css, therefore it's all located in one file as before.
+
 ## Funcionality through UI
 
 - Add/Edit/Delete Movie
