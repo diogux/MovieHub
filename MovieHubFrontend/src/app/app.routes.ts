@@ -16,24 +16,25 @@ import { ProducerAddComponent } from './components/producer-add/producer-add.com
 import { ActorAddComponent } from './components/actor-add/actor-add.component';
 import  {EditProducerComponent} from './components/edit-producer/edit-producer.component';
 import { EditActorComponent } from './components/edit-actor/edit-actor.component';
+import { authGuard } from './auth.guard';
 
 
 export const routes: Routes = [
 { path: '', component: HomeComponent },
 { path: 'producers', component: ProducerListComponent },
-{ path: 'producers/add', component: ProducerAddComponent},
-{ path: 'producers/:id', component: ProducerDetailsComponent },
-{ path: 'producers/:id/edit', component: EditProducerComponent },
+{ path: 'producers/add', component: ProducerAddComponent, canActivate: [authGuard]},
+{ path: 'producers/:id', component: ProducerDetailsComponent},
+{ path: 'producers/:id/edit', component: EditProducerComponent, canActivate: [authGuard]},
 
 { path: 'actors', component: ActorListComponent },
-{ path: 'actors/add', component: ActorAddComponent},
+{ path: 'actors/add', component: ActorAddComponent, canActivate: [authGuard]},
 { path: 'actors/:id', component: ActorDetailsComponent },
-{ path: 'actors/:id/edit', component: EditActorComponent },
+{ path: 'actors/:id/edit', component: EditActorComponent, canActivate: [authGuard]},
 
-{ path: 'movies/add', component: AddMovieComponent },
+{ path: 'movies/add', component: AddMovieComponent, canActivate: [authGuard]},
 { path: 'movies/:id', component: MovieDetailsComponent },
 { path: 'movies', component: MovieListComponent },
-{ path: 'movies/:id/edit', component: EditMovieComponent },
+{ path: 'movies/:id/edit', component: EditMovieComponent, canActivate: [authGuard]},
 
 
     
